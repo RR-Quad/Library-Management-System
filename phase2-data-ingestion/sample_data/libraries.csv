@@ -1,0 +1,16 @@
+library_id,name,campus_location,contact_email,phone_number
+1,Central Library,North Campus,contact@centrallibrary.org,123-456-7890
+2,Central Library ,North Campus,info@centrallibrary.org,(123)4567890
+3,Westside Branch,West Campus,westside@library,9876543210
+4,East Side Branch,East Campus,eastside@library.org,+1 222 333 4444
+5,North Branch,North Campus,northbranch@gmail.com,222.333.4444
+6,South Branch,South Campus,southbranch@gmail,333-444-5555
+7,Downtown Hub,City Campus,downtown@hub.org,+91 98765 43210
+8,Community Library,Community Campus,community@library.org,4445556666
+9,City Library,Main Campus,citylibrary@gmail.com,+1 (555) 666-7777
+10,Harbor Branch,Harbor Campus,harborbranch@gmail.com,555666777
+11,Uptown Library,Uptown Campus,uptown@library.org,666-777-8888
+12,Suburban Library,Suburb Campus,suburban@library.org,+44 1234 567890
+13,Village Library,Village Campus,village@library,7778889999
+14,Metro Library,Metro Campus,metro@library.org,+1-888-999-0000
+15,Research Library,Research Campus,research@library.org,999-111-2222

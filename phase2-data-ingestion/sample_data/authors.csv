@@ -1,0 +1,16 @@
+author_id,first_name,last_name,birth_date,nationality,biography
+1,J.K.,Rowling,1965-07-31,British,Author of Harry Potter series
+2,J. K.,Rowling,1965/07/31,British,Famous fantasy writer
+3,George,Orwell,1903-06-25,British,Author of dystopian fiction
+4,George,Orwell ,1903-06-25,British,Political writer
+5,Agatha,Christie,1890-09-15,British,Queen of mystery novels
+6,Agatha,Christie ,1890/09/15,British,Crime novelist
+7,Mark,Twain,1835-11-30,American,Humorist and writer
+8,Mark,Twain,1835-11-30,American,Classic American author
+9,Jane,Austen,1775-12-16,British,Romantic fiction writer
+10,Jane,Austen,invalid-date,British,Classic novelist
+11,Ernest,Hemingway,1899-07-21,American,Nobel Prize winner
+12,Ernest,Hemingway,1899-07-21,American,War novelist
+13,F. Scott,Fitzgerald,1896-09-24,American,Author of The Great Gatsby
+14,F,Scott Fitzgerald,1896-09-24,American,American novelist
+15,Unknown,Author,,Unknown,No biography available

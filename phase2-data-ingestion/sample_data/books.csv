@@ -1,0 +1,16 @@
+book_id,title,isbn,publication_date,total_copies,available_copies,library_id
+1,Harry Potter and the Philosopher's Stone,978-0-7475-3269-9,1997-06-26,10,8,1
+2,Harry Potter and the Philosopher's Stone,9780747532699,1997/06/26,5,5,1
+3,1984,0-452-28423-6,1949-06-08,7,4,2
+4,Animal Farm,978-0-452-28424-1,1945-08-17,6,6,3
+5,Murder on the Orient Express,9780007119318,1934-01-01,4,2,4
+6,The Adventures of Tom Sawyer,978-0-14-303956-3,1876-01-01,3,1,5
+7,Pride and Prejudice,9780141439518,1813-01-28,8,8,6
+8,The Old Man and the Sea,9780684801223,1952-09-01,5,3,7
+9,The Great Gatsby,9780743273565,1925-04-10,9,9,8
+10,Fake Book Title,1234567890,2000-01-01,2,2,9
+11,Another Fake Book,9781234567897,2010-10-10,4,0,10
+12,Duplicate Gatsby,9780743273565,1925-04-10,3,3,8
+13,Missing Date Book,9780141439518,,6,6,6
+14,Invalid ISBN Book,ABC-DEF-GHI,2020-05-05,2,2,7
+15,Negative Copies Book,9780452284241,1945-08-17,5,-1,3

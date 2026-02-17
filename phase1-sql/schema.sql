@@ -62,8 +62,8 @@ CREATE TABLE member (
     member_id SERIAL PRIMARY KEY,
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
-    email VARCHAR(50) UNIQUE NOT NULL,
-    phone VARCHAR(10) UNIQUE NOT NULL,
+    contact_email VARCHAR(50) UNIQUE NOT NULL,
+    phone_number VARCHAR(10) UNIQUE NOT NULL,
     member_type VARCHAR(20) NOT NULL,
     registration_date DATE NOT NULL DEFAULT CURRENT_DATE,
 
