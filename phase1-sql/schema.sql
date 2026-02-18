@@ -4,7 +4,7 @@ CREATE TABLE library (
     name VARCHAR(30) NOT NULL,
     campus_location VARCHAR(30) NOT NULL,
     contact_email VARCHAR(50) UNIQUE NOT NULL,
-    phone_number VARCHAR(10) UNIQUE NOT NULL,
+    phone_number VARCHAR(15) UNIQUE NOT NULL,
 
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -63,7 +63,7 @@ CREATE TABLE member (
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
     contact_email VARCHAR(50) UNIQUE NOT NULL,
-    phone_number VARCHAR(10) UNIQUE NOT NULL,
+    phone_number VARCHAR(15) UNIQUE NOT NULL,
     member_type VARCHAR(20) NOT NULL,
     registration_date DATE NOT NULL DEFAULT CURRENT_DATE,
 
@@ -71,7 +71,7 @@ CREATE TABLE member (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT chk_member_type
-        CHECK (member_type IN ('student', 'faculty'))
+        CHECK (LOWER(member_type) IN ('student', 'faculty'))
 );
 
 -- ---------- Borrowing ----------

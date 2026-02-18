@@ -1,4 +1,4 @@
-member_id,first_name,last_name,contact_email,phone,member_type,registration_date
+member_id,first_name,last_name,contact_email,phone_number,member_type,registration_date
 1,John,Doe,johndoe@gmail.com,123-456-7890,student,2023-01-01
 2,John,Doe,johndoe@gmail.com,(123)4567890,student,2023-01-01
 3,Jane,Smith,janesmith@gmail,222-333-4444,faculty,2023-02-15

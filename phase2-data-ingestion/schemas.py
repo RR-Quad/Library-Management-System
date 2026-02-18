@@ -53,7 +53,7 @@ def validate_isbn(isbn: str) -> str:
     raise ValueError("Invalid ISBN")
 
 
-## Schemas
+## Classes
 
 
 class LibrarySchema(BaseModel):
@@ -78,6 +78,7 @@ class BookSchema(BaseModel):
     book_id: Optional[int] = None
     title: str
     isbn: str
+    publication_date: Optional[date] = None
     total_copies: int
     available_copies: int
     library_id: int
@@ -97,6 +98,9 @@ class AuthorSchema(BaseModel):
     author_id: Optional[int] = None
     first_name: str
     last_name: str
+    birth_date: Optional[date] = None
+    nationality : Optional[str] = None
+    biography: Optional[str] = None
 
     @field_validator("first_name", "last_name")
     @classmethod

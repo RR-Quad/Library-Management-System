@@ -24,7 +24,7 @@ INSERT INTO category (name, description) VALUES
 ('Literature', 'Novels and literary works');
 
 -- ---------- MEMBERS (20) ----------
-INSERT INTO member (first_name, last_name, email, phone, member_type, registration_date) VALUES
+INSERT INTO member (first_name, last_name, contact_email, phone_number, member_type, registration_date) VALUES
 ('Alice','Brown','alice@uni.edu','555-2001','student','2025-01-15'),
 ('Bob','Smith','bob@uni.edu','555-2002','student','2025-02-10'),
 ('Carol','Jones','carol@uni.edu','555-2003','faculty','2025-03-05'),

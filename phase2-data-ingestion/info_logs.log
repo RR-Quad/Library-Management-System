@@ -1,0 +1,146 @@
+2026-02-18 11:12:45,889 - INFO - CSV validation process started.
+2026-02-18 11:12:45,889 - INFO - Starting validation for libraries.csv
+2026-02-18 11:12:45,904 - ERROR - Validation error in row 2 of libraries.csv: 1 validation error for LibrarySchema
+contact_email
+  value is not a valid email address: The part after the @-sign is not valid. It should have a period. [type=value_error, input_value='westside@library', input_type=str]
+2026-02-18 11:12:45,905 - ERROR - Validation error in row 5 of libraries.csv: 1 validation error for LibrarySchema
+contact_email
+  value is not a valid email address: The part after the @-sign is not valid. It should have a period. [type=value_error, input_value='southbranch@gmail', input_type=str]
+2026-02-18 11:12:45,910 - ERROR - Validation error in row 9 of libraries.csv: 1 validation error for LibrarySchema
+phone_number
+  Value error, Invalid phone number [type=value_error, input_value='555666777', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error
+2026-02-18 11:12:45,914 - ERROR - Validation error in row 12 of libraries.csv: 1 validation error for LibrarySchema
+contact_email
+  value is not a valid email address: The part after the @-sign is not valid. It should have a period. [type=value_error, input_value='village@library', input_type=str]
+2026-02-18 11:12:45,914 - INFO - Completed validation for libraries.csv. 11 valid rows found.
+2026-02-18 11:12:45,916 - INFO - Validated CSV saved to D:\RR_Quad\Projects\Library Management System\phase2-data-ingestion\sample_data\libraries_validated.csv
+2026-02-18 11:12:45,917 - INFO - Starting validation for authors.csv
+2026-02-18 11:12:45,918 - ERROR - Validation error in row 1 of authors.csv: 1 validation error for AuthorSchema
+birth_date
+  Input should be a valid date or datetime, invalid date separator, expected `-` [type=date_from_datetime_parsing, input_value='1965/07/31', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:12:45,918 - ERROR - Validation error in row 5 of authors.csv: 1 validation error for AuthorSchema
+birth_date
+  Input should be a valid date or datetime, invalid date separator, expected `-` [type=date_from_datetime_parsing, input_value='1890/09/15', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:12:45,918 - ERROR - Validation error in row 9 of authors.csv: 1 validation error for AuthorSchema
+birth_date
+  Input should be a valid date or datetime, invalid character in year [type=date_from_datetime_parsing, input_value='invalid-date', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:12:45,919 - ERROR - Validation error in row 14 of authors.csv: 1 validation error for AuthorSchema
+birth_date
+  Input should be a valid date or datetime, NaN values not permitted [type=date_from_datetime_parsing, input_value=nan, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:12:45,919 - INFO - Completed validation for authors.csv. 11 valid rows found.
+2026-02-18 11:12:45,920 - INFO - Validated CSV saved to D:\RR_Quad\Projects\Library Management System\phase2-data-ingestion\sample_data\authors_validated.csv
+2026-02-18 11:12:45,920 - INFO - Starting validation for books.csv
+2026-02-18 11:12:45,921 - ERROR - Validation error in row 1 of books.csv: 1 validation error for BookSchema
+publication_date
+  Input should be a valid date or datetime, invalid date separator, expected `-` [type=date_from_datetime_parsing, input_value='1997/06/26', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:12:45,922 - ERROR - Validation error in row 9 of books.csv: 1 validation error for BookSchema
+isbn
+  Value error, Invalid ISBN [type=value_error, input_value='1234567890', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error
+2026-02-18 11:12:45,922 - ERROR - Validation error in row 12 of books.csv: 1 validation error for BookSchema
+publication_date
+  Input should be a valid date or datetime, NaN values not permitted [type=date_from_datetime_parsing, input_value=nan, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:12:45,922 - ERROR - Validation error in row 13 of books.csv: 1 validation error for BookSchema
+isbn
+  Value error, Invalid ISBN [type=value_error, input_value='ABC-DEF-GHI', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error
+2026-02-18 11:12:45,922 - INFO - Completed validation for books.csv. 11 valid rows found.
+2026-02-18 11:12:45,924 - INFO - Validated CSV saved to D:\RR_Quad\Projects\Library Management System\phase2-data-ingestion\sample_data\books_validated.csv
+2026-02-18 11:12:45,924 - INFO - Starting validation for members.csv
+2026-02-18 11:12:45,925 - ERROR - Validation error in row 2 of members.csv: 1 validation error for MemberSchema
+contact_email
+  value is not a valid email address: The part after the @-sign is not valid. It should have a period. [type=value_error, input_value='janesmith@gmail', input_type=str]
+2026-02-18 11:12:45,926 - ERROR - Validation error in row 6 of members.csv: 1 validation error for MemberSchema
+contact_email
+  value is not a valid email address: The part after the @-sign is not valid. It should have a period. [type=value_error, input_value='charlie@domain', input_type=str]
+2026-02-18 11:12:45,928 - ERROR - Validation error in row 11 of members.csv: 1 validation error for MemberSchema
+phone_number
+  Value error, Invalid phone number [type=value_error, input_value='888999000', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error
+2026-02-18 11:12:45,928 - ERROR - Validation error in row 13 of members.csv: 1 validation error for MemberSchema
+registration_date
+  Input should be a valid date or datetime, invalid character in year [type=date_from_datetime_parsing, input_value='invalid-date', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:12:45,929 - INFO - Completed validation for members.csv. 11 valid rows found.
+2026-02-18 11:12:45,930 - INFO - Validated CSV saved to D:\RR_Quad\Projects\Library Management System\phase2-data-ingestion\sample_data\members_validated.csv
+2026-02-18 11:12:45,930 - INFO - CSV validation process completed.
+2026-02-18 11:14:43,656 - INFO - CSV validation process started.
+2026-02-18 11:14:43,656 - INFO - Starting validation for libraries.csv
+2026-02-18 11:14:43,671 - ERROR - Validation error in row 2 of libraries.csv: 1 validation error for LibrarySchema
+contact_email
+  value is not a valid email address: The part after the @-sign is not valid. It should have a period. [type=value_error, input_value='westside@library', input_type=str]
+2026-02-18 11:14:43,672 - ERROR - Validation error in row 5 of libraries.csv: 1 validation error for LibrarySchema
+contact_email
+  value is not a valid email address: The part after the @-sign is not valid. It should have a period. [type=value_error, input_value='southbranch@gmail', input_type=str]
+2026-02-18 11:14:43,677 - ERROR - Validation error in row 9 of libraries.csv: 1 validation error for LibrarySchema
+phone_number
+  Value error, Invalid phone number [type=value_error, input_value='555666777', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error
+2026-02-18 11:14:43,680 - ERROR - Validation error in row 12 of libraries.csv: 1 validation error for LibrarySchema
+contact_email
+  value is not a valid email address: The part after the @-sign is not valid. It should have a period. [type=value_error, input_value='village@library', input_type=str]
+2026-02-18 11:14:43,681 - INFO - Completed validation for libraries.csv. 11 valid rows found.
+2026-02-18 11:14:43,683 - INFO - Validated CSV saved to D:\RR_Quad\Projects\Library Management System\phase2-data-ingestion\sample_data\libraries_validated.csv
+2026-02-18 11:14:43,683 - INFO - Starting validation for authors.csv
+2026-02-18 11:14:43,684 - ERROR - Validation error in row 1 of authors.csv: 1 validation error for AuthorSchema
+birth_date
+  Input should be a valid date or datetime, invalid date separator, expected `-` [type=date_from_datetime_parsing, input_value='1965/07/31', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:14:43,685 - ERROR - Validation error in row 5 of authors.csv: 1 validation error for AuthorSchema
+birth_date
+  Input should be a valid date or datetime, invalid date separator, expected `-` [type=date_from_datetime_parsing, input_value='1890/09/15', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:14:43,685 - ERROR - Validation error in row 9 of authors.csv: 1 validation error for AuthorSchema
+birth_date
+  Input should be a valid date or datetime, invalid character in year [type=date_from_datetime_parsing, input_value='invalid-date', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:14:43,685 - ERROR - Validation error in row 14 of authors.csv: 1 validation error for AuthorSchema
+birth_date
+  Input should be a valid date or datetime, NaN values not permitted [type=date_from_datetime_parsing, input_value=nan, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:14:43,685 - INFO - Completed validation for authors.csv. 11 valid rows found.
+2026-02-18 11:14:43,686 - INFO - Validated CSV saved to D:\RR_Quad\Projects\Library Management System\phase2-data-ingestion\sample_data\authors_validated.csv
+2026-02-18 11:14:43,687 - INFO - Starting validation for books.csv
+2026-02-18 11:14:43,688 - ERROR - Validation error in row 1 of books.csv: 1 validation error for BookSchema
+publication_date
+  Input should be a valid date or datetime, invalid date separator, expected `-` [type=date_from_datetime_parsing, input_value='1997/06/26', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:14:43,688 - ERROR - Validation error in row 9 of books.csv: 1 validation error for BookSchema
+isbn
+  Value error, Invalid ISBN [type=value_error, input_value='1234567890', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error
+2026-02-18 11:14:43,689 - ERROR - Validation error in row 12 of books.csv: 1 validation error for BookSchema
+publication_date
+  Input should be a valid date or datetime, NaN values not permitted [type=date_from_datetime_parsing, input_value=nan, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:14:43,689 - ERROR - Validation error in row 13 of books.csv: 1 validation error for BookSchema
+isbn
+  Value error, Invalid ISBN [type=value_error, input_value='ABC-DEF-GHI', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error
+2026-02-18 11:14:43,689 - INFO - Completed validation for books.csv. 11 valid rows found.
+2026-02-18 11:14:43,690 - INFO - Validated CSV saved to D:\RR_Quad\Projects\Library Management System\phase2-data-ingestion\sample_data\books_validated.csv
+2026-02-18 11:14:43,690 - INFO - Starting validation for members.csv
+2026-02-18 11:14:43,692 - ERROR - Validation error in row 2 of members.csv: 1 validation error for MemberSchema
+contact_email
+  value is not a valid email address: The part after the @-sign is not valid. It should have a period. [type=value_error, input_value='janesmith@gmail', input_type=str]
+2026-02-18 11:14:43,693 - ERROR - Validation error in row 6 of members.csv: 1 validation error for MemberSchema
+contact_email
+  value is not a valid email address: The part after the @-sign is not valid. It should have a period. [type=value_error, input_value='charlie@domain', input_type=str]
+2026-02-18 11:14:43,694 - ERROR - Validation error in row 11 of members.csv: 1 validation error for MemberSchema
+phone_number
+  Value error, Invalid phone number [type=value_error, input_value='888999000', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error
+2026-02-18 11:14:43,694 - ERROR - Validation error in row 13 of members.csv: 1 validation error for MemberSchema
+registration_date
+  Input should be a valid date or datetime, invalid character in year [type=date_from_datetime_parsing, input_value='invalid-date', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/date_from_datetime_parsing
+2026-02-18 11:14:43,695 - INFO - Completed validation for members.csv. 11 valid rows found.
+2026-02-18 11:14:43,696 - INFO - Validated CSV saved to D:\RR_Quad\Projects\Library Management System\phase2-data-ingestion\sample_data\members_validated.csv
+2026-02-18 11:14:43,696 - INFO - CSV validation process completed.
