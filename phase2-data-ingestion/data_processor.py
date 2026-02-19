@@ -1,11 +1,11 @@
 ## Notes
 
-# Need to take the logging level from the user. Right now, it is set to INFO by default
-# Path to the csv files should be provided by the user as well, through CLI
 # Create .env for SQL server
 # Use Clean Data (Relevant ISBNs, valid phone numbers)
 # Check if duplicates/errors are being handled or not and make logs more specific
 # Sort imports (Built-in, Installed, Local) and remove unused imports at the end
+# Need to take the logging level from the user. Right now, it is set to INFO by default
+# Path to the csv files should be provided by the user as well, through CLI
 
 ## Imports
 
@@ -16,8 +16,10 @@ import logging
 from contextlib import contextmanager
 
 from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
+from dotenv import load_dotenv
 
 from models import Library, Author, Book, Member
 from schemas import (
@@ -43,7 +45,28 @@ logger = logging.getLogger(__name__)
 # Database Setup
 # ==========================================================
 
-DATABASE_URL = "postgresql://postgres:jupiter@localhost:5432/Library Management System"
+load_dotenv()
+
+# Read environment variables
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = os.getenv("DB_NAME")
+
+# Validate required variables
+if not all([DB_USER, DB_PASSWORD, DB_NAME]):
+    raise ValueError("Database environment variables are not properly set.")
+
+# Create SQLAlchemy URL safely (handles special characters automatically)
+DATABASE_URL = URL.create(
+    drivername="postgresql+psycopg2",
+    username=DB_USER,
+    password=DB_PASSWORD,
+    host=DB_HOST,
+    port=int(DB_PORT),
+    database=DB_NAME,
+)
 
 engine = create_engine(
     DATABASE_URL,
