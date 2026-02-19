@@ -1,0 +1,23 @@
+[
+  {
+    "Library": "Main",
+    "Category": ["Literature", "History", "Philosophy", "Religion"]
+  },
+  {
+    "Library": "Fundamental Science",
+    "Category": ["Physics", "Chemistry", "Biology", "Mathematics", "Geology"]
+  },
+  {
+    "Library": "Social Science",
+    "Category": ["Politics", "Law"]
+  },
+  {
+    "Library": "Engineering",
+    "Category": ["Manufacturing Engineering", "Mechanical Engineering", "Electrical Engineering", "Computer Engineering"]
+
+  },
+  {
+    "Library": "Business",
+    "Category": ["Finance", "Management", "Economics"]
+  }
+]

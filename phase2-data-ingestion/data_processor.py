@@ -1,7 +1,7 @@
 ## Notes
 
-# Create .env for SQL server
 # Use Clean Data (Relevant ISBNs, valid phone numbers)
+# Create foreign key mapping
 # Check if duplicates/errors are being handled or not and make logs more specific
 # Sort imports (Built-in, Installed, Local) and remove unused imports at the end
 # Need to take the logging level from the user. Right now, it is set to INFO by default
