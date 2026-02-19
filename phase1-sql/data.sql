@@ -1,50 +1,10 @@
--- ---------- LIBRARIES (3) ----------
+-- ---------- LIBRARIES (5) ----------
 INSERT INTO library (name, campus_location, contact_email, phone_number) VALUES
-('Main Library', 'North Campus', 'main@uni.edu', '555-1001'),
-('Science Library', 'Science Block', 'science@uni.edu', '555-1002'),
-('Law Library', 'Law Building', 'law@uni.edu', '555-1003');
-
--- ---------- AUTHORS (8) ----------
-INSERT INTO author (first_name, last_name, birth_date, nationality) VALUES
-('Alan','Turing','1912-06-23','British'),
-('Donald','Knuth','1938-01-10','American'),
-('Isaac','Newton','1643-01-04','British'),
-('Albert','Einstein','1879-03-14','German'),
-('Jane','Austen','1775-12-16','British'),
-('Mark','Twain','1835-11-30','American'),
-('Oliver','Holmes','1841-03-08','American'),
-('Hannah','Arendt','1906-10-14','German');
-
--- ---------- CATEGORIES (5) ----------
-INSERT INTO category (name, description) VALUES
-('Computer Science', 'Computing and programming'),
-('Mathematics', 'Mathematical theory and applications'),
-('Physics', 'Physical sciences'),
-('Law', 'Legal systems and studies'),
-('Literature', 'Novels and literary works');
-
--- ---------- MEMBERS (20) ----------
-INSERT INTO member (first_name, last_name, contact_email, phone_number, member_type, registration_date) VALUES
-('Alice','Brown','alice@uni.edu','555-2001','student','2025-01-15'),
-('Bob','Smith','bob@uni.edu','555-2002','student','2025-02-10'),
-('Carol','Jones','carol@uni.edu','555-2003','faculty','2025-03-05'),
-('David','Miller','david@uni.edu','555-2004','student','2025-03-20'),
-('Eve','Wilson','eve@uni.edu','555-2005','faculty','2025-04-12'),
-('Frank','Moore','frank@uni.edu','555-2006','student','2025-05-08'),
-('Grace','Taylor','grace@uni.edu','555-2007','student','2025-05-25'),
-('Henry','Anderson','henry@uni.edu','555-2008','faculty','2025-06-15'),
-('Ivy','Thomas','ivy@uni.edu','555-2009','student','2025-07-03'),
-('Jack','Jackson','jack@uni.edu','555-2010','student','2025-07-22'),
-('Karen','White','karen@uni.edu','555-2011','faculty','2025-08-10'),
-('Leo','Harris','leo@uni.edu','555-2012','student','2025-08-28'),
-('Mona','Martin','mona@uni.edu','555-2013','student','2025-09-12'),
-('Nina','Thompson','nina@uni.edu','555-2014','faculty','2025-09-30'),
-('Oscar','Garcia','oscar@uni.edu','555-2015','student','2025-10-14'),
-('Paul','Martinez','paul@uni.edu','555-2016','student','2025-10-29'),
-('Quinn','Robinson','quinn@uni.edu','555-2017','faculty','2025-11-12'),
-('Rose','Clark','rose@uni.edu','555-2018','student','2025-11-27'),
-('Sam','Rodriguez','sam@uni.edu','555-2019','student','2025-12-05'),
-('Tina','Lewis','tina@uni.edu','555-2020','faculty','2025-12-20');
+('Main', 'North Campus', 'main.library@uni.edu', '+910000000000'),
+('Fundamental Science', 'Science Block', 'fundamental.science@uni.edu', '+910000000001'),
+('Social Science', 'Social Sciences Block', 'social.science@uni.edu', '+910000000002'),
+('Engineering', 'Engineering Block', 'engineering.library@uni.edu', '+910000000003'),
+('Business', 'Business School', 'business.library@uni.edu', '+910000000004');
 
 -- ---------- BOOKS (15 across 3 libraries) ----------
 INSERT INTO book (title, isbn, publication_date, total_copies, available_copies, library_id) VALUES
@@ -63,6 +23,70 @@ INSERT INTO book (title, isbn, publication_date, total_copies, available_copies,
 ('Tom Sawyer','ISBN-013','1876-06-01',5,3,1),
 ('Political Ethics','ISBN-014','1958-01-01',3,2,2),
 ('Modern Physics','ISBN-015','2001-01-01',4,4,2);
+
+-- ---------- AUTHORS (8) ----------
+INSERT INTO author (first_name, last_name, birth_date, nationality) VALUES
+('Alan','Turing','1912-06-23','British'),
+('Donald','Knuth','1938-01-10','American'),
+('Isaac','Newton','1643-01-04','British'),
+('Albert','Einstein','1879-03-14','German'),
+('Jane','Austen','1775-12-16','British'),
+('Mark','Twain','1835-11-30','American'),
+('Oliver','Holmes','1841-03-08','American'),
+('Hannah','Arendt','1906-10-14','German');
+
+-- ---------- MEMBERS (20) ----------
+INSERT INTO member (first_name, last_name, contact_email, phone_number, member_type, registration_date) VALUES
+('Aarav', 'Sharma', 'aarav.sharma@uni.edu', '+911000000000', 'Student', '2024-01-05'),
+('Ishita', 'Verma', 'ishita.verma@uni.edu', '+911000000001', 'Student', '2024-01-18'),
+('Rohan', 'Mehta', 'rohan.mehta@uni.edu', '+911000000002', 'Faculty', '2024-02-12'),
+('Sneha', 'Reddy', 'sneha.reddy@uni.edu', '+911000000003', 'Student', '2024-02-28'),
+('Aditya', 'Nair', 'aditya.nair@uni.edu', '+911000000004', 'Student', '2024-03-10'),
+('Priya', 'Iyer', 'priya.iyer@uni.edu', '+911000000005', 'Faculty', '2024-03-22'),
+('Karthik', 'Rao', 'karthik.rao@uni.edu', '+911000000006', 'Student', '2024-04-08'),
+('Ananya', 'Gupta', 'ananya.gupta@uni.edu', '+911000000007', 'Student', '2024-04-19'),
+('Vikram', 'Singh', 'vikram.singh@uni.edu', '+911000000008', 'Faculty', '2024-05-03'),
+('Meera', 'Chopra', 'meera.chopra@uni.edu', '+911000000009', 'Student', '2024-05-21'),
+('Arjun', 'Patel', 'arjun.patel@uni.edu', '+911000000010', 'Student', '2024-06-11'),
+('Divya', 'Kulkarni', 'divya.kulkarni@uni.edu', '+911000000011', 'Faculty', '2024-06-29'),
+('Rahul', 'Joshi', 'rahul.joshi@uni.edu', '+911000000012', 'Student', '2024-07-15'),
+('Neha', 'Malhotra', 'neha.malhotra@uni.edu', '+911000000013', 'Student', '2024-07-30'),
+('Siddharth', 'Bansal', 'siddharth.bansal@uni.edu', '+911000000014', 'Faculty', '2024-08-14'),
+('Pooja', 'Desai', 'pooja.desai@uni.edu', '+911000000015', 'Student', '2024-08-26'),
+('Manish', 'Tiwari', 'manish.tiwari@uni.edu', '+911000000016', 'Student', '2024-09-09'),
+('Kavya', 'Menon', 'kavya.menon@uni.edu', '+911000000017', 'Faculty', '2024-10-02'),
+('Harsh', 'Agarwal', 'harsh.agarwal@uni.edu', '+911000000018', 'Student', '2024-11-18'),
+('Tanvi', 'Saxena', 'tanvi.saxena@uni.edu', '+911000000019', 'Faculty', '2024-12-05');
+
+-- ---------- CATEGORIES (18) ----------
+INSERT INTO category (name, description) VALUES
+-- Main Library Categories
+('Literature', 'Books related to literary works, novels, and writings.'),
+('History', 'Books covering historical events and civilizations.'),
+('Philosophy', 'Books exploring philosophical thought and theories.'),
+('Religion', 'Books on religious studies and spiritual traditions.'),
+
+-- Fundamental Science Categories
+('Physics', 'Books related to physical sciences and theoretical physics.'),
+('Chemistry', 'Books covering chemical sciences and applications.'),
+('Biology', 'Books focused on life sciences and biological systems.'),
+('Mathematics', 'Books on mathematical theories and problem solving.'),
+('Geology', 'Books related to earth sciences and geological studies.'),
+
+-- Social Science Categories
+('Politics', 'Books covering political systems and governance.'),
+('Law', 'Books related to legal systems and jurisprudence.'),
+
+-- Engineering Categories
+('Manufacturing Engineering', 'Books related to production and manufacturing systems.'),
+('Mechanical Engineering', 'Books covering mechanics and machine design.'),
+('Electrical Engineering', 'Books on electrical systems and power technologies.'),
+('Computer Engineering', 'Books related to computing hardware and systems.'),
+
+-- Business Categories
+('Finance', 'Books covering financial systems and investments.'),
+('Management', 'Books focused on organizational and business management.'),
+('Economics', 'Books on economic theory and market systems.');
 
 -- ---------- BOOK ↔ AUTHOR ----------
 INSERT INTO book_author VALUES
