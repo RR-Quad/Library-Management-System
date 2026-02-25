@@ -1,6 +1,5 @@
 ## Notes
 
-# Use Clean Data (Relevant ISBNs, valid phone numbers)
 # Create foreign key mapping
 # Check if duplicates/errors are being handled or not and make logs more specific
 # Sort imports (Built-in, Installed, Local) and remove unused imports at the end
@@ -141,6 +140,18 @@ def process_authors(session, file_path: str):
 
         try:
             validated = AuthorSchema(**row)
+
+            existing_author = session.query(Author).filter_by(
+                first_name=validated.first_name,
+                last_name=validated.last_name,
+                birth_date=validated.birth_date
+            ).first()
+
+            if existing_author:
+                logger.info(
+                    f"Authors: Row {row_number} duplicate (already exists)."
+                )
+                continue
 
             with session.begin_nested():
 

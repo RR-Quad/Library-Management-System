@@ -24,7 +24,7 @@ def normalize_phone(phone: str) -> str:
         raise ValueError("Phone Number cannot be empty")
 
     try:
-        parsed = phonenumbers.parse(phone, "US")
+        parsed = phonenumbers.parse(phone, "IN")
         if not phonenumbers.is_valid_number(parsed):
             raise ValueError("Invalid phone number")
 

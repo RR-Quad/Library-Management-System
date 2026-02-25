@@ -91,6 +91,15 @@ class Author(Base):
     nationality = Column(String(20))
     biography = Column(Text)
 
+    __table_args__ = (
+        UniqueConstraint(
+            "first_name",
+            "last_name",
+            "birth_date",
+            name="uq_author_identity"
+        ),
+    )
+
     books = relationship(
         "Book",
         secondary="book_author",
