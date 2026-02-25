@@ -7,33 +7,96 @@ INSERT INTO library (name, campus_location, contact_email, phone_number) VALUES
 ('Business', 'Business School', 'business.library@uni.edu', '+910000000004');
 
 -- ---------- BOOKS (15 across 3 libraries) ----------
-INSERT INTO book (title, isbn, publication_date, total_copies, available_copies, library_id) VALUES
-('Computing Machinery','ISBN-001','1936-01-01',5,3,1),
-('The Art of Programming','ISBN-002','1968-01-01',6,4,1),
-('Principia Mathematica','ISBN-003','1687-07-05',4,2,1),
-('Relativity Theory','ISBN-004','1916-01-01',5,5,2),
-('Quantum Mechanics','ISBN-005','1950-01-01',3,1,2),
-('Advanced Algorithms','ISBN-006','2005-01-01',6,6,1),
-('Linear Algebra','ISBN-007','1998-01-01',5,3,2),
-('Contract Law','ISBN-008','2010-01-01',4,2,3),
-('Criminal Law','ISBN-009','2012-01-01',4,4,3),
-('Legal Philosophy','ISBN-010','1975-01-01',3,1,3),
-('Pride and Prejudice','ISBN-011','1813-01-28',7,5,1),
-('Emma','ISBN-012','1815-12-23',6,4,1),
-('Tom Sawyer','ISBN-013','1876-06-01',5,3,1),
-('Political Ethics','ISBN-014','1958-01-01',3,2,2),
-('Modern Physics','ISBN-015','2001-01-01',4,4,2);
+INSERT INTO book (title, isbn, publication_date, total_copies, available_copies, library_id)VALUES
+
+-- Library 1 (Main)
+('Pride And Prejudice', '9780141439518', '1813-01-28', 5, 5, 1),
+('Sapiens', '9780062316097', '2011-01-01', 6, 5, 1),
+('The Republic', '9780140455113', '0380-01-01', 4, 4, 1),
+
+-- Library 2 (Fundamental Science)
+('A Brief History Of Time', '9780553380163', '1988-01-01', 5, 4, 2),
+('The Selfish Gene', '9780199291151', '1976-01-01', 4, 4, 2),
+('Principia Mathematica', '9780521626068', '1687-07-05', 4, 3, 2),
+('Chemistry The Central Science', '9780134414232', '2017-01-01', 6, 5, 2),
+
+-- Library 3 (Social Science)
+('The Prince', '9780140449150', '1532-01-01', 4, 4, 3),
+('On Liberty', '9780140432077', '1859-01-01', 4, 3, 3),
+('The Federalist Papers', '9780140444957', '1788-01-01', 4, 3, 3),
+
+-- Library 4 (Engineering)
+('Introduction To Algorithms', '9780262033848', '2009-01-01', 6, 5, 4),
+('Clean Code', '9780132350884', '2008-01-01', 5, 5, 4),
+('Digital Design', '9780132774208', '2012-01-01', 5, 5, 4),
+
+-- Library 5 (Business)
+('The Intelligent Investor', '9780060555665', '1949-01-01', 6, 5, 5),
+('Principles Of Economics', '9780538453059', '2011-01-01', 5, 5, 5);
+
 
 -- ---------- AUTHORS (8) ----------
-INSERT INTO author (first_name, last_name, birth_date, nationality) VALUES
-('Alan','Turing','1912-06-23','British'),
-('Donald','Knuth','1938-01-10','American'),
-('Isaac','Newton','1643-01-04','British'),
-('Albert','Einstein','1879-03-14','German'),
-('Jane','Austen','1775-12-16','British'),
-('Mark','Twain','1835-11-30','American'),
-('Oliver','Holmes','1841-03-08','American'),
-('Hannah','Arendt','1906-10-14','German');
+INSERT INTO author (first_name, last_name, birth_date, nationality, biography) VALUES
+
+-- Pride And Prejudice
+('Jane', 'Austen', '1775-12-16', 'British',
+'English novelist known primarily for her six major novels including Pride And Prejudice.'),
+
+-- Sapiens
+('Yuval Noah', 'Harari', '1976-02-24', 'Israeli',
+'Historian and professor known for popular science books on human history.'),
+
+-- The Republic
+('Plato', 'Philosopher', '0428-01-01', 'Greek',
+'Ancient Greek philosopher and founder of the Academy in Athens.'),
+
+-- A Brief History Of Time
+('Stephen', 'Hawking', '1942-01-08', 'British',
+'Theoretical physicist and cosmologist known for work on black holes.'),
+
+-- The Selfish Gene
+('Richard', 'Dawkins', '1941-03-26', 'British',
+'Evolutionary biologist known for gene-centered view of evolution.'),
+
+-- Principia Mathematica
+('Isaac', 'Newton', '1643-01-04', 'British',
+'Mathematician and physicist who formulated laws of motion and gravity.'),
+
+-- Chemistry The Central Science
+('Theodore', 'Brown', '1944-01-01', 'American',
+'Chemist and co-author of the textbook Chemistry The Central Science.'),
+
+-- The Prince
+('Niccolo', 'Machiavelli', '1469-05-03', 'Italian',
+'Renaissance political philosopher known for The Prince.'),
+
+-- On Liberty
+('John Stuart', 'Mill', '1806-05-20', 'British',
+'Philosopher and political economist known for liberal political theory.'),
+
+-- The Federalist Papers
+('Alexander', 'Hamilton', '1755-01-11', 'American',
+'Founding Father of the United States and co-author of The Federalist Papers.'),
+
+-- Introduction To Algorithms
+('Thomas', 'Cormen', '1956-01-01', 'American',
+'Computer scientist and co-author of Introduction To Algorithms.'),
+
+-- Clean Code
+('Robert', 'Martin', '1952-12-05', 'American',
+'Software engineer known for Clean Code and agile principles.'),
+
+-- Digital Design
+('Morris', 'Mano', '1921-02-20', 'American',
+'Computer engineer and author of Digital Design.'),
+
+-- The Intelligent Investor
+('Benjamin', 'Graham', '1894-05-09', 'American',
+'Economist and investor known as the father of value investing.'),
+
+-- Principles Of Economics
+('N. Gregory', 'Mankiw', '1958-02-03', 'American',
+'Economist and author of Principles Of Economics.');
 
 -- ---------- MEMBERS (20) ----------
 INSERT INTO member (first_name, last_name, contact_email, phone_number, member_type, registration_date) VALUES
@@ -90,17 +153,47 @@ INSERT INTO category (name, description) VALUES
 
 -- ---------- BOOK ↔ AUTHOR ----------
 INSERT INTO book_author VALUES
-(1,1),(2,2),(3,3),(4,4),(5,4),
-(6,2),(7,3),(8,7),(9,7),(10,8),
-(11,5),(12,5),(13,6),(14,8),(15,4);
+(1,1),   -- Pride And Prejudice → Jane Austen
+(2,2),   -- Sapiens → Yuval Noah Harari
+(3,3),   -- The Republic → Plato
+(4,4),   -- A Brief History Of Time → Stephen Hawking
+(5,5),   -- The Selfish Gene → Richard Dawkins
+(6,6),   -- Principia Mathematica → Isaac Newton
+(7,7),   -- Chemistry The Central Science → Theodore Brown
+(8,8),   -- The Prince → Niccolo Machiavelli
+(9,9),   -- On Liberty → John Stuart Mill
+(10,10), -- The Federalist Papers → Alexander Hamilton
+(11,11), -- Introduction To Algorithms → Thomas Cormen
+(12,12), -- Clean Code → Robert Martin
+(13,13), -- Digital Design → Morris Mano
+(14,14), -- The Intelligent Investor → Benjamin Graham
+(15,15); -- Principles Of Economics → N. Gregory Mankiw
 
 -- ---------- BOOK ↔ CATEGORY ----------
 INSERT INTO book_category VALUES
-(1,1),(2,1),(6,1),
-(3,2),(7,2),
-(4,3),(5,3),(15,3),
-(8,4),(9,4),(10,4),(14,4),
-(11,5),(12,5),(13,5);
+(1,1),   -- Pride And Prejudice → Literature
+(2,2),   -- Sapiens → History
+(3,3),   -- The Republic → Philosophy
+
+-- Library 2
+(4,5),   -- A Brief History Of Time → Physics
+(5,7),   -- The Selfish Gene → Biology
+(6,8),   -- Principia Mathematica → Mathematics
+(7,6),   -- Chemistry The Central Science → Chemistry
+
+-- Library 3
+(8,10),  -- The Prince → Politics
+(9,3),   -- On Liberty → Philosophy
+(10,10), -- The Federalist Papers → Politics
+
+-- Library 4
+(11,15), -- Introduction To Algorithms → Computer Engineering
+(12,15), -- Clean Code → Computer Engineering
+(13,14), -- Digital Design → Electrical Engineering
+
+-- Library 5
+(14,16), -- The Intelligent Investor → Finance
+(15,18); -- Principles Of Economics → Economics
 
 -- ---------- Borrowing ----------
 INSERT INTO borrowing (member_id, book_id, borrow_date, due_date, return_date, late_fee)
