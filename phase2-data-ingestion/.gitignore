@@ -5,5 +5,5 @@ __pycache__/
 *.log
 test.py
 test_2.py
-Constraints_and_Assumptions.txt
-prototype_format_json.txt
+*.txt
+
