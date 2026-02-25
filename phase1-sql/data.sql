@@ -4,7 +4,8 @@ INSERT INTO library (name, campus_location, contact_email, phone_number) VALUES
 ('Fundamental Science', 'Science Block', 'fundamental.science@uni.edu', '+910000000001'),
 ('Social Science', 'Social Sciences Block', 'social.science@uni.edu', '+910000000002'),
 ('Engineering', 'Engineering Block', 'engineering.library@uni.edu', '+910000000003'),
-('Business', 'Business School', 'business.library@uni.edu', '+910000000004');
+('Business', 'Business School', 'business.library@uni.edu', '+910000000004'),
+('Book Warehouse', 'North Campus', 'warehouse@uni.edu', '+910000000005');
 
 -- ---------- BOOKS (15 across 3 libraries) ----------
 INSERT INTO book (title, isbn, publication_date, total_copies, available_copies, library_id)VALUES
