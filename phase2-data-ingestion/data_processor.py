@@ -1,8 +1,11 @@
 ## Notes
 
 # Create foreign key mapping
+# Check why Library_id skips entries
+# Verify the default format for phone numbers
 # Sort imports (Built-in, Installed, Local) and remove unused imports at the end
 # Do log files need timestamps?
+# Create Indexes
 
 ## Imports
 
