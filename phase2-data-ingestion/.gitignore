@@ -2,7 +2,7 @@
 .idea/
 .venv/
 __pycache__/
-*.log
 rough.py
 *.txt
-rough_output.json
+*.json
+*.log
