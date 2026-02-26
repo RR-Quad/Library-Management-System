@@ -15,7 +15,7 @@ CREATE TABLE book (
     book_id SERIAL PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
     isbn VARCHAR(15) UNIQUE NOT NULL,
-    publication_date DATE,
+    publication_date DATE NOT NULL,
     total_copies INTEGER NOT NULL CHECK (total_copies >= 0),
     available_copies INTEGER NOT NULL CHECK (available_copies >= 0),
     library_id INTEGER NOT NULL,
