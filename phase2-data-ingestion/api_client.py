@@ -1,54 +1,66 @@
 import requests
-import time
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class OpenLibraryClient:
-    BASE_URL = "https://openlibrary.org"
+    BASE_URL = os.getenv("Base_URL")
+    if not BASE_URL:
+        raise ValueError("BASE_URL is not set in environment variables.")
 
-    def __init__(self, rate_limit=1):
-        self.rate_limit = rate_limit  # seconds
-        self.session = requests.Session()
+    def __init__(self, rate_limit_delay: float = 1.0):
+        self.delay = rate_limit_delay
 
-    def _get(self, endpoint: str, params=None):
+    def _get(self, endpoint: str):
         url = f"{self.BASE_URL}{endpoint}"
+        response = requests.get(url)
 
-        try:
-            response = self.session.get(url, params=params, timeout=10)
-            response.raise_for_status()
-            time.sleep(self.rate_limit)  # respectful rate limiting
-            return response.json()
+        if response.status_code != 200:
+            return None
 
-        except requests.exceptions.RequestException as e:
-            raise RuntimeError(f"API request failed: {e}")
-
-    # -----------------------------------------------------
-    # Author Search
-    # -----------------------------------------------------
+        return response.json()
 
     def search_author(self, author_name: str):
-        data = self._get(
-            "/search/authors.json",
-            params={"q": author_name}
-        )
+        data = self._get(f"/search/authors.json?q={author_name}")
+        if not data:
+            return None
 
-        if not data.get("docs"):
-            raise ValueError("Author not found.")
+        docs = data.get("docs", [])
+        if not docs:
+            return None
 
-        return data["docs"][0]  # Take best match
+        return docs[0]["key"]
 
-    # -----------------------------------------------------
-    # Fetch Works
-    # -----------------------------------------------------
-
-    def get_author_works(self, author_key: str, limit: int = 10):
+    def get_author_works(self, author_key: str):
         data = self._get(f"/authors/{author_key}/works.json")
+        if not data:
+            return []
 
-        works = data.get("entries", [])
-        return works[:limit]
+        return data.get("entries", [])
 
-    # -----------------------------------------------------
-    # Fetch Work Details
-    # -----------------------------------------------------
+    def get_work_editions(self, work_id: str):
+        data = self._get(f"/works/{work_id}/editions.json")
+        if not data:
+            return []
 
-    def get_work_details(self, work_key: str):
-        return self._get(f"{work_key}.json")
+        return data.get("entries", [])
+
+    def get_valid_edition_data(self, work_id: str):
+        editions = self.get_work_editions(work_id)
+
+        for edition in editions:
+            isbn_13 = edition.get("isbn_13")
+            isbn_10 = edition.get("isbn_10")
+            publish_date = edition.get("publish_date")
+
+            isbn = None
+            if isbn_13:
+                isbn = isbn_13[0]
+            elif isbn_10:
+                isbn = isbn_10[0]
+
+            if isbn and publish_date:
+                return isbn, publish_date
+
+        return None, None

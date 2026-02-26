@@ -1,128 +1,151 @@
+import time
 import argparse
-import json
 import logging
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import IntegrityError
 
-from models import Book, Author
+from models import Book
 from schemas import BookSchema
 from api_client import OpenLibraryClient
 
 
-# ---------------------------------------------------------
-# CLI
-# ---------------------------------------------------------
+# ---------------------------
+# Logging Configuration
+# ---------------------------
+logging.basicConfig(
+    filename="task_2.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
+
+logger = logging.getLogger(__name__)
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
-        description="Fetch books from Open Library API"
+        description="Fetch books from OpenLibrary and insert into database."
     )
 
-    parser.add_argument("--author", required=True)
-    parser.add_argument("--limit", type=int, default=10)
-    parser.add_argument("--db", "--database-url",
-                        dest="database_url", required=True)
-    parser.add_argument("--output",
-                        help="Optional JSON file to save raw API data")
+    parser.add_argument(
+        "--author",
+        required=True,
+        help="Author name (e.g. 'Charles Dickens')"
+    )
+
+    parser.add_argument(
+        "--limit",
+        type=int,
+        required=True,
+        help="Number of valid books to fetch"
+    )
+
+    parser.add_argument(
+        "--db",
+        required=True,
+        help="Database connection URL"
+    )
 
     return parser.parse_args()
 
 
-# ---------------------------------------------------------
-# Logging
-# ---------------------------------------------------------
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-
-# ---------------------------------------------------------
-# Main Logic
-# ---------------------------------------------------------
-
 def main():
     args = parse_arguments()
 
-    engine = create_engine(args.database_url, future=True)
-    Session = sessionmaker(bind=engine)
+    author_name = args.author
+    limit = args.limit
+    database_url = args.db
+
+    logger.info("Starting book fetch process.")
+    logger.info(f"Author: {author_name}, Limit: {limit}")
+
+    try:
+        engine = create_engine(database_url)
+        SessionLocal = sessionmaker(bind=engine)
+        session = SessionLocal()
+        logger.info("Database connection established.")
+    except Exception as e:
+        logger.error(f"Database connection failed: {e}")
+        return
 
     client = OpenLibraryClient()
 
-    logger.info(f"Searching author: {args.author}")
+    logger.info("Searching author...")
+    author_key = client.search_author(author_name)
 
-    author_data = client.search_author(args.author)
-    author_key = author_data["key"]
+    if not author_key:
+        logger.warning("Author not found.")
+        return
 
-    works = client.get_author_works(author_key, args.limit)
+    logger.info(f"Author key found: {author_key}")
+    logger.info("Fetching works...")
 
-    raw_output = []
+    works = client.get_author_works(author_key)
+    books = []
 
-    with Session() as session:
+    for work in works:
+        if len(books) >= limit:
+            break
 
-        for work in works:
+        work_key = work.get("key")
+        title = work.get("title")
 
-            work_details = client.get_work_details(work["key"])
-            raw_output.append(work_details)
+        if not work_key or not title:
+            continue
 
-            title = work_details.get("title")
-            description = work_details.get("description")
+        work_id = work_key.split("/")[-1]
+        logger.info(f"Checking work: {title}")
 
-            if isinstance(description, dict):
-                description = description.get("value")
+        isbn, publish_date = client.get_valid_edition_data(work_id)
+        time.sleep(1)
 
-            # ISBN extraction
-            isbn_list = work_details.get("isbn_13", []) or \
-                        work_details.get("isbn_10", [])
+        if isbn and publish_date:
+            books.append({
+                "title": title,
+                "isbn": isbn,
+                "publication_date": publish_date,
+                "total_copies": 5,
+                "available_copies": 5,
+                "library_id": 6
+            })
+            logger.info(f"Added valid book: {title}")
 
-            if not isbn_list:
-                logger.warning(f"Skipping '{title}' (no ISBN)")
-                continue
+    if len(books) < limit:
+        logger.warning(f"Couldn't find {limit} book(s) with valid entries.")
 
-            isbn = isbn_list[0]
+    logger.info(f"Total Valid Books Collected: {len(books)}")
+    logger.info("Inserting books into database...")
 
-            try:
-                validated = BookSchema(
-                    title=title,
-                    isbn=isbn,
-                    publication_date=None,
-                    total_copies=1,
-                    available_copies=1,
-                    library_id=1  # Default library for API imports
-                )
+    for book_data in books:
+        try:
+            validated_book = BookSchema(**book_data)
 
-            except Exception as e:
-                logger.error(f"Validation failed for '{title}': {e}")
-                continue
-
-            # Duplicate check
-            existing = session.query(Book).filter_by(
-                isbn=validated.isbn
-            ).first()
-
-            if existing:
-                logger.info(f"Duplicate skipped: {title}")
-                continue
-
-            book = Book(
-                title=validated.title,
-                isbn=validated.isbn,
-                total_copies=1,
-                available_copies=1,
-                library_id=1
+            db_book = Book(
+                title=validated_book.title,
+                isbn=validated_book.isbn,
+                publication_date=validated_book.publication_date,
+                total_copies=validated_book.total_copies,
+                available_copies=validated_book.available_copies,
+                library_id=validated_book.library_id
             )
 
-            session.add(book)
-            logger.info(f"Inserted: {title}")
+            session.add(db_book)
 
+        except Exception as e:
+            logger.error(f"Validation failed for {book_data['title']}:\n{e}")
+
+    try:
         session.commit()
-
-    # Optional JSON dump
-    if args.output:
-        with open(args.output, "w", encoding="utf-8") as f:
-            json.dump(raw_output, f, indent=2)
-
-    logger.info("API fetch completed.")
+        logger.info("Books inserted successfully.")
+    except IntegrityError as e:
+        session.rollback()
+        logger.error("Database integrity error (possibly duplicate ISBN).")
+        logger.error(f"\n{e}")
+    finally:
+        session.close()
+        logger.info("Database session closed.")
+        logger.info("Process completed.")
 
 
 if __name__ == "__main__":

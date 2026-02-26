@@ -2,7 +2,8 @@
 
 
 import re
-from datetime import date
+from datetime import datetime, date
+from dateutil import parser
 from typing import Optional
 
 import isbnlib
@@ -41,6 +42,21 @@ def normalize_phone(phone: str) -> str:
             return f"+{digits}"
         raise ValueError("Invalid phone number")
 
+def normalize_date(date_str: str) -> date:
+    try:
+        parsed = parser.parse(
+            date_str,
+            fuzzy=True,
+            default=datetime(9999, 1, 1)
+        )
+
+        if parsed.year == 9999:
+            raise ValueError("Publication date missing.")
+
+        return parsed.date()
+    except Exception:
+        raise ValueError("Invalid Publication date format")
+
 
 def validate_isbn(isbn: str) -> str:
     if not isbn:
@@ -78,7 +94,7 @@ class BookSchema(BaseModel):
     book_id: Optional[int] = None
     title: str
     isbn: str
-    publication_date: Optional[date] = None
+    publication_date: date
     total_copies: int
     available_copies: int
     library_id: int
@@ -92,6 +108,11 @@ class BookSchema(BaseModel):
     @classmethod
     def validate_book_isbn(cls, v):
         return validate_isbn(v)
+
+    @field_validator("publication_date", mode="before")
+    @classmethod
+    def validate_date(cls, v):
+        return normalize_date(v)
 
 
 class AuthorSchema(BaseModel):

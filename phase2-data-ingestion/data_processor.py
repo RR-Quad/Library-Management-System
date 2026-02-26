@@ -42,7 +42,7 @@ def configure_logging(log_level: str):
     if root_logger.hasHandlers():
         root_logger.handlers.clear()
 
-    file_handler = logging.FileHandler("logs.log")
+    file_handler = logging.FileHandler("task_1.log")
     file_handler.setLevel(numeric_level)
 
     formatter = logging.Formatter(
