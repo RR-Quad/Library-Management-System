@@ -1,0 +1,8 @@
+.env
+.idea/
+.venv/__pycache__/
+rough.py
+.env
+*.txt
+*.json
+*.log
