@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # Third-party
     "rest_framework",
+    'django_filters',
 
     # Server Data App
     "lms_data",
@@ -139,4 +140,12 @@ REST_FRAMEWORK = {
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,  # default items per page
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
+    ],
+    'EXCEPTION_HANDLER': 'lms_data.utils.custom_exception_handler',
 }

@@ -72,7 +72,7 @@ class Book(models.Model):
     total_copies = models.IntegerField(validators=[MinValueValidator(0)])
     available_copies = models.IntegerField(validators=[MinValueValidator(0)])
 
-    library = models.ForeignKey(
+    library_id = models.ForeignKey(
         Library,
         on_delete=models.CASCADE,
         related_name="books",
@@ -150,14 +150,14 @@ class Borrowing(models.Model):
 
     borrowing_id = models.AutoField(primary_key=True)
 
-    member = models.ForeignKey(
+    member_id = models.ForeignKey(
         Member,
         on_delete=models.CASCADE,
         related_name="borrowings",
         db_column="member_id"
     )
 
-    book = models.ForeignKey(
+    book_id = models.ForeignKey(
         Book,
         on_delete=models.CASCADE,
         related_name="borrowings",
@@ -209,14 +209,14 @@ class Review(models.Model):
 
     review_id = models.AutoField(primary_key=True)
 
-    member = models.ForeignKey(
+    member_id = models.ForeignKey(
         Member,
         on_delete=models.CASCADE,
         related_name="reviews",
         db_column="member_id"
     )
 
-    book = models.ForeignKey(
+    book_id = models.ForeignKey(
         Book,
         on_delete=models.CASCADE,
         related_name="reviews",
@@ -238,7 +238,7 @@ class Review(models.Model):
 
     class Meta:
         db_table = "review"
-        unique_together = ("member", "book")
+        unique_together = ("member_id", "book_id")
 
     def __str__(self):
         return f"{self.member} review for {self.book}"
@@ -248,13 +248,13 @@ class Review(models.Model):
 
 class BookAuthor(models.Model):
 
-    book = models.ForeignKey(
+    book_id = models.ForeignKey(
         Book,
         on_delete=models.CASCADE,
         db_column="book_id"
     )
 
-    author = models.ForeignKey(
+    author_id = models.ForeignKey(
         Author,
         on_delete=models.CASCADE,
         db_column="author_id"
@@ -265,18 +265,18 @@ class BookAuthor(models.Model):
 
     class Meta:
         db_table = "book_author"
-        unique_together = ("book", "author")
+        unique_together = ("book_id", "author_id")
 
 
 class BookCategory(models.Model):
 
-    book = models.ForeignKey(
+    book_id = models.ForeignKey(
         Book,
         on_delete=models.CASCADE,
         db_column="book_id"
     )
 
-    category = models.ForeignKey(
+    category_id = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
         db_column="category_id"
@@ -287,4 +287,4 @@ class BookCategory(models.Model):
 
     class Meta:
         db_table = "book_category"
-        unique_together = ("book", "category")
+        unique_together = ("book_id", "category_id")
