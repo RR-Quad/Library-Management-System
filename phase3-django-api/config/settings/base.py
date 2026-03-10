@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 from decouple import config
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,7 +31,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,11 +41,13 @@ INSTALLED_APPS = [
 
     # Third-party
     "rest_framework",
-    'django_filters',
+    "django_filters",
+    "drf_spectacular",
 
     # Server Data App
     "lms_data",
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -132,20 +134,98 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
+# =========================================================
+# Django REST Framework Configuration
+# =========================================================
+
 REST_FRAMEWORK = {
+
+    # Default response formats
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
     ],
+
+    # Request parsers
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,  # default items per page
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-        'rest_framework.filters.OrderingFilter',
-        'rest_framework.filters.SearchFilter',
+
+    # Pagination settings
+    "DEFAULT_PAGINATION_CLASS":
+        "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+
+    # Filtering and search backends
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.OrderingFilter",
+        "rest_framework.filters.SearchFilter",
     ],
-    'EXCEPTION_HANDLER': 'lms_data.utils.custom_exception_handler',
+
+    # OpenAPI schema generator
+    "DEFAULT_SCHEMA_CLASS":
+        "drf_spectacular.openapi.AutoSchema",
+
+    # Custom exception handler
+    "EXCEPTION_HANDLER":
+        "lms_data.utils.custom_exception_handler",
+}
+
+
+# =========================================================
+# DRF Spectacular (OpenAPI / Swagger) Configuration
+# =========================================================
+
+SPECTACULAR_SETTINGS = {
+
+    # API Metadata
+    "TITLE": "Library Management System API",
+
+    "DESCRIPTION": """
+A RESTful API for managing library operations including:
+
+• Library branches  
+• Books, authors, and categories  
+• Member registration and management  
+• Borrowing and returning books  
+• Book reviews and ratings  
+• Library analytics and statistics  
+
+This API supports advanced features such as:
+
+• Book search by author, category, and library  
+• Book availability checks  
+• Borrowing history tracking  
+• Recommendation engine for popular and highly rated books  
+• Aggregated statistics for library usage  
+
+All endpoints return JSON responses and follow RESTful conventions.
+""",
+
+    "VERSION": "1.0.0",
+
+    # Do not expose schema endpoint in served schema
+    "SERVE_INCLUDE_SCHEMA": False,
+
+    # Improve Swagger UI usability
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "displayOperationId": False,
+        "defaultModelsExpandDepth": 2,
+        "defaultModelExpandDepth": 2,
+    },
+
+    # Tags ordering for documentation
+    "TAGS": [
+        {"name": "Libraries", "description": "Library branch management"},
+        {"name": "Books", "description": "Book catalog and availability"},
+        {"name": "Authors", "description": "Author records"},
+        {"name": "Categories", "description": "Book classification system"},
+        {"name": "Members", "description": "Library member management"},
+        {"name": "Borrowing", "description": "Borrow and return operations"},
+        {"name": "Reviews", "description": "Book reviews and ratings"},
+        {"name": "Analytics", "description": "Library statistics and insights"},
+    ],
 }
