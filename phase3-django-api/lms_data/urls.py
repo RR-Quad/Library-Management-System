@@ -8,7 +8,8 @@ from .views import (
     CategoryViewSet,
     MemberViewSet,
     BorrowingViewSet,
-    ReviewViewSet
+    ReviewViewSet,
+    StatisticsAPIView,
 )
 
 router = DefaultRouter()
@@ -23,4 +24,5 @@ router.register(r"reviews", ReviewViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("statistics/", StatisticsAPIView.as_view(), name="library-statistics"),
 ]

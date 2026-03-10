@@ -10,8 +10,7 @@ def custom_exception_handler(exc, context):
             "success": False,
             "errors": response.data
         }
-        # Optional: add status code explicitly
-        response.status_code = response.status_code
+
     else:
         # Handle unexpected errors
         response = Response(
