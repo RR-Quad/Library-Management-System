@@ -13,6 +13,12 @@ from rest_framework.views import APIView
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from drf_spectacular.utils import (
+    extend_schema,
+    extend_schema_view,
+    OpenApiResponse,
+)
+
 from .models import Library, Book, Author, Category, Member, Borrowing, Review
 from .serializers import (
     LibrarySerializer,
@@ -25,6 +31,7 @@ from .serializers import (
     BorrowBookSerializer,
     ReturnBookSerializer,
     BookSearchSerializer,
+    StatisticsSerializer,
 )
 
 
@@ -32,7 +39,17 @@ from .serializers import (
 # Library
 # =========================================================
 
+@extend_schema_view(
+    list=extend_schema(summary="List Libraries"),
+    retrieve=extend_schema(summary="Retrieve Library"),
+    create=extend_schema(summary="Create Library"),
+    update=extend_schema(summary="Update Library"),
+    destroy=extend_schema(summary="Delete Library"),
+)
 class LibraryViewSet(viewsets.ModelViewSet):
+    """
+    API endpoints for managing libraries.
+    """
 
     queryset = Library.objects.all()
     serializer_class = LibrarySerializer
@@ -48,7 +65,14 @@ class LibraryViewSet(viewsets.ModelViewSet):
 # Author
 # =========================================================
 
+@extend_schema_view(
+    list=extend_schema(summary="List Authors"),
+    retrieve=extend_schema(summary="Retrieve Author"),
+)
 class AuthorViewSet(viewsets.ModelViewSet):
+    """
+    API endpoints for managing book authors.
+    """
 
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
@@ -63,7 +87,14 @@ class AuthorViewSet(viewsets.ModelViewSet):
 # Category
 # =========================================================
 
+@extend_schema_view(
+    list=extend_schema(summary="List Categories"),
+    retrieve=extend_schema(summary="Retrieve Category"),
+)
 class CategoryViewSet(viewsets.ModelViewSet):
+    """
+    API endpoints for managing book categories.
+    """
 
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -80,6 +111,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
 # =========================================================
 
 class BookViewSet(viewsets.ModelViewSet):
+    """
+    API endpoints for managing books.
+    Includes borrowing, returning, searching and recommendations.
+    """
 
     queryset = Book.objects.all()
     serializer_class = BookSerializer
@@ -96,6 +131,15 @@ class BookViewSet(viewsets.ModelViewSet):
 
     # ---------------- Borrow Book ----------------
 
+    @extend_schema(
+        summary="Borrow a Book",
+        description="Allows a member to borrow a book if copies are available.",
+        request=BorrowBookSerializer,
+        responses={
+            201: BorrowingSerializer,
+            400: OpenApiResponse(description="Book unavailable or invalid request"),
+        },
+    )
     @action(
         detail=False,
         methods=["post"],
@@ -145,6 +189,14 @@ class BookViewSet(viewsets.ModelViewSet):
 
     # ---------------- Return Book ----------------
 
+    @extend_schema(
+        summary="Return a Book",
+        description="Allows a member to return a borrowed book.",
+        request=ReturnBookSerializer,
+        responses={
+            200: BorrowingSerializer,
+        },
+    )
     @action(
         detail=False,
         methods=["post"],
@@ -188,8 +240,14 @@ class BookViewSet(viewsets.ModelViewSet):
             BorrowingSerializer(borrowing, context={"request": request}).data
         )
 
-    # ---------------- Book Search ----------------
+    # ---------------- Search ----------------
 
+    @extend_schema(
+        summary="Search Books",
+        description="Search books by library, category or author.",
+        request=BookSearchSerializer,
+        responses={200: BookSerializer(many=True)},
+    )
     @action(
         detail=False,
         methods=["post"],
@@ -214,11 +272,6 @@ class BookViewSet(viewsets.ModelViewSet):
             books = books.filter(categories__category_id=category_id)
 
         if author_name:
-            if " " not in author_name.strip():
-                return Response(
-                    {"error": "Provide full author name (first and last)."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
 
             books = books.annotate(
                 full_author_name=Concat(
@@ -234,8 +287,12 @@ class BookViewSet(viewsets.ModelViewSet):
             BookSerializer(books, many=True, context={"request": request}).data
         )
 
-    # ---------------- Book Availability ----------------
+    # ---------------- Availability ----------------
 
+    @extend_schema(
+        summary="Check Book Availability",
+        responses={200: OpenApiResponse(description="Availability status")},
+    )
     @action(detail=True, methods=["get"], url_path="availability")
     def availability(self, request, pk=None):
 
@@ -258,6 +315,10 @@ class BookViewSet(viewsets.ModelViewSet):
 
     # ---------------- Recommendations ----------------
 
+    @extend_schema(
+        summary="Book Recommendations",
+        description="Returns most borrowed and highest rated books.",
+    )
     @action(detail=False, methods=["get"], url_path="recommendations")
     def recommendations(self, request):
 
@@ -305,6 +366,7 @@ class MemberViewSet(viewsets.ModelViewSet):
     ordering_fields = ["member_id", "first_name", "last_name"]
     ordering = ["member_id"]
 
+    @extend_schema(summary="Member Borrowing History")
     @action(detail=True, methods=["get"], url_path="borrowings")
     def borrowing_history(self, request, pk=None):
 
@@ -357,10 +419,14 @@ class ReviewViewSet(viewsets.ModelViewSet):
 # =========================================================
 # Statistics
 # =========================================================
-
+@extend_schema(
+    summary="System Statistics",
+    responses={200: StatisticsSerializer},
+)
 class StatisticsAPIView(APIView):
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
 
         data = {
             "total_books": Book.objects.count(),

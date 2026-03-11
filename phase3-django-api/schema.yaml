@@ -14,7 +14,8 @@ paths:
   /api/authors/:
     get:
       operationId: authors_list
-      summary: List authors
+      description: API endpoints for managing book authors.
+      summary: List Authors
       parameters:
       - name: ordering
         required: false
@@ -53,14 +54,15 @@ paths:
                     next: http://api.example.org/accounts/?page=4
                     previous: http://api.example.org/accounts/?page=2
                     results:
-                    - author_id: 3
-                      first_name: George
-                      last_name: Orwell
+                    - author_id: 1
+                      first_name: J.K.
+                      last_name: Rowling
                       nationality: British
                   summary: Author Example
           description: ''
     post:
       operationId: authors_create
+      description: API endpoints for managing book authors.
       tags:
       - authors
       requestBody:
@@ -71,9 +73,9 @@ paths:
             examples:
               AuthorExample:
                 value:
-                  author_id: 3
-                  first_name: George
-                  last_name: Orwell
+                  author_id: 1
+                  first_name: J.K.
+                  last_name: Rowling
                   nationality: British
                 summary: Author Example
         required: true
@@ -90,22 +92,23 @@ paths:
               examples:
                 AuthorExample:
                   value:
-                    author_id: 3
-                    first_name: George
-                    last_name: Orwell
+                    author_id: 1
+                    first_name: J.K.
+                    last_name: Rowling
                     nationality: British
                   summary: Author Example
           description: ''
   /api/authors/{author_id}/:
     get:
       operationId: authors_retrieve
-      summary: Retrieve author details
+      description: API endpoints for managing book authors.
+      summary: Retrieve Author
       parameters:
       - in: path
         name: author_id
         schema:
           type: integer
-        description: A unique integer value identifying this author.
+          description: Unique identifier for the author.
         required: true
       tags:
       - authors
@@ -122,20 +125,21 @@ paths:
               examples:
                 AuthorExample:
                   value:
-                    author_id: 3
-                    first_name: George
-                    last_name: Orwell
+                    author_id: 1
+                    first_name: J.K.
+                    last_name: Rowling
                     nationality: British
                   summary: Author Example
           description: ''
     put:
       operationId: authors_update
+      description: API endpoints for managing book authors.
       parameters:
       - in: path
         name: author_id
         schema:
           type: integer
-        description: A unique integer value identifying this author.
+          description: Unique identifier for the author.
         required: true
       tags:
       - authors
@@ -147,9 +151,9 @@ paths:
             examples:
               AuthorExample:
                 value:
-                  author_id: 3
-                  first_name: George
-                  last_name: Orwell
+                  author_id: 1
+                  first_name: J.K.
+                  last_name: Rowling
                   nationality: British
                 summary: Author Example
         required: true
@@ -166,20 +170,21 @@ paths:
               examples:
                 AuthorExample:
                   value:
-                    author_id: 3
-                    first_name: George
-                    last_name: Orwell
+                    author_id: 1
+                    first_name: J.K.
+                    last_name: Rowling
                     nationality: British
                   summary: Author Example
           description: ''
     patch:
       operationId: authors_partial_update
+      description: API endpoints for managing book authors.
       parameters:
       - in: path
         name: author_id
         schema:
           type: integer
-        description: A unique integer value identifying this author.
+          description: Unique identifier for the author.
         required: true
       tags:
       - authors
@@ -191,9 +196,9 @@ paths:
             examples:
               AuthorExample:
                 value:
-                  author_id: 3
-                  first_name: George
-                  last_name: Orwell
+                  author_id: 1
+                  first_name: J.K.
+                  last_name: Rowling
                   nationality: British
                 summary: Author Example
       security:
@@ -209,20 +214,21 @@ paths:
               examples:
                 AuthorExample:
                   value:
-                    author_id: 3
-                    first_name: George
-                    last_name: Orwell
+                    author_id: 1
+                    first_name: J.K.
+                    last_name: Rowling
                     nationality: British
                   summary: Author Example
           description: ''
     delete:
       operationId: authors_destroy
+      description: API endpoints for managing book authors.
       parameters:
       - in: path
         name: author_id
         schema:
           type: integer
-        description: A unique integer value identifying this author.
+          description: Unique identifier for the author.
         required: true
       tags:
       - authors
@@ -236,7 +242,9 @@ paths:
   /api/books/:
     get:
       operationId: books_list
-      summary: List books
+      description: |-
+        API endpoints for managing books.
+        Includes borrowing, returning, searching and recommendations.
       parameters:
       - name: ordering
         required: false
@@ -275,27 +283,23 @@ paths:
                     next: http://api.example.org/accounts/?page=4
                     previous: http://api.example.org/accounts/?page=2
                     results:
-                    - book_id: 10
-                      title: '1984'
-                      isbn: '9780451524935'
-                      publication_date: '1949-06-08'
-                      total_copies: 5
-                      available_copies: 3
+                    - book_id: 1
+                      title: Harry Potter and the Philosopher's Stone
+                      isbn: '9780747532699'
+                      publication_date: '1997-06-26'
+                      total_copies: 10
+                      available_copies: 7
                       library:
                         library_id: 1
                         name: Central Library
-                        campus_location: North Campus
-                      authors:
-                      - author_id: 3
-                        first_name: George
-                        last_name: Orwell
-                      categories:
-                      - category_id: 2
-                        name: Science Fiction
-                  summary: Example book response
+                        campus_location: Main Campus
+                  summary: Book Example
           description: ''
     post:
       operationId: books_create
+      description: |-
+        API endpoints for managing books.
+        Includes borrowing, returning, searching and recommendations.
       tags:
       - books
       requestBody:
@@ -306,24 +310,17 @@ paths:
             examples:
               BookExample:
                 value:
-                  book_id: 10
-                  title: '1984'
-                  isbn: '9780451524935'
-                  publication_date: '1949-06-08'
-                  total_copies: 5
-                  available_copies: 3
+                  book_id: 1
+                  title: Harry Potter and the Philosopher's Stone
+                  isbn: '9780747532699'
+                  publication_date: '1997-06-26'
+                  total_copies: 10
+                  available_copies: 7
                   library:
                     library_id: 1
                     name: Central Library
-                    campus_location: North Campus
-                  authors:
-                  - author_id: 3
-                    first_name: George
-                    last_name: Orwell
-                  categories:
-                  - category_id: 2
-                    name: Science Fiction
-                summary: Example book response
+                    campus_location: Main Campus
+                summary: Book Example
         required: true
       security:
       - cookieAuth: []
@@ -338,35 +335,30 @@ paths:
               examples:
                 BookExample:
                   value:
-                    book_id: 10
-                    title: '1984'
-                    isbn: '9780451524935'
-                    publication_date: '1949-06-08'
-                    total_copies: 5
-                    available_copies: 3
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                    publication_date: '1997-06-26'
+                    total_copies: 10
+                    available_copies: 7
                     library:
                       library_id: 1
                       name: Central Library
-                      campus_location: North Campus
-                    authors:
-                    - author_id: 3
-                      first_name: George
-                      last_name: Orwell
-                    categories:
-                    - category_id: 2
-                      name: Science Fiction
-                  summary: Example book response
+                      campus_location: Main Campus
+                  summary: Book Example
           description: ''
   /api/books/{book_id}/:
     get:
       operationId: books_retrieve
-      summary: Retrieve book details
+      description: |-
+        API endpoints for managing books.
+        Includes borrowing, returning, searching and recommendations.
       parameters:
       - in: path
         name: book_id
         schema:
           type: integer
-        description: A unique integer value identifying this book.
+          description: Unique identifier for the book.
         required: true
       tags:
       - books
@@ -383,33 +375,29 @@ paths:
               examples:
                 BookExample:
                   value:
-                    book_id: 10
-                    title: '1984'
-                    isbn: '9780451524935'
-                    publication_date: '1949-06-08'
-                    total_copies: 5
-                    available_copies: 3
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                    publication_date: '1997-06-26'
+                    total_copies: 10
+                    available_copies: 7
                     library:
                       library_id: 1
                       name: Central Library
-                      campus_location: North Campus
-                    authors:
-                    - author_id: 3
-                      first_name: George
-                      last_name: Orwell
-                    categories:
-                    - category_id: 2
-                      name: Science Fiction
-                  summary: Example book response
+                      campus_location: Main Campus
+                  summary: Book Example
           description: ''
     put:
       operationId: books_update
+      description: |-
+        API endpoints for managing books.
+        Includes borrowing, returning, searching and recommendations.
       parameters:
       - in: path
         name: book_id
         schema:
           type: integer
-        description: A unique integer value identifying this book.
+          description: Unique identifier for the book.
         required: true
       tags:
       - books
@@ -421,24 +409,17 @@ paths:
             examples:
               BookExample:
                 value:
-                  book_id: 10
-                  title: '1984'
-                  isbn: '9780451524935'
-                  publication_date: '1949-06-08'
-                  total_copies: 5
-                  available_copies: 3
+                  book_id: 1
+                  title: Harry Potter and the Philosopher's Stone
+                  isbn: '9780747532699'
+                  publication_date: '1997-06-26'
+                  total_copies: 10
+                  available_copies: 7
                   library:
                     library_id: 1
                     name: Central Library
-                    campus_location: North Campus
-                  authors:
-                  - author_id: 3
-                    first_name: George
-                    last_name: Orwell
-                  categories:
-                  - category_id: 2
-                    name: Science Fiction
-                summary: Example book response
+                    campus_location: Main Campus
+                summary: Book Example
         required: true
       security:
       - cookieAuth: []
@@ -453,33 +434,29 @@ paths:
               examples:
                 BookExample:
                   value:
-                    book_id: 10
-                    title: '1984'
-                    isbn: '9780451524935'
-                    publication_date: '1949-06-08'
-                    total_copies: 5
-                    available_copies: 3
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                    publication_date: '1997-06-26'
+                    total_copies: 10
+                    available_copies: 7
                     library:
                       library_id: 1
                       name: Central Library
-                      campus_location: North Campus
-                    authors:
-                    - author_id: 3
-                      first_name: George
-                      last_name: Orwell
-                    categories:
-                    - category_id: 2
-                      name: Science Fiction
-                  summary: Example book response
+                      campus_location: Main Campus
+                  summary: Book Example
           description: ''
     patch:
       operationId: books_partial_update
+      description: |-
+        API endpoints for managing books.
+        Includes borrowing, returning, searching and recommendations.
       parameters:
       - in: path
         name: book_id
         schema:
           type: integer
-        description: A unique integer value identifying this book.
+          description: Unique identifier for the book.
         required: true
       tags:
       - books
@@ -491,24 +468,17 @@ paths:
             examples:
               BookExample:
                 value:
-                  book_id: 10
-                  title: '1984'
-                  isbn: '9780451524935'
-                  publication_date: '1949-06-08'
-                  total_copies: 5
-                  available_copies: 3
+                  book_id: 1
+                  title: Harry Potter and the Philosopher's Stone
+                  isbn: '9780747532699'
+                  publication_date: '1997-06-26'
+                  total_copies: 10
+                  available_copies: 7
                   library:
                     library_id: 1
                     name: Central Library
-                    campus_location: North Campus
-                  authors:
-                  - author_id: 3
-                    first_name: George
-                    last_name: Orwell
-                  categories:
-                  - category_id: 2
-                    name: Science Fiction
-                summary: Example book response
+                    campus_location: Main Campus
+                summary: Book Example
       security:
       - cookieAuth: []
       - basicAuth: []
@@ -522,33 +492,29 @@ paths:
               examples:
                 BookExample:
                   value:
-                    book_id: 10
-                    title: '1984'
-                    isbn: '9780451524935'
-                    publication_date: '1949-06-08'
-                    total_copies: 5
-                    available_copies: 3
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                    publication_date: '1997-06-26'
+                    total_copies: 10
+                    available_copies: 7
                     library:
                       library_id: 1
                       name: Central Library
-                      campus_location: North Campus
-                    authors:
-                    - author_id: 3
-                      first_name: George
-                      last_name: Orwell
-                    categories:
-                    - category_id: 2
-                      name: Science Fiction
-                  summary: Example book response
+                      campus_location: Main Campus
+                  summary: Book Example
           description: ''
     delete:
       operationId: books_destroy
+      description: |-
+        API endpoints for managing books.
+        Includes borrowing, returning, searching and recommendations.
       parameters:
       - in: path
         name: book_id
         schema:
           type: integer
-        description: A unique integer value identifying this book.
+          description: Unique identifier for the book.
         required: true
       tags:
       - books
@@ -562,14 +528,16 @@ paths:
   /api/books/{book_id}/availability/:
     get:
       operationId: books_availability_retrieve
-      description: Returns availability information for a specific book.
-      summary: Check book availability
+      description: |-
+        API endpoints for managing books.
+        Includes borrowing, returning, searching and recommendations.
+      summary: Check Book Availability
       parameters:
       - in: path
         name: book_id
         schema:
           type: integer
-        description: A unique integer value identifying this book.
+          description: Unique identifier for the book.
         required: true
       tags:
       - books
@@ -579,51 +547,25 @@ paths:
       - {}
       responses:
         '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
-              examples:
-                BookExample:
-                  value:
-                    book_id: 10
-                    title: '1984'
-                    isbn: '9780451524935'
-                    publication_date: '1949-06-08'
-                    total_copies: 5
-                    available_copies: 3
-                    library:
-                      library_id: 1
-                      name: Central Library
-                      campus_location: North Campus
-                    authors:
-                    - author_id: 3
-                      first_name: George
-                      last_name: Orwell
-                    categories:
-                    - category_id: 2
-                      name: Science Fiction
-                  summary: Example book response
-          description: ''
+          description: Availability status
   /api/books/borrow/:
     post:
       operationId: books_borrow_create
-      description: Borrow a book if copies are available. A due date is automatically
-        set to 14 days.
-      summary: Borrow a book
+      description: Allows a member to borrow a book if copies are available.
+      summary: Borrow a Book
       tags:
-      - Borrowing
+      - books
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/BorrowBook'
             examples:
-              BorrowRequest:
+              BorrowBookRequest:
                 value:
-                  book_id: 10
-                  member_id: 7
-                summary: Borrow a book request
+                  book_id: 1
+                  member_id: 5
+                summary: Borrow book request example
         required: true
       security:
       - cookieAuth: []
@@ -638,20 +580,21 @@ paths:
               examples:
                 BorrowingExample:
                   value:
-                    borrowing_id: 15
-                    book_title: '1984'
-                    member_name: Jane Doe
-                    borrow_date: '2025-03-01'
-                    due_date: '2025-03-15'
+                    borrowing_id: 10
+                    member_name: John Doe
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
                     return_date: null
-                    late_fee: 0
+                    late_fee: null
                   summary: Borrowing Example
           description: ''
+        '400':
+          description: Book unavailable or invalid request
   /api/books/recommendations/:
     get:
       operationId: books_recommendations_retrieve
-      description: Returns recommended books based on popularity and highest ratings.
-      summary: Book recommendations
+      description: Returns most borrowed and highest rated books.
+      summary: Book Recommendations
       tags:
       - books
       security:
@@ -667,42 +610,35 @@ paths:
               examples:
                 BookExample:
                   value:
-                    book_id: 10
-                    title: '1984'
-                    isbn: '9780451524935'
-                    publication_date: '1949-06-08'
-                    total_copies: 5
-                    available_copies: 3
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                    publication_date: '1997-06-26'
+                    total_copies: 10
+                    available_copies: 7
                     library:
                       library_id: 1
                       name: Central Library
-                      campus_location: North Campus
-                    authors:
-                    - author_id: 3
-                      first_name: George
-                      last_name: Orwell
-                    categories:
-                    - category_id: 2
-                      name: Science Fiction
-                  summary: Example book response
+                      campus_location: Main Campus
+                  summary: Book Example
           description: ''
   /api/books/return/:
     post:
       operationId: books_return_create
-      description: Marks a borrowed book as returned and calculates late fees if overdue.
-      summary: Return a borrowed book
+      description: Allows a member to return a borrowed book.
+      summary: Return a Book
       tags:
-      - Borrowing
+      - books
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ReturnBook'
             examples:
-              ReturnRequest:
+              ReturnBookRequest:
                 value:
-                  borrowing_id: 15
-                summary: Return Request
+                  borrowing_id: 10
+                summary: Return Book Request
         required: true
       security:
       - cookieAuth: []
@@ -717,20 +653,19 @@ paths:
               examples:
                 BorrowingExample:
                   value:
-                    borrowing_id: 15
-                    book_title: '1984'
-                    member_name: Jane Doe
-                    borrow_date: '2025-03-01'
-                    due_date: '2025-03-15'
+                    borrowing_id: 10
+                    member_name: John Doe
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
                     return_date: null
-                    late_fee: 0
+                    late_fee: null
                   summary: Borrowing Example
           description: ''
   /api/books/search/:
     post:
       operationId: books_search_create
-      description: Search books by library, category, or author name.
-      summary: Search books
+      description: Search books by library, category or author.
+      summary: Search Books
       parameters:
       - name: ordering
         required: false
@@ -758,12 +693,12 @@ paths:
             schema:
               $ref: '#/components/schemas/BookSearch'
             examples:
-              BookSearchRequest:
+              BookSearchExample:
                 value:
                   library_id: 1
-                  category_id: 2
-                  author_name: George Orwell
-                summary: Book Search Request
+                  category_id: 3
+                  author_name: J.K. Rowling
+                summary: Book Search Example
       security:
       - cookieAuth: []
       - basicAuth: []
@@ -781,24 +716,17 @@ paths:
                     next: http://api.example.org/accounts/?page=4
                     previous: http://api.example.org/accounts/?page=2
                     results:
-                    - book_id: 10
-                      title: '1984'
-                      isbn: '9780451524935'
-                      publication_date: '1949-06-08'
-                      total_copies: 5
-                      available_copies: 3
+                    - book_id: 1
+                      title: Harry Potter and the Philosopher's Stone
+                      isbn: '9780747532699'
+                      publication_date: '1997-06-26'
+                      total_copies: 10
+                      available_copies: 7
                       library:
                         library_id: 1
                         name: Central Library
-                        campus_location: North Campus
-                      authors:
-                      - author_id: 3
-                        first_name: George
-                        last_name: Orwell
-                      categories:
-                      - category_id: 2
-                        name: Science Fiction
-                  summary: Example book response
+                        campus_location: Main Campus
+                  summary: Book Example
           description: ''
   /api/borrowings/:
     get:
@@ -835,13 +763,12 @@ paths:
                     next: http://api.example.org/accounts/?page=4
                     previous: http://api.example.org/accounts/?page=2
                     results:
-                    - borrowing_id: 15
-                      book_title: '1984'
-                      member_name: Jane Doe
-                      borrow_date: '2025-03-01'
-                      due_date: '2025-03-15'
+                    - borrowing_id: 10
+                      member_name: John Doe
+                      borrow_date: '2026-03-10'
+                      due_date: '2026-03-24'
                       return_date: null
-                      late_fee: 0
+                      late_fee: null
                   summary: Borrowing Example
           description: ''
     post:
@@ -856,13 +783,12 @@ paths:
             examples:
               BorrowingExample:
                 value:
-                  borrowing_id: 15
-                  book_title: '1984'
-                  member_name: Jane Doe
-                  borrow_date: '2025-03-01'
-                  due_date: '2025-03-15'
+                  borrowing_id: 10
+                  member_name: John Doe
+                  borrow_date: '2026-03-10'
+                  due_date: '2026-03-24'
                   return_date: null
-                  late_fee: 0
+                  late_fee: null
                 summary: Borrowing Example
         required: true
       security:
@@ -878,13 +804,12 @@ paths:
               examples:
                 BorrowingExample:
                   value:
-                    borrowing_id: 15
-                    book_title: '1984'
-                    member_name: Jane Doe
-                    borrow_date: '2025-03-01'
-                    due_date: '2025-03-15'
+                    borrowing_id: 10
+                    member_name: John Doe
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
                     return_date: null
-                    late_fee: 0
+                    late_fee: null
                   summary: Borrowing Example
           description: ''
   /api/borrowings/{borrowing_id}/:
@@ -895,7 +820,7 @@ paths:
         name: borrowing_id
         schema:
           type: integer
-        description: A unique integer value identifying this borrowing.
+          description: Unique identifier for the borrowing transaction.
         required: true
       tags:
       - borrowings
@@ -912,13 +837,12 @@ paths:
               examples:
                 BorrowingExample:
                   value:
-                    borrowing_id: 15
-                    book_title: '1984'
-                    member_name: Jane Doe
-                    borrow_date: '2025-03-01'
-                    due_date: '2025-03-15'
+                    borrowing_id: 10
+                    member_name: John Doe
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
                     return_date: null
-                    late_fee: 0
+                    late_fee: null
                   summary: Borrowing Example
           description: ''
     put:
@@ -928,7 +852,7 @@ paths:
         name: borrowing_id
         schema:
           type: integer
-        description: A unique integer value identifying this borrowing.
+          description: Unique identifier for the borrowing transaction.
         required: true
       tags:
       - borrowings
@@ -940,13 +864,12 @@ paths:
             examples:
               BorrowingExample:
                 value:
-                  borrowing_id: 15
-                  book_title: '1984'
-                  member_name: Jane Doe
-                  borrow_date: '2025-03-01'
-                  due_date: '2025-03-15'
+                  borrowing_id: 10
+                  member_name: John Doe
+                  borrow_date: '2026-03-10'
+                  due_date: '2026-03-24'
                   return_date: null
-                  late_fee: 0
+                  late_fee: null
                 summary: Borrowing Example
         required: true
       security:
@@ -962,13 +885,12 @@ paths:
               examples:
                 BorrowingExample:
                   value:
-                    borrowing_id: 15
-                    book_title: '1984'
-                    member_name: Jane Doe
-                    borrow_date: '2025-03-01'
-                    due_date: '2025-03-15'
+                    borrowing_id: 10
+                    member_name: John Doe
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
                     return_date: null
-                    late_fee: 0
+                    late_fee: null
                   summary: Borrowing Example
           description: ''
     patch:
@@ -978,7 +900,7 @@ paths:
         name: borrowing_id
         schema:
           type: integer
-        description: A unique integer value identifying this borrowing.
+          description: Unique identifier for the borrowing transaction.
         required: true
       tags:
       - borrowings
@@ -990,13 +912,12 @@ paths:
             examples:
               BorrowingExample:
                 value:
-                  borrowing_id: 15
-                  book_title: '1984'
-                  member_name: Jane Doe
-                  borrow_date: '2025-03-01'
-                  due_date: '2025-03-15'
+                  borrowing_id: 10
+                  member_name: John Doe
+                  borrow_date: '2026-03-10'
+                  due_date: '2026-03-24'
                   return_date: null
-                  late_fee: 0
+                  late_fee: null
                 summary: Borrowing Example
       security:
       - cookieAuth: []
@@ -1011,13 +932,12 @@ paths:
               examples:
                 BorrowingExample:
                   value:
-                    borrowing_id: 15
-                    book_title: '1984'
-                    member_name: Jane Doe
-                    borrow_date: '2025-03-01'
-                    due_date: '2025-03-15'
+                    borrowing_id: 10
+                    member_name: John Doe
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
                     return_date: null
-                    late_fee: 0
+                    late_fee: null
                   summary: Borrowing Example
           description: ''
     delete:
@@ -1027,7 +947,7 @@ paths:
         name: borrowing_id
         schema:
           type: integer
-        description: A unique integer value identifying this borrowing.
+          description: Unique identifier for the borrowing transaction.
         required: true
       tags:
       - borrowings
@@ -1041,7 +961,8 @@ paths:
   /api/categories/:
     get:
       operationId: categories_list
-      summary: List categories
+      description: API endpoints for managing book categories.
+      summary: List Categories
       parameters:
       - name: ordering
         required: false
@@ -1080,13 +1001,14 @@ paths:
                     next: http://api.example.org/accounts/?page=4
                     previous: http://api.example.org/accounts/?page=2
                     results:
-                    - category_id: 2
-                      name: Science Fiction
-                      description: Books based on futuristic concepts.
+                    - category_id: 1
+                      name: Fantasy
+                      description: Fantasy literature category
                   summary: Category Example
           description: ''
     post:
       operationId: categories_create
+      description: API endpoints for managing book categories.
       tags:
       - categories
       requestBody:
@@ -1097,9 +1019,9 @@ paths:
             examples:
               CategoryExample:
                 value:
-                  category_id: 2
-                  name: Science Fiction
-                  description: Books based on futuristic concepts.
+                  category_id: 1
+                  name: Fantasy
+                  description: Fantasy literature category
                 summary: Category Example
         required: true
       security:
@@ -1115,21 +1037,22 @@ paths:
               examples:
                 CategoryExample:
                   value:
-                    category_id: 2
-                    name: Science Fiction
-                    description: Books based on futuristic concepts.
+                    category_id: 1
+                    name: Fantasy
+                    description: Fantasy literature category
                   summary: Category Example
           description: ''
   /api/categories/{category_id}/:
     get:
       operationId: categories_retrieve
-      summary: Retrieve category details
+      description: API endpoints for managing book categories.
+      summary: Retrieve Category
       parameters:
       - in: path
         name: category_id
         schema:
           type: integer
-        description: A unique integer value identifying this category.
+          description: Unique identifier for the category.
         required: true
       tags:
       - categories
@@ -1146,19 +1069,20 @@ paths:
               examples:
                 CategoryExample:
                   value:
-                    category_id: 2
-                    name: Science Fiction
-                    description: Books based on futuristic concepts.
+                    category_id: 1
+                    name: Fantasy
+                    description: Fantasy literature category
                   summary: Category Example
           description: ''
     put:
       operationId: categories_update
+      description: API endpoints for managing book categories.
       parameters:
       - in: path
         name: category_id
         schema:
           type: integer
-        description: A unique integer value identifying this category.
+          description: Unique identifier for the category.
         required: true
       tags:
       - categories
@@ -1170,9 +1094,9 @@ paths:
             examples:
               CategoryExample:
                 value:
-                  category_id: 2
-                  name: Science Fiction
-                  description: Books based on futuristic concepts.
+                  category_id: 1
+                  name: Fantasy
+                  description: Fantasy literature category
                 summary: Category Example
         required: true
       security:
@@ -1188,19 +1112,20 @@ paths:
               examples:
                 CategoryExample:
                   value:
-                    category_id: 2
-                    name: Science Fiction
-                    description: Books based on futuristic concepts.
+                    category_id: 1
+                    name: Fantasy
+                    description: Fantasy literature category
                   summary: Category Example
           description: ''
     patch:
       operationId: categories_partial_update
+      description: API endpoints for managing book categories.
       parameters:
       - in: path
         name: category_id
         schema:
           type: integer
-        description: A unique integer value identifying this category.
+          description: Unique identifier for the category.
         required: true
       tags:
       - categories
@@ -1212,9 +1137,9 @@ paths:
             examples:
               CategoryExample:
                 value:
-                  category_id: 2
-                  name: Science Fiction
-                  description: Books based on futuristic concepts.
+                  category_id: 1
+                  name: Fantasy
+                  description: Fantasy literature category
                 summary: Category Example
       security:
       - cookieAuth: []
@@ -1229,19 +1154,20 @@ paths:
               examples:
                 CategoryExample:
                   value:
-                    category_id: 2
-                    name: Science Fiction
-                    description: Books based on futuristic concepts.
+                    category_id: 1
+                    name: Fantasy
+                    description: Fantasy literature category
                   summary: Category Example
           description: ''
     delete:
       operationId: categories_destroy
+      description: API endpoints for managing book categories.
       parameters:
       - in: path
         name: category_id
         schema:
           type: integer
-        description: A unique integer value identifying this category.
+          description: Unique identifier for the category.
         required: true
       tags:
       - categories
@@ -1255,8 +1181,8 @@ paths:
   /api/libraries/:
     get:
       operationId: libraries_list
-      description: Retrieve a list of all library branches.
-      summary: List libraries
+      description: API endpoints for managing libraries.
+      summary: List Libraries
       parameters:
       - name: ordering
         required: false
@@ -1297,13 +1223,15 @@ paths:
                     results:
                     - library_id: 1
                       name: Central Library
-                      campus_location: North Campus
+                      campus_location: Main Campus
                       contact_email: library@university.edu
-                      phone_number: 555-123-4567
-                  summary: Example library record
+                      phone_number: '+123456789'
+                  summary: Library Example
           description: ''
     post:
       operationId: libraries_create
+      description: API endpoints for managing libraries.
+      summary: Create Library
       tags:
       - libraries
       requestBody:
@@ -1316,10 +1244,10 @@ paths:
                 value:
                   library_id: 1
                   name: Central Library
-                  campus_location: North Campus
+                  campus_location: Main Campus
                   contact_email: library@university.edu
-                  phone_number: 555-123-4567
-                summary: Example library record
+                  phone_number: '+123456789'
+                summary: Library Example
         required: true
       security:
       - cookieAuth: []
@@ -1336,22 +1264,22 @@ paths:
                   value:
                     library_id: 1
                     name: Central Library
-                    campus_location: North Campus
+                    campus_location: Main Campus
                     contact_email: library@university.edu
-                    phone_number: 555-123-4567
-                  summary: Example library record
+                    phone_number: '+123456789'
+                  summary: Library Example
           description: ''
   /api/libraries/{library_id}/:
     get:
       operationId: libraries_retrieve
-      description: Get details for a specific library.
-      summary: Retrieve library
+      description: API endpoints for managing libraries.
+      summary: Retrieve Library
       parameters:
       - in: path
         name: library_id
         schema:
           type: integer
-        description: A unique integer value identifying this library.
+          description: Unique identifier for the library.
         required: true
       tags:
       - libraries
@@ -1370,19 +1298,21 @@ paths:
                   value:
                     library_id: 1
                     name: Central Library
-                    campus_location: North Campus
+                    campus_location: Main Campus
                     contact_email: library@university.edu
-                    phone_number: 555-123-4567
-                  summary: Example library record
+                    phone_number: '+123456789'
+                  summary: Library Example
           description: ''
     put:
       operationId: libraries_update
+      description: API endpoints for managing libraries.
+      summary: Update Library
       parameters:
       - in: path
         name: library_id
         schema:
           type: integer
-        description: A unique integer value identifying this library.
+          description: Unique identifier for the library.
         required: true
       tags:
       - libraries
@@ -1396,10 +1326,10 @@ paths:
                 value:
                   library_id: 1
                   name: Central Library
-                  campus_location: North Campus
+                  campus_location: Main Campus
                   contact_email: library@university.edu
-                  phone_number: 555-123-4567
-                summary: Example library record
+                  phone_number: '+123456789'
+                summary: Library Example
         required: true
       security:
       - cookieAuth: []
@@ -1416,19 +1346,20 @@ paths:
                   value:
                     library_id: 1
                     name: Central Library
-                    campus_location: North Campus
+                    campus_location: Main Campus
                     contact_email: library@university.edu
-                    phone_number: 555-123-4567
-                  summary: Example library record
+                    phone_number: '+123456789'
+                  summary: Library Example
           description: ''
     patch:
       operationId: libraries_partial_update
+      description: API endpoints for managing libraries.
       parameters:
       - in: path
         name: library_id
         schema:
           type: integer
-        description: A unique integer value identifying this library.
+          description: Unique identifier for the library.
         required: true
       tags:
       - libraries
@@ -1442,10 +1373,10 @@ paths:
                 value:
                   library_id: 1
                   name: Central Library
-                  campus_location: North Campus
+                  campus_location: Main Campus
                   contact_email: library@university.edu
-                  phone_number: 555-123-4567
-                summary: Example library record
+                  phone_number: '+123456789'
+                summary: Library Example
       security:
       - cookieAuth: []
       - basicAuth: []
@@ -1461,19 +1392,21 @@ paths:
                   value:
                     library_id: 1
                     name: Central Library
-                    campus_location: North Campus
+                    campus_location: Main Campus
                     contact_email: library@university.edu
-                    phone_number: 555-123-4567
-                  summary: Example library record
+                    phone_number: '+123456789'
+                  summary: Library Example
           description: ''
     delete:
       operationId: libraries_destroy
+      description: API endpoints for managing libraries.
+      summary: Delete Library
       parameters:
       - in: path
         name: library_id
         schema:
           type: integer
-        description: A unique integer value identifying this library.
+          description: Unique identifier for the library.
         required: true
       tags:
       - libraries
@@ -1487,7 +1420,6 @@ paths:
   /api/members/:
     get:
       operationId: members_list
-      summary: List members
       parameters:
       - name: ordering
         required: false
@@ -1526,12 +1458,11 @@ paths:
                     next: http://api.example.org/accounts/?page=4
                     previous: http://api.example.org/accounts/?page=2
                     results:
-                    - member_id: 7
-                      first_name: Jane
+                    - member_id: 5
+                      first_name: John
                       last_name: Doe
+                      contact_email: john.doe@email.com
                       member_type: student
-                      contact_email: jane@example.com
-                      phone_number: 555-444-9999
                   summary: Member Example
           description: ''
     post:
@@ -1546,12 +1477,11 @@ paths:
             examples:
               MemberExample:
                 value:
-                  member_id: 7
-                  first_name: Jane
+                  member_id: 5
+                  first_name: John
                   last_name: Doe
+                  contact_email: john.doe@email.com
                   member_type: student
-                  contact_email: jane@example.com
-                  phone_number: 555-444-9999
                 summary: Member Example
         required: true
       security:
@@ -1567,24 +1497,22 @@ paths:
               examples:
                 MemberExample:
                   value:
-                    member_id: 7
-                    first_name: Jane
+                    member_id: 5
+                    first_name: John
                     last_name: Doe
+                    contact_email: john.doe@email.com
                     member_type: student
-                    contact_email: jane@example.com
-                    phone_number: 555-444-9999
                   summary: Member Example
           description: ''
   /api/members/{member_id}/:
     get:
       operationId: members_retrieve
-      summary: Retrieve member details
       parameters:
       - in: path
         name: member_id
         schema:
           type: integer
-        description: A unique integer value identifying this member.
+          description: Unique identifier for the member.
         required: true
       tags:
       - members
@@ -1601,12 +1529,11 @@ paths:
               examples:
                 MemberExample:
                   value:
-                    member_id: 7
-                    first_name: Jane
+                    member_id: 5
+                    first_name: John
                     last_name: Doe
+                    contact_email: john.doe@email.com
                     member_type: student
-                    contact_email: jane@example.com
-                    phone_number: 555-444-9999
                   summary: Member Example
           description: ''
     put:
@@ -1616,7 +1543,7 @@ paths:
         name: member_id
         schema:
           type: integer
-        description: A unique integer value identifying this member.
+          description: Unique identifier for the member.
         required: true
       tags:
       - members
@@ -1628,12 +1555,11 @@ paths:
             examples:
               MemberExample:
                 value:
-                  member_id: 7
-                  first_name: Jane
+                  member_id: 5
+                  first_name: John
                   last_name: Doe
+                  contact_email: john.doe@email.com
                   member_type: student
-                  contact_email: jane@example.com
-                  phone_number: 555-444-9999
                 summary: Member Example
         required: true
       security:
@@ -1649,12 +1575,11 @@ paths:
               examples:
                 MemberExample:
                   value:
-                    member_id: 7
-                    first_name: Jane
+                    member_id: 5
+                    first_name: John
                     last_name: Doe
+                    contact_email: john.doe@email.com
                     member_type: student
-                    contact_email: jane@example.com
-                    phone_number: 555-444-9999
                   summary: Member Example
           description: ''
     patch:
@@ -1664,7 +1589,7 @@ paths:
         name: member_id
         schema:
           type: integer
-        description: A unique integer value identifying this member.
+          description: Unique identifier for the member.
         required: true
       tags:
       - members
@@ -1676,12 +1601,11 @@ paths:
             examples:
               MemberExample:
                 value:
-                  member_id: 7
-                  first_name: Jane
+                  member_id: 5
+                  first_name: John
                   last_name: Doe
+                  contact_email: john.doe@email.com
                   member_type: student
-                  contact_email: jane@example.com
-                  phone_number: 555-444-9999
                 summary: Member Example
       security:
       - cookieAuth: []
@@ -1696,12 +1620,11 @@ paths:
               examples:
                 MemberExample:
                   value:
-                    member_id: 7
-                    first_name: Jane
+                    member_id: 5
+                    first_name: John
                     last_name: Doe
+                    contact_email: john.doe@email.com
                     member_type: student
-                    contact_email: jane@example.com
-                    phone_number: 555-444-9999
                   summary: Member Example
           description: ''
     delete:
@@ -1711,7 +1634,7 @@ paths:
         name: member_id
         schema:
           type: integer
-        description: A unique integer value identifying this member.
+          description: Unique identifier for the member.
         required: true
       tags:
       - members
@@ -1724,34 +1647,15 @@ paths:
           description: No response body
   /api/members/{member_id}/borrowings/:
     get:
-      operationId: members_borrowings_list
-      description: Returns the borrowing history for a specific member.
-      summary: Member borrowing history
+      operationId: members_borrowings_retrieve
+      summary: Member Borrowing History
       parameters:
       - in: path
         name: member_id
         schema:
           type: integer
-        description: A unique integer value identifying this member.
+          description: Unique identifier for the member.
         required: true
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: search
-        required: false
-        in: query
-        description: A search term.
-        schema:
-          type: string
       tags:
       - members
       security:
@@ -1763,22 +1667,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedBorrowingList'
+                $ref: '#/components/schemas/Member'
               examples:
-                BorrowingExample:
+                MemberExample:
                   value:
-                    count: 123
-                    next: http://api.example.org/accounts/?page=4
-                    previous: http://api.example.org/accounts/?page=2
-                    results:
-                    - borrowing_id: 15
-                      book_title: '1984'
-                      member_name: Jane Doe
-                      borrow_date: '2025-03-01'
-                      due_date: '2025-03-15'
-                      return_date: null
-                      late_fee: 0
-                  summary: Borrowing Example
+                    member_id: 5
+                    first_name: John
+                    last_name: Doe
+                    contact_email: john.doe@email.com
+                    member_type: student
+                  summary: Member Example
           description: ''
   /api/reviews/:
     get:
@@ -1821,12 +1719,10 @@ paths:
                     next: http://api.example.org/accounts/?page=4
                     previous: http://api.example.org/accounts/?page=2
                     results:
-                    - review_id: 3
-                      book_id: 10
-                      member_id: 7
+                    - review_id: 2
                       rating: 5
-                      comment: Excellent dystopian novel.
-                      review_date: '2025-03-10'
+                      comment: Excellent book!
+                      review_date: '2026-03-11'
                   summary: Review Example
           description: ''
     post:
@@ -1841,12 +1737,10 @@ paths:
             examples:
               ReviewExample:
                 value:
-                  review_id: 3
-                  book_id: 10
-                  member_id: 7
+                  review_id: 2
                   rating: 5
-                  comment: Excellent dystopian novel.
-                  review_date: '2025-03-10'
+                  comment: Excellent book!
+                  review_date: '2026-03-11'
                 summary: Review Example
         required: true
       security:
@@ -1862,12 +1756,10 @@ paths:
               examples:
                 ReviewExample:
                   value:
-                    review_id: 3
-                    book_id: 10
-                    member_id: 7
+                    review_id: 2
                     rating: 5
-                    comment: Excellent dystopian novel.
-                    review_date: '2025-03-10'
+                    comment: Excellent book!
+                    review_date: '2026-03-11'
                   summary: Review Example
           description: ''
   /api/reviews/{review_id}/:
@@ -1878,7 +1770,7 @@ paths:
         name: review_id
         schema:
           type: integer
-        description: A unique integer value identifying this review.
+          description: Unique identifier for the review.
         required: true
       tags:
       - reviews
@@ -1895,12 +1787,10 @@ paths:
               examples:
                 ReviewExample:
                   value:
-                    review_id: 3
-                    book_id: 10
-                    member_id: 7
+                    review_id: 2
                     rating: 5
-                    comment: Excellent dystopian novel.
-                    review_date: '2025-03-10'
+                    comment: Excellent book!
+                    review_date: '2026-03-11'
                   summary: Review Example
           description: ''
     put:
@@ -1910,7 +1800,7 @@ paths:
         name: review_id
         schema:
           type: integer
-        description: A unique integer value identifying this review.
+          description: Unique identifier for the review.
         required: true
       tags:
       - reviews
@@ -1922,12 +1812,10 @@ paths:
             examples:
               ReviewExample:
                 value:
-                  review_id: 3
-                  book_id: 10
-                  member_id: 7
+                  review_id: 2
                   rating: 5
-                  comment: Excellent dystopian novel.
-                  review_date: '2025-03-10'
+                  comment: Excellent book!
+                  review_date: '2026-03-11'
                 summary: Review Example
         required: true
       security:
@@ -1943,12 +1831,10 @@ paths:
               examples:
                 ReviewExample:
                   value:
-                    review_id: 3
-                    book_id: 10
-                    member_id: 7
+                    review_id: 2
                     rating: 5
-                    comment: Excellent dystopian novel.
-                    review_date: '2025-03-10'
+                    comment: Excellent book!
+                    review_date: '2026-03-11'
                   summary: Review Example
           description: ''
     patch:
@@ -1958,7 +1844,7 @@ paths:
         name: review_id
         schema:
           type: integer
-        description: A unique integer value identifying this review.
+          description: Unique identifier for the review.
         required: true
       tags:
       - reviews
@@ -1970,12 +1856,10 @@ paths:
             examples:
               ReviewExample:
                 value:
-                  review_id: 3
-                  book_id: 10
-                  member_id: 7
+                  review_id: 2
                   rating: 5
-                  comment: Excellent dystopian novel.
-                  review_date: '2025-03-10'
+                  comment: Excellent book!
+                  review_date: '2026-03-11'
                 summary: Review Example
       security:
       - cookieAuth: []
@@ -1990,12 +1874,10 @@ paths:
               examples:
                 ReviewExample:
                   value:
-                    review_id: 3
-                    book_id: 10
-                    member_id: 7
+                    review_id: 2
                     rating: 5
-                    comment: Excellent dystopian novel.
-                    review_date: '2025-03-10'
+                    comment: Excellent book!
+                    review_date: '2026-03-11'
                   summary: Review Example
           description: ''
     delete:
@@ -2005,7 +1887,7 @@ paths:
         name: review_id
         schema:
           type: integer
-        description: A unique integer value identifying this review.
+          description: Unique identifier for the review.
         required: true
       tags:
       - reviews
@@ -2019,8 +1901,7 @@ paths:
   /api/statistics/:
     get:
       operationId: statistics_retrieve
-      description: Returns aggregated statistics about library usage and activity.
-      summary: Library statistics
+      summary: System Statistics
       tags:
       - statistics
       security:
@@ -2043,6 +1924,16 @@ components:
           type: string
           format: uri
           readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
         first_name:
           type: string
           description: Author's first name.
@@ -2059,20 +1950,12 @@ components:
         nationality:
           type: string
           nullable: true
-          description: Country of origin or nationality.
+          description: Author's nationality.
           maxLength: 20
         biography:
           type: string
           nullable: true
-          description: Short biography describing the author.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
+          description: Short biography of the author.
       required:
       - created_at
       - first_name
@@ -2082,9 +1965,34 @@ components:
     Book:
       type: object
       properties:
-        book_id:
-          type: integer
+        url:
+          type: string
+          format: uri
           readOnly: true
+        library:
+          allOf:
+          - $ref: '#/components/schemas/NestedLibrary'
+          readOnly: true
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedAuthor'
+          readOnly: true
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedCategory'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
         title:
           type: string
           description: Title of the book.
@@ -2107,33 +2015,23 @@ components:
           maximum: 2147483647
           minimum: 0
           description: Number of copies currently available for borrowing.
-        library:
-          allOf:
-          - $ref: '#/components/schemas/NestedLibrary'
-          readOnly: true
-          description: Library where this book is stored.
-        authors:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedAuthor'
-          readOnly: true
-          description: Authors who wrote the book.
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedCategory'
-          readOnly: true
-          description: Categories associated with this book.
+        library_id:
+          type: string
+          format: uri
+          description: Library where this book is located.
       required:
       - authors
       - available_copies
-      - book_id
       - categories
+      - created_at
       - isbn
       - library
+      - library_id
       - publication_date
       - title
       - total_copies
+      - updated_at
+      - url
     BookSearch:
       type: object
       properties:
@@ -2147,7 +2045,7 @@ components:
           description: Filter books by category ID.
         author_name:
           type: string
-          description: Filter books by full author name.
+          description: Full author name (first and last).
     BorrowBook:
       type: object
       properties:
@@ -2167,14 +2065,28 @@ components:
           type: string
           format: uri
           readOnly: true
-        book_title:
-          type: string
+        book:
+          allOf:
+          - $ref: '#/components/schemas/Book'
           readOnly: true
-          description: Title of the borrowed book.
+        member:
+          allOf:
+          - $ref: '#/components/schemas/NestedMember'
+          readOnly: true
         member_name:
           type: string
           readOnly: true
           description: Full name of the member who borrowed the book.
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
         borrow_date:
           type: string
           format: date
@@ -2182,25 +2094,18 @@ components:
         due_date:
           type: string
           format: date
-          description: Date when the book must be returned.
+          description: Date by which the book must be returned.
         return_date:
           type: string
           format: date
           nullable: true
-          description: Date when the book was returned.
+          description: Actual return date of the book.
         late_fee:
           type: string
           format: decimal
           pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-          description: Late fee charged for overdue returns.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
+          nullable: true
+          description: Late fee charged if returned after due date.
         member_id:
           type: string
           format: uri
@@ -2208,12 +2113,13 @@ components:
         book_id:
           type: string
           format: uri
-          description: Book being borrowed.
+          description: Book that was borrowed.
       required:
+      - book
       - book_id
-      - book_title
       - created_at
       - due_date
+      - member
       - member_id
       - member_name
       - updated_at
@@ -2225,22 +2131,24 @@ components:
           type: string
           format: uri
           readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
         name:
           type: string
-          description: Name of the category (e.g., Science Fiction, History).
+          description: Category or genre name.
           maxLength: 30
         description:
           type: string
           nullable: true
           description: Optional description of the category.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
       required:
       - created_at
       - name
@@ -2253,23 +2161,6 @@ components:
           type: string
           format: uri
           readOnly: true
-        name:
-          type: string
-          description: Name of the library branch.
-          maxLength: 30
-        campus_location:
-          type: string
-          description: Campus location where the library is situated.
-          maxLength: 30
-        contact_email:
-          type: string
-          format: email
-          description: Official email address of the library.
-          maxLength: 254
-        phone_number:
-          type: string
-          description: Primary contact phone number for the library.
-          maxLength: 15
         created_at:
           type: string
           format: date-time
@@ -2280,6 +2171,23 @@ components:
           format: date-time
           readOnly: true
           description: Timestamp when the record was last updated.
+        name:
+          type: string
+          description: Name of the library.
+          maxLength: 30
+        campus_location:
+          type: string
+          description: Campus location where the library is situated.
+          maxLength: 30
+        contact_email:
+          type: string
+          format: email
+          description: Official contact email for the library.
+          maxLength: 254
+        phone_number:
+          type: string
+          description: Contact phone number for the library.
+          maxLength: 15
       required:
       - campus_location
       - contact_email
@@ -2295,41 +2203,45 @@ components:
           type: string
           format: uri
           readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
         first_name:
           type: string
+          description: Member's first name.
           maxLength: 20
         last_name:
           type: string
+          description: Member's last name.
           maxLength: 20
         contact_email:
           type: string
           format: email
-          description: Member's primary email address.
+          description: Member email address.
           maxLength: 254
         phone_number:
           type: string
-          description: Member's contact phone number.
+          description: Member contact phone number.
           maxLength: 15
         member_type:
           allOf:
           - $ref: '#/components/schemas/MemberTypeEnum'
           description: |-
-            Type of library membership.
+            Type of member (Student or Faculty).
 
             * `student` - Student
             * `faculty` - Faculty
         registration_date:
           type: string
           format: date
-          description: Date when the member registered.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
+          description: Date the member registered with the library.
       required:
       - contact_email
       - created_at
@@ -2349,11 +2261,11 @@ components:
         * `faculty` - Faculty
     NestedAuthor:
       type: object
-      description: Compact representation of an author used inside book responses.
       properties:
         author_id:
           type: integer
           readOnly: true
+          description: Unique identifier for the author.
         first_name:
           type: string
           description: Author's first name.
@@ -2368,28 +2280,28 @@ components:
       - last_name
     NestedCategory:
       type: object
-      description: Compact representation of a category used inside book responses.
       properties:
         category_id:
           type: integer
           readOnly: true
+          description: Unique identifier for the category.
         name:
           type: string
-          description: Name of the category (e.g., Science Fiction, History).
+          description: Category or genre name.
           maxLength: 30
       required:
       - category_id
       - name
     NestedLibrary:
       type: object
-      description: Compact representation of a library used inside book responses.
       properties:
         library_id:
           type: integer
           readOnly: true
+          description: Unique identifier for the library.
         name:
           type: string
-          description: Name of the library branch.
+          description: Name of the library.
           maxLength: 30
         campus_location:
           type: string
@@ -2399,6 +2311,25 @@ components:
       - campus_location
       - library_id
       - name
+    NestedMember:
+      type: object
+      properties:
+        member_id:
+          type: integer
+          readOnly: true
+          description: Unique identifier for the member.
+        first_name:
+          type: string
+          description: Member's first name.
+          maxLength: 20
+        last_name:
+          type: string
+          description: Member's last name.
+          maxLength: 20
+      required:
+      - first_name
+      - last_name
+      - member_id
     PaginatedAuthorList:
       type: object
       required:
@@ -2567,6 +2498,16 @@ components:
           type: string
           format: uri
           readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
         first_name:
           type: string
           description: Author's first name.
@@ -2583,26 +2524,43 @@ components:
         nationality:
           type: string
           nullable: true
-          description: Country of origin or nationality.
+          description: Author's nationality.
           maxLength: 20
         biography:
           type: string
           nullable: true
-          description: Short biography describing the author.
+          description: Short biography of the author.
+    PatchedBook:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        library:
+          allOf:
+          - $ref: '#/components/schemas/NestedLibrary'
+          readOnly: true
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedAuthor'
+          readOnly: true
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedCategory'
+          readOnly: true
         created_at:
           type: string
           format: date-time
           readOnly: true
+          description: Timestamp when the record was created.
         updated_at:
           type: string
           format: date-time
           readOnly: true
-    PatchedBook:
-      type: object
-      properties:
-        book_id:
-          type: integer
-          readOnly: true
+          description: Timestamp when the record was last updated.
         title:
           type: string
           description: Title of the book.
@@ -2625,23 +2583,10 @@ components:
           maximum: 2147483647
           minimum: 0
           description: Number of copies currently available for borrowing.
-        library:
-          allOf:
-          - $ref: '#/components/schemas/NestedLibrary'
-          readOnly: true
-          description: Library where this book is stored.
-        authors:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedAuthor'
-          readOnly: true
-          description: Authors who wrote the book.
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedCategory'
-          readOnly: true
-          description: Categories associated with this book.
+        library_id:
+          type: string
+          format: uri
+          description: Library where this book is located.
     PatchedBorrowing:
       type: object
       properties:
@@ -2649,95 +2594,18 @@ components:
           type: string
           format: uri
           readOnly: true
-        book_title:
-          type: string
+        book:
+          allOf:
+          - $ref: '#/components/schemas/Book'
           readOnly: true
-          description: Title of the borrowed book.
+        member:
+          allOf:
+          - $ref: '#/components/schemas/NestedMember'
+          readOnly: true
         member_name:
           type: string
           readOnly: true
           description: Full name of the member who borrowed the book.
-        borrow_date:
-          type: string
-          format: date
-          description: Date when the book was borrowed.
-        due_date:
-          type: string
-          format: date
-          description: Date when the book must be returned.
-        return_date:
-          type: string
-          format: date
-          nullable: true
-          description: Date when the book was returned.
-        late_fee:
-          type: string
-          format: decimal
-          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-          description: Late fee charged for overdue returns.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        member_id:
-          type: string
-          format: uri
-          description: Member who borrowed the book.
-        book_id:
-          type: string
-          format: uri
-          description: Book being borrowed.
-    PatchedCategory:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        name:
-          type: string
-          description: Name of the category (e.g., Science Fiction, History).
-          maxLength: 30
-        description:
-          type: string
-          nullable: true
-          description: Optional description of the category.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-    PatchedLibrary:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        name:
-          type: string
-          description: Name of the library branch.
-          maxLength: 30
-        campus_location:
-          type: string
-          description: Campus location where the library is situated.
-          maxLength: 30
-        contact_email:
-          type: string
-          format: email
-          description: Official email address of the library.
-          maxLength: 254
-        phone_number:
-          type: string
-          description: Primary contact phone number for the library.
-          maxLength: 15
         created_at:
           type: string
           format: date-time
@@ -2748,6 +2616,92 @@ components:
           format: date-time
           readOnly: true
           description: Timestamp when the record was last updated.
+        borrow_date:
+          type: string
+          format: date
+          description: Date when the book was borrowed.
+        due_date:
+          type: string
+          format: date
+          description: Date by which the book must be returned.
+        return_date:
+          type: string
+          format: date
+          nullable: true
+          description: Actual return date of the book.
+        late_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          nullable: true
+          description: Late fee charged if returned after due date.
+        member_id:
+          type: string
+          format: uri
+          description: Member who borrowed the book.
+        book_id:
+          type: string
+          format: uri
+          description: Book that was borrowed.
+    PatchedCategory:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        name:
+          type: string
+          description: Category or genre name.
+          maxLength: 30
+        description:
+          type: string
+          nullable: true
+          description: Optional description of the category.
+    PatchedLibrary:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        name:
+          type: string
+          description: Name of the library.
+          maxLength: 30
+        campus_location:
+          type: string
+          description: Campus location where the library is situated.
+          maxLength: 30
+        contact_email:
+          type: string
+          format: email
+          description: Official contact email for the library.
+          maxLength: 254
+        phone_number:
+          type: string
+          description: Contact phone number for the library.
+          maxLength: 15
     PatchedMember:
       type: object
       properties:
@@ -2755,41 +2709,45 @@ components:
           type: string
           format: uri
           readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
         first_name:
           type: string
+          description: Member's first name.
           maxLength: 20
         last_name:
           type: string
+          description: Member's last name.
           maxLength: 20
         contact_email:
           type: string
           format: email
-          description: Member's primary email address.
+          description: Member email address.
           maxLength: 254
         phone_number:
           type: string
-          description: Member's contact phone number.
+          description: Member contact phone number.
           maxLength: 15
         member_type:
           allOf:
           - $ref: '#/components/schemas/MemberTypeEnum'
           description: |-
-            Type of library membership.
+            Type of member (Student or Faculty).
 
             * `student` - Student
             * `faculty` - Faculty
         registration_date:
           type: string
           format: date
-          description: Date when the member registered.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
+          description: Date the member registered with the library.
     PatchedReview:
       type: object
       properties:
@@ -2797,6 +2755,16 @@ components:
           type: string
           format: uri
           readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
         rating:
           type: integer
           maximum: 5
@@ -2810,26 +2778,20 @@ components:
           type: string
           format: date
           description: Date the review was submitted.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
         member_id:
           type: string
           format: uri
+          description: Member who wrote the review.
         book_id:
           type: string
           format: uri
+          description: Book being reviewed.
     ReturnBook:
       type: object
       properties:
         borrowing_id:
           type: integer
-          description: ID of the borrowing record to return.
+          description: Borrowing transaction ID.
       required:
       - borrowing_id
     Review:
@@ -2839,6 +2801,16 @@ components:
           type: string
           format: uri
           readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
         rating:
           type: integer
           maximum: 5
@@ -2852,20 +2824,14 @@ components:
           type: string
           format: date
           description: Date the review was submitted.
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
         member_id:
           type: string
           format: uri
+          description: Member who wrote the review.
         book_id:
           type: string
           format: uri
+          description: Book being reviewed.
       required:
       - book_id
       - created_at
@@ -2875,31 +2841,23 @@ components:
       - url
     Statistics:
       type: object
-      description: Serializer for library analytics and aggregated statistics.
       properties:
         total_books:
           type: integer
-          description: Total number of books in the system.
         total_members:
           type: integer
-          description: Total number of registered library members.
         total_borrowings:
           type: integer
-          description: Total number of borrowing transactions recorded.
         books_currently_borrowed:
           type: integer
-          description: Number of books currently borrowed and not yet returned.
         average_book_rating:
           type: number
           format: double
           nullable: true
-          description: Average rating across all book reviews.
         total_late_fees_collected:
-          type: string
-          format: decimal
-          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          type: number
+          format: double
           nullable: true
-          description: Total amount of late fees collected.
       required:
       - average_book_rating
       - books_currently_borrowed

@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
+
 from .views import (
     LibraryViewSet,
     BookViewSet,
@@ -23,6 +24,10 @@ router.register(r"borrowings", BorrowingViewSet)
 router.register(r"reviews", ReviewViewSet)
 
 urlpatterns = [
+    # Main
     path("", include(router.urls)),
+
+    # Statistics
     path("statistics/", StatisticsAPIView.as_view(), name="library-statistics"),
+
 ]
