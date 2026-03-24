@@ -29,5 +29,4 @@ urlpatterns = [
 
     # Statistics
     path("statistics/", StatisticsAPIView.as_view(), name="library-statistics"),
-
 ]

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from datetime import timedelta
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -171,8 +172,21 @@ REST_FRAMEWORK = {
     # Custom exception handler
     "EXCEPTION_HANDLER":
         "lms_data.utils.custom_exception_handler",
+
+    # Authentication
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 # =========================================================
 # DRF Spectacular (OpenAPI / Swagger) Configuration
@@ -208,6 +222,20 @@ All endpoints return JSON responses and follow RESTful conventions.
 
     # Do not expose schema endpoint in served schema
     "SERVE_INCLUDE_SCHEMA": False,
+
+    'SECURITY': [
+        {'BearerAuth': []},
+    ],
+
+    'COMPONENTS': {
+        'securitySchemes': {
+            'BearerAuth': {
+                'type': 'http',
+                'scheme': 'bearer',
+                'bearerFormat': 'JWT',
+            }
+        }
+    },
 
     # Improve Swagger UI usability
     "SWAGGER_UI_SETTINGS": {

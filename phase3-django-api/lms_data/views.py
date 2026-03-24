@@ -8,9 +8,9 @@ from django.db.models.functions import Concat
 
 from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
-from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 
 from drf_spectacular.utils import (
