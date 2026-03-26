@@ -1,0 +1,15 @@
+# This is a Workflow metadata file for defining entity relationships in this workspace.
+# Each workflow defines relations between entities and may include optional behavior/settings.
+# The Paths are relative to the .postman directory (avoid absolute paths).
+# Keep relation entries explicit and avoid duplicate pairs within the same workflow.
+# This file is declarative metadata and does not execute workflows by itself.
+workflows:
+  syncSpecToCollection:
+    - spec: ..\postman\specs\Library Management System API\schema.yml
+      collection: ..\postman\collections\Library Management System API
+      options:
+        syncExamples: false
+    - spec: ..\postman\specs\Library Management System API-1\schema.yaml
+      collection: ..\postman\collections\Library Management System API
+      options:
+        syncExamples: false
