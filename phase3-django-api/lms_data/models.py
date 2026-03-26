@@ -14,14 +14,20 @@ class TimeStampedModel(models.Model):
     """
 
     created_at = models.DateTimeField(
-        auto_now_add=True,
+        default=timezone.now,
         help_text="Timestamp when the record was created."
     )
 
     updated_at = models.DateTimeField(
-        auto_now=True,
+        default=timezone.now,
         help_text="Timestamp when the record was last updated."
     )
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
+        super().save(*args, **kwargs)
 
     class Meta:
         abstract = True

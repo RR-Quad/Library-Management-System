@@ -90,7 +90,8 @@
             "publication_date": "1997-06-26",
             "total_copies": 10,
             "available_copies": 8,
-            "library_id": 1        }
+            "library_id": 1
+        }
     },
     {
         "model": "lms_data.book",
