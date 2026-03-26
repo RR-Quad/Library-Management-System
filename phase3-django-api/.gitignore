@@ -4,6 +4,6 @@
 __pycache__/
 rough.py
 *.txt
-*.json
+schema.json
 *.log
 *.pyc

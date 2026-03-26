@@ -1,0 +1,162 @@
+[
+    {
+        "model": "lms_data.library",
+        "pk": 1,
+        "fields": {
+            "name": "Central Library",
+            "campus_location": "Main Campus",
+            "contact_email": "central@university.edu",
+            "phone_number": "+1234567890"
+        }
+    },
+    {
+        "model": "lms_data.library",
+        "pk": 2,
+        "fields": {
+            "name": "Science Library",
+            "campus_location": "Science Campus",
+            "contact_email": "science@university.edu",
+            "phone_number": "+9876543210"
+        }
+    },
+    {
+        "model": "lms_data.author",
+        "pk": 1,
+        "fields": {
+            "first_name": "J.K.",
+            "last_name": "Rowling",
+            "birth_date": "1965-07-31",
+            "nationality": "British",
+            "biography": "Author of the Harry Potter series."
+        }
+    },
+    {
+        "model": "lms_data.author",
+        "pk": 2,
+        "fields": {
+            "first_name": "George",
+            "last_name": "Orwell",
+            "birth_date": "1903-06-25",
+            "nationality": "British",
+            "biography": "Author of 1984 and Animal Farm."
+        }
+    },
+    {
+        "model": "lms_data.category",
+        "pk": 1,
+        "fields": {
+            "name": "Fantasy",
+            "description": "Fantasy literature category."
+        }
+    },
+    {
+        "model": "lms_data.category",
+        "pk": 2,
+        "fields": {
+            "name": "Science Fiction",
+            "description": "Science fiction literature category."
+        }
+    },
+    {
+        "model": "lms_data.member",
+        "pk": 1,
+        "fields": {
+            "first_name": "John",
+            "last_name": "Doe",
+            "contact_email": "john@email.com",
+            "phone_number": "+1111111111",
+            "member_type": "student",
+            "registration_date": "2026-01-01"
+        }
+    },
+    {
+        "model": "lms_data.member",
+        "pk": 2,
+        "fields": {
+            "first_name": "Jane",
+            "last_name": "Smith",
+            "contact_email": "jane@email.com",
+            "phone_number": "+2222222222",
+            "member_type": "faculty",
+            "registration_date": "2026-01-01"
+        }
+    },
+    {
+        "model": "lms_data.book",
+        "pk": 1,
+        "fields": {
+            "title": "Harry Potter and the Philosopher's Stone",
+            "isbn": "9780747532699",
+            "publication_date": "1997-06-26",
+            "total_copies": 10,
+            "available_copies": 8,
+            "library_id": 1        }
+    },
+    {
+        "model": "lms_data.book",
+        "pk": 2,
+        "fields": {
+            "title": "1984",
+            "isbn": "9780451524935",
+            "publication_date": "1949-06-08",
+            "total_copies": 5,
+            "available_copies": 4,
+            "library_id": 2
+        }
+    },
+    {
+        "model": "lms_data.bookauthor",
+        "pk": 1,
+        "fields": {
+            "book_id": 1,
+            "author_id": 1
+        }
+    },
+    {
+        "model": "lms_data.bookauthor",
+        "pk": 2,
+        "fields": {
+            "book_id": 2,
+            "author_id": 2
+        }
+    },
+    {
+        "model": "lms_data.bookcategory",
+        "pk": 1,
+        "fields": {
+            "book_id": 1,
+            "category_id": 1
+        }
+    },
+    {
+        "model": "lms_data.bookcategory",
+        "pk": 2,
+        "fields": {
+            "book_id": 2,
+            "category_id": 2
+        }
+    },
+    {
+        "model": "lms_data.borrowing",
+        "pk": 1,
+        "fields": {
+            "member_id": 1,
+            "book_id": 1,
+            "borrow_date": "2026-03-01",
+            "due_date": "2026-03-15",
+            "return_date": null,
+            "late_fee": null
+        }
+    },
+    {
+        "model": "lms_data.review",
+        "pk": 1,
+        "fields": {
+            "member_id": 1,
+            "book_id": 1,
+            "rating": 5,
+            "comment": "Excellent book!",
+            "review_date": "2026-03-10"
+        }
+    }
+]
