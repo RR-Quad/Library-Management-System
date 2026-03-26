@@ -53,6 +53,32 @@ class TestLibraryAPI(TestCase):
         response = self.client.get("/api/libraries/9999/")
         self.assertEqual(response.status_code, 404)
 
+    def test_partial_update_library(self):
+        response = self.client.patch(f"/api/libraries/{self.library.library_id}/", {
+            "name": "Patched Library"
+        }, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["name"], "Patched Library")
+
+    def test_create_library_missing_email(self):
+        data = {
+            "name": "Science Library",
+            "campus_location": "Science Campus",
+            "phone_number": "+9876543210",
+        }
+        response = self.client.post("/api/libraries/", data, format="json")
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_library_duplicate_email(self):
+        data = {
+            "name": "Another Library",
+            "campus_location": "Another Campus",
+            "contact_email": "library@university.edu",
+            "phone_number": "+9876543210",
+        }
+        response = self.client.post("/api/libraries/", data, format="json")
+        self.assertEqual(response.status_code, 400)
+
 
 class TestAuthorAPI(TestCase):
 
@@ -100,6 +126,19 @@ class TestAuthorAPI(TestCase):
         response = self.client.get("/api/authors/9999/")
         self.assertEqual(response.status_code, 404)
 
+    def test_partial_update_author(self):
+        response = self.client.patch(f"/api/authors/{self.author.author_id}/", {
+            "nationality": "American"
+        }, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["nationality"], "American")
+
+    def test_create_author_missing_first_name(self):
+        response = self.client.post("/api/authors/", {
+            "last_name": "Orwell"
+        }, format="json")
+        self.assertEqual(response.status_code, 400)
+
 
 class TestCategoryAPI(TestCase):
 
@@ -130,6 +169,31 @@ class TestCategoryAPI(TestCase):
     def test_delete_category(self):
         response = self.client.delete(f"/api/categories/{self.category.category_id}/")
         self.assertEqual(response.status_code, 204)
+
+    def test_update_category(self):
+        response = self.client.put(f"/api/categories/{self.category.category_id}/", {
+            "name": "Updated Fantasy",
+            "description": "Updated description",
+        }, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["name"], "Updated Fantasy")
+
+    def test_partial_update_category(self):
+        response = self.client.patch(f"/api/categories/{self.category.category_id}/", {
+            "name": "Patched Fantasy"
+        }, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["name"], "Patched Fantasy")
+
+    def test_retrieve_nonexistent_category(self):
+        response = self.client.get("/api/categories/9999/")
+        self.assertEqual(response.status_code, 404)
+
+    def test_create_duplicate_category(self):
+        response = self.client.post("/api/categories/", {
+            "name": "Fantasy",
+        }, format="json")
+        self.assertEqual(response.status_code, 400)
 
 
 class TestBookAPI(TestCase):

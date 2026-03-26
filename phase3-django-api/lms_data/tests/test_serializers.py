@@ -38,6 +38,17 @@ class TestAuthorSerializer(TestCase):
         self.assertFalse(serializer.is_valid())
         self.assertIn("last_name", serializer.errors)
 
+    def test_optional_nationality(self):
+        data = {"first_name": "John", "last_name": "Doe"}
+        serializer = AuthorSerializer(data=data)
+        self.assertTrue(serializer.is_valid())
+
+    def test_first_name_max_length(self):
+        self.valid_data["first_name"] = "A" * 21
+        serializer = AuthorSerializer(data=self.valid_data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("first_name", serializer.errors)
+
 
 class TestLibrarySerializer(TestCase):
 
@@ -65,6 +76,23 @@ class TestLibrarySerializer(TestCase):
         self.assertFalse(serializer.is_valid())
         self.assertIn("name", serializer.errors)
 
+    def test_missing_campus_location(self):
+        self.valid_data.pop("campus_location")
+        serializer = LibrarySerializer(data=self.valid_data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("campus_location", serializer.errors)
+
+    def test_missing_phone_number(self):
+        self.valid_data.pop("phone_number")
+        serializer = LibrarySerializer(data=self.valid_data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("phone_number", serializer.errors)
+
+    def test_name_max_length(self):
+        self.valid_data["name"] = "A" * 31
+        serializer = LibrarySerializer(data=self.valid_data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("name", serializer.errors)
 
 class TestCategorySerializer(TestCase):
 
@@ -80,6 +108,17 @@ class TestCategorySerializer(TestCase):
 
     def test_missing_name(self):
         self.valid_data.pop("name")
+        serializer = CategorySerializer(data=self.valid_data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("name", serializer.errors)
+
+    def test_optional_description(self):
+        data = {"name": "Horror"}
+        serializer = CategorySerializer(data=data)
+        self.assertTrue(serializer.is_valid())
+
+    def test_name_max_length(self):
+        self.valid_data["name"] = "A" * 31
         serializer = CategorySerializer(data=self.valid_data)
         self.assertFalse(serializer.is_valid())
         self.assertIn("name", serializer.errors)
@@ -120,6 +159,24 @@ class TestBookSerializer(TestCase):
         self.assertFalse(serializer.is_valid())
         self.assertIn("title", serializer.errors)
 
+    def test_missing_isbn(self):
+        self.valid_data.pop("isbn")
+        serializer = BookSerializer(data=self.valid_data, context={"request": self.request})
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("isbn", serializer.errors)
+
+    def test_missing_publication_date(self):
+        self.valid_data.pop("publication_date")
+        serializer = BookSerializer(data=self.valid_data, context={"request": self.request})
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("publication_date", serializer.errors)
+
+    def test_missing_total_copies(self):
+        self.valid_data.pop("total_copies")
+        serializer = BookSerializer(data=self.valid_data, context={"request": self.request})
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("total_copies", serializer.errors)
+
 
 class TestMemberSerializer(TestCase):
 
@@ -147,6 +204,29 @@ class TestMemberSerializer(TestCase):
         serializer = MemberSerializer(data=self.valid_data)
         self.assertFalse(serializer.is_valid())
         self.assertIn("contact_email", serializer.errors)
+
+    def test_missing_first_name(self):
+        self.valid_data.pop("first_name")
+        serializer = MemberSerializer(data=self.valid_data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("first_name", serializer.errors)
+
+    def test_missing_last_name(self):
+        self.valid_data.pop("last_name")
+        serializer = MemberSerializer(data=self.valid_data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("last_name", serializer.errors)
+
+    def test_missing_phone_number(self):
+        self.valid_data.pop("phone_number")
+        serializer = MemberSerializer(data=self.valid_data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("phone_number", serializer.errors)
+
+    def test_faculty_member_type(self):
+        self.valid_data["member_type"] = "faculty"
+        serializer = MemberSerializer(data=self.valid_data)
+        self.assertTrue(serializer.is_valid())
 
 
 class TestReviewSerializer(TestCase):
@@ -197,6 +277,17 @@ class TestReviewSerializer(TestCase):
         self.assertFalse(serializer.is_valid())
         self.assertIn("rating", serializer.errors)
 
+    def test_missing_rating(self):
+        self.valid_data.pop("rating")
+        serializer = ReviewSerializer(data=self.valid_data, context={"request": self.request})
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("rating", serializer.errors)
+
+    def test_optional_comment(self):
+        self.valid_data.pop("comment")
+        serializer = ReviewSerializer(data=self.valid_data, context={"request": self.request})
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+
 
 class TestBorrowingSerializer(TestCase):
 
@@ -245,3 +336,15 @@ class TestBorrowingSerializer(TestCase):
         serializer = BorrowingSerializer(data=self.valid_data, context={"request": self.request})
         self.assertFalse(serializer.is_valid())
         self.assertIn("due_date", serializer.errors)
+
+    def test_missing_member_id(self):
+        self.valid_data.pop("member_id")
+        serializer = BorrowingSerializer(data=self.valid_data, context={"request": self.request})
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("member_id", serializer.errors)
+
+    def test_missing_book_id(self):
+        self.valid_data.pop("book_id")
+        serializer = BorrowingSerializer(data=self.valid_data, context={"request": self.request})
+        self.assertFalse(serializer.is_valid())
+        self.assertIn("book_id", serializer.errors)
