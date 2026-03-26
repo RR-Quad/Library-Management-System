@@ -22,6 +22,10 @@ jobs:
 
       - name: Sync dependencies
         run: uv sync
+      
+      - name: Set environment variables
+        run: |
+          echo "PASS=dummy-secret-key" >> $GITHUB_ENV
 
       - name: Run tests
         run: uv run pytest -v
