@@ -35,7 +35,7 @@ class Library(TimeStampedModel):
     """
     Represents a physical university library location.
     """
-    objects = None
+
     library_id = models.AutoField(
         primary_key=True,
         help_text="Unique identifier for the library."
@@ -86,7 +86,6 @@ class Author(TimeStampedModel):
     Represents a book author.
     """
 
-    objects = None
     author_id = models.AutoField(
         primary_key=True,
         help_text="Unique identifier for the author."
@@ -144,7 +143,6 @@ class Category(TimeStampedModel):
     Represents a book category or genre.
     """
 
-    objects = None
     category_id = models.AutoField(
         primary_key=True,
         help_text="Unique identifier for the category."
@@ -181,7 +179,6 @@ class Book(TimeStampedModel):
     Represents a book available in a library.
     """
 
-    objects = None
     book_id = models.AutoField(
         primary_key=True,
         help_text="Unique identifier for the book."
@@ -267,8 +264,6 @@ class Member(TimeStampedModel):
     Represents a registered library member.
     """
 
-    objects = None
-
     class MemberType(models.TextChoices):
         STUDENT = "student", "Student"
         FACULTY = "faculty", "Faculty"
@@ -306,7 +301,7 @@ class Member(TimeStampedModel):
     )
 
     registration_date = models.DateField(
-        default=timezone.now,
+        default=timezone.now().date,
         help_text="Date the member registered with the library."
     )
 
@@ -356,7 +351,7 @@ class Borrowing(TimeStampedModel):
     )
 
     borrow_date = models.DateField(
-        default=timezone.now,
+        default=timezone.now().date,
         help_text="Date when the book was borrowed."
     )
 
@@ -423,7 +418,6 @@ class Review(TimeStampedModel):
     Represents a member review for a book.
     """
 
-    objects = None
     review_id = models.AutoField(
         primary_key=True,
         help_text="Unique identifier for the review."
@@ -457,7 +451,7 @@ class Review(TimeStampedModel):
     )
 
     review_date = models.DateField(
-        default=timezone.now,
+        default=timezone.now().date,
         help_text="Date the review was submitted."
     )
 
