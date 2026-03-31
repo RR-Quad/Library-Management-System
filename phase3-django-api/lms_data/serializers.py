@@ -55,13 +55,16 @@ class NestedMemberSerializer(serializers.ModelSerializer):
     examples=[
         OpenApiExample(
             "Library Example",
+            summary="Example of a library record",
+            description="Represents a physical university library location.",
             value={
                 "library_id": 1,
-                "name": "Central Library",
-                "campus_location": "Main Campus",
+                "name": "Main Library",
+                "campus_location": "Central Campus",
                 "contact_email": "library@university.edu",
                 "phone_number": "+123456789",
             },
+            response_only=False,
         )
     ]
 )
@@ -77,12 +80,17 @@ class LibrarySerializer(serializers.HyperlinkedModelSerializer):
     examples=[
         OpenApiExample(
             "Author Example",
+            summary="Example of an author record",
+            description="Represents a book author.",
             value={
                 "author_id": 1,
                 "first_name": "J.K.",
                 "last_name": "Rowling",
+                "birth_date": "1965-07-31",
                 "nationality": "British",
-            }
+                "biography": "Author of the Harry Potter series.",
+            },
+            response_only=False,
         )
     ]
 )
@@ -98,11 +106,14 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
     examples=[
         OpenApiExample(
             "Category Example",
+            summary="Example of a category record",
+            description="Represents a book category or genre.",
             value={
                 "category_id": 1,
-                "name": "Fantasy",
-                "description": "Fantasy literature category",
-            }
+                "name": "Literature",
+                "description": "Books related to literary works, novels, and writings.",
+            },
+            response_only=False,
         )
     ]
 )
@@ -118,6 +129,8 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
     examples=[
         OpenApiExample(
             "Book Example",
+            summary="Example of a book record",
+            description="Represents a book available in a library.",
             value={
                 "book_id": 1,
                 "title": "Harry Potter and the Philosopher's Stone",
@@ -125,12 +138,27 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
                 "publication_date": "1997-06-26",
                 "total_copies": 10,
                 "available_copies": 7,
+                "library_id": "http://localhost:8000/api/libraries/1/",
                 "library": {
                     "library_id": 1,
-                    "name": "Central Library",
-                    "campus_location": "Main Campus",
+                    "name": "Main Library",
+                    "campus_location": "Central Campus",
                 },
-            }
+                "authors": [
+                    {
+                        "author_id": 1,
+                        "first_name": "J.K.",
+                        "last_name": "Rowling",
+                    }
+                ],
+                "categories": [
+                    {
+                        "category_id": 1,
+                        "name": "Literature",
+                    }
+                ],
+            },
+            response_only=False,
         )
     ]
 )
@@ -162,13 +190,18 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
     examples=[
         OpenApiExample(
             "Member Example",
+            summary="Example of a member record",
+            description="Represents a registered library member.",
             value={
                 "member_id": 5,
                 "first_name": "John",
                 "last_name": "Doe",
                 "contact_email": "john.doe@email.com",
+                "phone_number": "+1234567890",
                 "member_type": "student",
-            }
+                "registration_date": "2026-01-01",
+            },
+            response_only=False,
         )
     ]
 )
@@ -184,14 +217,27 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     examples=[
         OpenApiExample(
             "Borrowing Example",
+            summary="Example of a borrowing transaction",
+            description="Represents a book borrowing transaction.",
             value={
                 "borrowing_id": 10,
                 "member_name": "John Doe",
+                "member": {
+                    "member_id": 5,
+                    "first_name": "John",
+                    "last_name": "Doe",
+                },
+                "book": {
+                    "book_id": 1,
+                    "title": "Harry Potter and the Philosopher's Stone",
+                    "isbn": "9780747532699",
+                },
                 "borrow_date": "2026-03-10",
                 "due_date": "2026-03-24",
                 "return_date": None,
                 "late_fee": None,
-            }
+            },
+            response_only=False,
         )
     ]
 )
@@ -218,12 +264,17 @@ class BorrowingSerializer(serializers.HyperlinkedModelSerializer):
     examples=[
         OpenApiExample(
             "Review Example",
+            summary="Example of a book review",
+            description="Represents a member review for a book.",
             value={
                 "review_id": 2,
                 "rating": 5,
                 "comment": "Excellent book!",
                 "review_date": "2026-03-11",
-            }
+                "member_id": "http://localhost:8000/api/members/1/",
+                "book_id": "http://localhost:8000/api/books/1/",
+            },
+            response_only=False,
         )
     ]
 )
@@ -244,9 +295,10 @@ class ReviewSerializer(serializers.HyperlinkedModelSerializer):
         OpenApiExample(
             "Borrow Book Request",
             summary="Borrow book request example",
+            description="Provide book_id and member_id to borrow a book.",
             value={
                 "book_id": 1,
-                "member_id": 5
+                "member_id": 5,
             },
             request_only=True,
         )
@@ -279,8 +331,10 @@ class BorrowBookSerializer(serializers.Serializer):
     examples=[
         OpenApiExample(
             "Return Book Request",
+            summary="Return book request example",
+            description="Provide borrowing_id to return a borrowed book.",
             value={
-                "borrowing_id": 10
+                "borrowing_id": 10,
             },
             request_only=True,
         )
@@ -305,10 +359,12 @@ class ReturnBookSerializer(serializers.Serializer):
     examples=[
         OpenApiExample(
             "Book Search Example",
+            summary="Book search request example",
+            description="Search books by library, category, or author name. All fields are optional.",
             value={
                 "library_id": 1,
                 "category_id": 3,
-                "author_name": "J.K. Rowling"
+                "author_name": "J.K. Rowling",
             },
             request_only=True,
         )
@@ -334,14 +390,48 @@ class BookSearchSerializer(serializers.Serializer):
         help_text="Full author name (first and last)."
     )
 
+
+@extend_schema_serializer(
+    examples=[
+        OpenApiExample(
+            "Statistics Example",
+            summary="Library statistics example",
+            description="Aggregated statistics for the entire library system.",
+            value={
+                "total_books": 150,
+                "total_members": 320,
+                "total_borrowings": 540,
+                "books_currently_borrowed": 45,
+                "average_book_rating": 4.2,
+                "total_late_fees_collected": 125.50,
+            },
+            response_only=True,
+        )
+    ]
+)
 class StatisticsSerializer(serializers.Serializer):
 
-    total_books = serializers.IntegerField()
-    total_members = serializers.IntegerField()
-    total_borrowings = serializers.IntegerField()
-    books_currently_borrowed = serializers.IntegerField()
-    average_book_rating = serializers.FloatField(allow_null=True)
-    total_late_fees_collected = serializers.FloatField(allow_null=True)
+    total_books = serializers.IntegerField(
+        help_text="Total number of books in the library system."
+    )
+    total_members = serializers.IntegerField(
+        help_text="Total number of registered members."
+    )
+    total_borrowings = serializers.IntegerField(
+        help_text="Total number of borrowing transactions."
+    )
+    books_currently_borrowed = serializers.IntegerField(
+        help_text="Number of books currently borrowed and not yet returned."
+    )
+    average_book_rating = serializers.FloatField(
+        allow_null=True,
+        help_text="Average rating across all book reviews."
+    )
+    total_late_fees_collected = serializers.FloatField(
+        allow_null=True,
+        help_text="Total late fees collected from overdue borrowings."
+    )
+
 # =========================================================
 # End
 # =========================================================

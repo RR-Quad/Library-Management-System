@@ -1,0 +1,3319 @@
+openapi: 3.0.3
+info:
+  title: Library Management System API
+  version: 1.0.0
+  description: "\nA RESTful API for managing library operations including:\n\n• Library
+    branches  \n• Books, authors, and categories  \n• Member registration and management
+    \ \n• Borrowing and returning books  \n• Book reviews and ratings  \n• Library
+    analytics and statistics  \n\nThis API supports advanced features such as:\n\n•
+    Book search by author, category, and library  \n• Book availability checks  \n•
+    Borrowing history tracking  \n• Recommendation engine for popular and highly rated
+    books  \n• Aggregated statistics for library usage  \n\nAll endpoints return JSON
+    responses and follow RESTful conventions.\n"
+paths:
+  /api/authors/:
+    get:
+      operationId: authors_list
+      description: Retrieve a paginated list of all authors. Supports search and ordering.
+      summary: List Authors
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - authors
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAuthorList'
+              examples:
+                AuthorExample:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - author_id: 1
+                      first_name: J.K.
+                      last_name: Rowling
+                      birth_date: '1965-07-31'
+                      nationality: British
+                      biography: Author of the Harry Potter series.
+                  summary: Example of an author record
+                  description: Represents a book author.
+          description: ''
+    post:
+      operationId: authors_create
+      description: Create a new author record.
+      summary: Create Author
+      tags:
+      - authors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Author'
+            examples:
+              AuthorExample:
+                value:
+                  author_id: 1
+                  first_name: J.K.
+                  last_name: Rowling
+                  birth_date: '1965-07-31'
+                  nationality: British
+                  biography: Author of the Harry Potter series.
+                summary: Example of an author record
+                description: Represents a book author.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+              examples:
+                AuthorExample:
+                  value:
+                    author_id: 1
+                    first_name: J.K.
+                    last_name: Rowling
+                    birth_date: '1965-07-31'
+                    nationality: British
+                    biography: Author of the Harry Potter series.
+                  summary: Example of an author record
+                  description: Represents a book author.
+          description: ''
+  /api/authors/{author_id}/:
+    get:
+      operationId: authors_retrieve
+      description: Retrieve details of a specific author by ID.
+      summary: Retrieve Author
+      parameters:
+      - in: path
+        name: author_id
+        schema:
+          type: integer
+          description: Unique identifier for the author.
+        required: true
+      tags:
+      - authors
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+              examples:
+                AuthorExample:
+                  value:
+                    author_id: 1
+                    first_name: J.K.
+                    last_name: Rowling
+                    birth_date: '1965-07-31'
+                    nationality: British
+                    biography: Author of the Harry Potter series.
+                  summary: Example of an author record
+                  description: Represents a book author.
+          description: ''
+    put:
+      operationId: authors_update
+      description: Fully update an existing author record.
+      summary: Update Author
+      parameters:
+      - in: path
+        name: author_id
+        schema:
+          type: integer
+          description: Unique identifier for the author.
+        required: true
+      tags:
+      - authors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Author'
+            examples:
+              AuthorExample:
+                value:
+                  author_id: 1
+                  first_name: J.K.
+                  last_name: Rowling
+                  birth_date: '1965-07-31'
+                  nationality: British
+                  biography: Author of the Harry Potter series.
+                summary: Example of an author record
+                description: Represents a book author.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+              examples:
+                AuthorExample:
+                  value:
+                    author_id: 1
+                    first_name: J.K.
+                    last_name: Rowling
+                    birth_date: '1965-07-31'
+                    nationality: British
+                    biography: Author of the Harry Potter series.
+                  summary: Example of an author record
+                  description: Represents a book author.
+          description: ''
+    patch:
+      operationId: authors_partial_update
+      description: Partially update an existing author record.
+      summary: Partial Update Author
+      parameters:
+      - in: path
+        name: author_id
+        schema:
+          type: integer
+          description: Unique identifier for the author.
+        required: true
+      tags:
+      - authors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAuthor'
+            examples:
+              AuthorExample:
+                value:
+                  author_id: 1
+                  first_name: J.K.
+                  last_name: Rowling
+                  birth_date: '1965-07-31'
+                  nationality: British
+                  biography: Author of the Harry Potter series.
+                summary: Example of an author record
+                description: Represents a book author.
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+              examples:
+                AuthorExample:
+                  value:
+                    author_id: 1
+                    first_name: J.K.
+                    last_name: Rowling
+                    birth_date: '1965-07-31'
+                    nationality: British
+                    biography: Author of the Harry Potter series.
+                  summary: Example of an author record
+                  description: Represents a book author.
+          description: ''
+    delete:
+      operationId: authors_destroy
+      description: Delete an author record by ID.
+      summary: Delete Author
+      parameters:
+      - in: path
+        name: author_id
+        schema:
+          type: integer
+          description: Unique identifier for the author.
+        required: true
+      tags:
+      - authors
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/books/:
+    get:
+      operationId: books_list
+      description: Retrieve a paginated list of all books. Supports search and ordering.
+      summary: List Books
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - books
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBookList'
+              examples:
+                BookExample:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - book_id: 1
+                      title: Harry Potter and the Philosopher's Stone
+                      isbn: '9780747532699'
+                      publication_date: '1997-06-26'
+                      total_copies: 10
+                      available_copies: 7
+                      library_id: http://localhost:8000/api/libraries/1/
+                      library:
+                        library_id: 1
+                        name: Main Library
+                        campus_location: Central Campus
+                      authors:
+                      - author_id: 1
+                        first_name: J.K.
+                        last_name: Rowling
+                      categories:
+                      - category_id: 1
+                        name: Literature
+                  summary: Example of a book record
+                  description: Represents a book available in a library.
+          description: ''
+    post:
+      operationId: books_create
+      description: Create a new book record.
+      summary: Create Book
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+            examples:
+              BookExample:
+                value:
+                  book_id: 1
+                  title: Harry Potter and the Philosopher's Stone
+                  isbn: '9780747532699'
+                  publication_date: '1997-06-26'
+                  total_copies: 10
+                  available_copies: 7
+                  library_id: http://localhost:8000/api/libraries/1/
+                  library:
+                    library_id: 1
+                    name: Main Library
+                    campus_location: Central Campus
+                  authors:
+                  - author_id: 1
+                    first_name: J.K.
+                    last_name: Rowling
+                  categories:
+                  - category_id: 1
+                    name: Literature
+                summary: Example of a book record
+                description: Represents a book available in a library.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+              examples:
+                BookExample:
+                  value:
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                    publication_date: '1997-06-26'
+                    total_copies: 10
+                    available_copies: 7
+                    library_id: http://localhost:8000/api/libraries/1/
+                    library:
+                      library_id: 1
+                      name: Main Library
+                      campus_location: Central Campus
+                    authors:
+                    - author_id: 1
+                      first_name: J.K.
+                      last_name: Rowling
+                    categories:
+                    - category_id: 1
+                      name: Literature
+                  summary: Example of a book record
+                  description: Represents a book available in a library.
+          description: ''
+  /api/books/{book_id}/:
+    get:
+      operationId: books_retrieve
+      description: Retrieve details of a specific book by ID.
+      summary: Retrieve Book
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+          description: Unique identifier for the book.
+        required: true
+      tags:
+      - books
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+              examples:
+                BookExample:
+                  value:
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                    publication_date: '1997-06-26'
+                    total_copies: 10
+                    available_copies: 7
+                    library_id: http://localhost:8000/api/libraries/1/
+                    library:
+                      library_id: 1
+                      name: Main Library
+                      campus_location: Central Campus
+                    authors:
+                    - author_id: 1
+                      first_name: J.K.
+                      last_name: Rowling
+                    categories:
+                    - category_id: 1
+                      name: Literature
+                  summary: Example of a book record
+                  description: Represents a book available in a library.
+          description: ''
+    put:
+      operationId: books_update
+      description: Fully update an existing book record.
+      summary: Update Book
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+          description: Unique identifier for the book.
+        required: true
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+            examples:
+              BookExample:
+                value:
+                  book_id: 1
+                  title: Harry Potter and the Philosopher's Stone
+                  isbn: '9780747532699'
+                  publication_date: '1997-06-26'
+                  total_copies: 10
+                  available_copies: 7
+                  library_id: http://localhost:8000/api/libraries/1/
+                  library:
+                    library_id: 1
+                    name: Main Library
+                    campus_location: Central Campus
+                  authors:
+                  - author_id: 1
+                    first_name: J.K.
+                    last_name: Rowling
+                  categories:
+                  - category_id: 1
+                    name: Literature
+                summary: Example of a book record
+                description: Represents a book available in a library.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+              examples:
+                BookExample:
+                  value:
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                    publication_date: '1997-06-26'
+                    total_copies: 10
+                    available_copies: 7
+                    library_id: http://localhost:8000/api/libraries/1/
+                    library:
+                      library_id: 1
+                      name: Main Library
+                      campus_location: Central Campus
+                    authors:
+                    - author_id: 1
+                      first_name: J.K.
+                      last_name: Rowling
+                    categories:
+                    - category_id: 1
+                      name: Literature
+                  summary: Example of a book record
+                  description: Represents a book available in a library.
+          description: ''
+    patch:
+      operationId: books_partial_update
+      description: Partially update an existing book record.
+      summary: Partial Update Book
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+          description: Unique identifier for the book.
+        required: true
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBook'
+            examples:
+              BookExample:
+                value:
+                  book_id: 1
+                  title: Harry Potter and the Philosopher's Stone
+                  isbn: '9780747532699'
+                  publication_date: '1997-06-26'
+                  total_copies: 10
+                  available_copies: 7
+                  library_id: http://localhost:8000/api/libraries/1/
+                  library:
+                    library_id: 1
+                    name: Main Library
+                    campus_location: Central Campus
+                  authors:
+                  - author_id: 1
+                    first_name: J.K.
+                    last_name: Rowling
+                  categories:
+                  - category_id: 1
+                    name: Literature
+                summary: Example of a book record
+                description: Represents a book available in a library.
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+              examples:
+                BookExample:
+                  value:
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                    publication_date: '1997-06-26'
+                    total_copies: 10
+                    available_copies: 7
+                    library_id: http://localhost:8000/api/libraries/1/
+                    library:
+                      library_id: 1
+                      name: Main Library
+                      campus_location: Central Campus
+                    authors:
+                    - author_id: 1
+                      first_name: J.K.
+                      last_name: Rowling
+                    categories:
+                    - category_id: 1
+                      name: Literature
+                  summary: Example of a book record
+                  description: Represents a book available in a library.
+          description: ''
+    delete:
+      operationId: books_destroy
+      description: Delete a book record by ID.
+      summary: Delete Book
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+          description: Unique identifier for the book.
+        required: true
+      tags:
+      - books
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/books/{book_id}/availability/:
+    get:
+      operationId: books_availability_retrieve
+      description: Check the availability status of a specific book by ID.
+      summary: Check Book Availability
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+          description: Unique identifier for the book.
+        required: true
+      tags:
+      - books
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Availability status
+        '404':
+          description: Book not found
+  /api/books/borrow/:
+    post:
+      operationId: books_borrow_create
+      description: Allows a member to borrow a book if copies are available.
+      summary: Borrow a Book
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BorrowBook'
+            examples:
+              BorrowBookRequest:
+                value:
+                  book_id: 1
+                  member_id: 5
+                summary: Borrow book request example
+                description: Provide book_id and member_id to borrow a book.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Borrowing'
+              examples:
+                BorrowingExample:
+                  value:
+                    borrowing_id: 10
+                    member_name: John Doe
+                    member:
+                      member_id: 5
+                      first_name: John
+                      last_name: Doe
+                    book:
+                      book_id: 1
+                      title: Harry Potter and the Philosopher's Stone
+                      isbn: '9780747532699'
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
+                    return_date: null
+                    late_fee: null
+                  summary: Example of a borrowing transaction
+                  description: Represents a book borrowing transaction.
+          description: ''
+        '400':
+          description: Book unavailable or invalid request
+  /api/books/recommendations/:
+    get:
+      operationId: books_recommendations_retrieve
+      description: Returns top 5 most borrowed books and top 5 highest rated books.
+      summary: Book Recommendations
+      tags:
+      - books
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Most borrowed and top rated books
+  /api/books/return/:
+    post:
+      operationId: books_return_create
+      description: Allows a member to return a borrowed book. Calculates late fee
+        if overdue.
+      summary: Return a Book
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReturnBook'
+            examples:
+              ReturnBookRequest:
+                value:
+                  borrowing_id: 10
+                summary: Return book request example
+                description: Provide borrowing_id to return a borrowed book.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Borrowing'
+              examples:
+                BorrowingExample:
+                  value:
+                    borrowing_id: 10
+                    member_name: John Doe
+                    member:
+                      member_id: 5
+                      first_name: John
+                      last_name: Doe
+                    book:
+                      book_id: 1
+                      title: Harry Potter and the Philosopher's Stone
+                      isbn: '9780747532699'
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
+                    return_date: null
+                    late_fee: null
+                  summary: Example of a borrowing transaction
+                  description: Represents a book borrowing transaction.
+          description: ''
+        '400':
+          description: Book already returned or invalid request
+  /api/books/search/:
+    post:
+      operationId: books_search_create
+      description: Search books by library, category or author name.
+      summary: Search Books
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookSearch'
+            examples:
+              BookSearchExample:
+                value:
+                  library_id: 1
+                  category_id: 3
+                  author_name: J.K. Rowling
+                summary: Book search request example
+                description: Search books by library, category, or author name. All
+                  fields are optional.
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBookList'
+              examples:
+                BookExample:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - book_id: 1
+                      title: Harry Potter and the Philosopher's Stone
+                      isbn: '9780747532699'
+                      publication_date: '1997-06-26'
+                      total_copies: 10
+                      available_copies: 7
+                      library_id: http://localhost:8000/api/libraries/1/
+                      library:
+                        library_id: 1
+                        name: Main Library
+                        campus_location: Central Campus
+                      authors:
+                      - author_id: 1
+                        first_name: J.K.
+                        last_name: Rowling
+                      categories:
+                      - category_id: 1
+                        name: Literature
+                  summary: Example of a book record
+                  description: Represents a book available in a library.
+          description: ''
+        '400':
+          description: Invalid search parameters
+  /api/borrowings/:
+    get:
+      operationId: borrowings_list
+      description: Retrieve a paginated list of all borrowing transactions.
+      summary: List Borrowings
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - borrowings
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBorrowingList'
+              examples:
+                BorrowingExample:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - borrowing_id: 10
+                      member_name: John Doe
+                      member:
+                        member_id: 5
+                        first_name: John
+                        last_name: Doe
+                      book:
+                        book_id: 1
+                        title: Harry Potter and the Philosopher's Stone
+                        isbn: '9780747532699'
+                      borrow_date: '2026-03-10'
+                      due_date: '2026-03-24'
+                      return_date: null
+                      late_fee: null
+                  summary: Example of a borrowing transaction
+                  description: Represents a book borrowing transaction.
+          description: ''
+    post:
+      operationId: borrowings_create
+      description: Create a new borrowing transaction directly.
+      summary: Create Borrowing
+      tags:
+      - borrowings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Borrowing'
+            examples:
+              BorrowingExample:
+                value:
+                  borrowing_id: 10
+                  member_name: John Doe
+                  member:
+                    member_id: 5
+                    first_name: John
+                    last_name: Doe
+                  book:
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                  borrow_date: '2026-03-10'
+                  due_date: '2026-03-24'
+                  return_date: null
+                  late_fee: null
+                summary: Example of a borrowing transaction
+                description: Represents a book borrowing transaction.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Borrowing'
+              examples:
+                BorrowingExample:
+                  value:
+                    borrowing_id: 10
+                    member_name: John Doe
+                    member:
+                      member_id: 5
+                      first_name: John
+                      last_name: Doe
+                    book:
+                      book_id: 1
+                      title: Harry Potter and the Philosopher's Stone
+                      isbn: '9780747532699'
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
+                    return_date: null
+                    late_fee: null
+                  summary: Example of a borrowing transaction
+                  description: Represents a book borrowing transaction.
+          description: ''
+  /api/borrowings/{borrowing_id}/:
+    get:
+      operationId: borrowings_retrieve
+      description: Retrieve details of a specific borrowing transaction by ID.
+      summary: Retrieve Borrowing
+      parameters:
+      - in: path
+        name: borrowing_id
+        schema:
+          type: integer
+          description: Unique identifier for the borrowing transaction.
+        required: true
+      tags:
+      - borrowings
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Borrowing'
+              examples:
+                BorrowingExample:
+                  value:
+                    borrowing_id: 10
+                    member_name: John Doe
+                    member:
+                      member_id: 5
+                      first_name: John
+                      last_name: Doe
+                    book:
+                      book_id: 1
+                      title: Harry Potter and the Philosopher's Stone
+                      isbn: '9780747532699'
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
+                    return_date: null
+                    late_fee: null
+                  summary: Example of a borrowing transaction
+                  description: Represents a book borrowing transaction.
+          description: ''
+    put:
+      operationId: borrowings_update
+      description: Fully update an existing borrowing transaction.
+      summary: Update Borrowing
+      parameters:
+      - in: path
+        name: borrowing_id
+        schema:
+          type: integer
+          description: Unique identifier for the borrowing transaction.
+        required: true
+      tags:
+      - borrowings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Borrowing'
+            examples:
+              BorrowingExample:
+                value:
+                  borrowing_id: 10
+                  member_name: John Doe
+                  member:
+                    member_id: 5
+                    first_name: John
+                    last_name: Doe
+                  book:
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                  borrow_date: '2026-03-10'
+                  due_date: '2026-03-24'
+                  return_date: null
+                  late_fee: null
+                summary: Example of a borrowing transaction
+                description: Represents a book borrowing transaction.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Borrowing'
+              examples:
+                BorrowingExample:
+                  value:
+                    borrowing_id: 10
+                    member_name: John Doe
+                    member:
+                      member_id: 5
+                      first_name: John
+                      last_name: Doe
+                    book:
+                      book_id: 1
+                      title: Harry Potter and the Philosopher's Stone
+                      isbn: '9780747532699'
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
+                    return_date: null
+                    late_fee: null
+                  summary: Example of a borrowing transaction
+                  description: Represents a book borrowing transaction.
+          description: ''
+    patch:
+      operationId: borrowings_partial_update
+      description: Partially update an existing borrowing transaction.
+      summary: Partial Update Borrowing
+      parameters:
+      - in: path
+        name: borrowing_id
+        schema:
+          type: integer
+          description: Unique identifier for the borrowing transaction.
+        required: true
+      tags:
+      - borrowings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBorrowing'
+            examples:
+              BorrowingExample:
+                value:
+                  borrowing_id: 10
+                  member_name: John Doe
+                  member:
+                    member_id: 5
+                    first_name: John
+                    last_name: Doe
+                  book:
+                    book_id: 1
+                    title: Harry Potter and the Philosopher's Stone
+                    isbn: '9780747532699'
+                  borrow_date: '2026-03-10'
+                  due_date: '2026-03-24'
+                  return_date: null
+                  late_fee: null
+                summary: Example of a borrowing transaction
+                description: Represents a book borrowing transaction.
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Borrowing'
+              examples:
+                BorrowingExample:
+                  value:
+                    borrowing_id: 10
+                    member_name: John Doe
+                    member:
+                      member_id: 5
+                      first_name: John
+                      last_name: Doe
+                    book:
+                      book_id: 1
+                      title: Harry Potter and the Philosopher's Stone
+                      isbn: '9780747532699'
+                    borrow_date: '2026-03-10'
+                    due_date: '2026-03-24'
+                    return_date: null
+                    late_fee: null
+                  summary: Example of a borrowing transaction
+                  description: Represents a book borrowing transaction.
+          description: ''
+    delete:
+      operationId: borrowings_destroy
+      description: Delete a borrowing transaction by ID.
+      summary: Delete Borrowing
+      parameters:
+      - in: path
+        name: borrowing_id
+        schema:
+          type: integer
+          description: Unique identifier for the borrowing transaction.
+        required: true
+      tags:
+      - borrowings
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/categories/:
+    get:
+      operationId: categories_list
+      description: Retrieve a paginated list of all categories. Supports search and
+        ordering.
+      summary: List Categories
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - categories
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCategoryList'
+              examples:
+                CategoryExample:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - category_id: 1
+                      name: Literature
+                      description: Books related to literary works, novels, and writings.
+                  summary: Example of a category record
+                  description: Represents a book category or genre.
+          description: ''
+    post:
+      operationId: categories_create
+      description: Create a new category record.
+      summary: Create Category
+      tags:
+      - categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+            examples:
+              CategoryExample:
+                value:
+                  category_id: 1
+                  name: Literature
+                  description: Books related to literary works, novels, and writings.
+                summary: Example of a category record
+                description: Represents a book category or genre.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+              examples:
+                CategoryExample:
+                  value:
+                    category_id: 1
+                    name: Literature
+                    description: Books related to literary works, novels, and writings.
+                  summary: Example of a category record
+                  description: Represents a book category or genre.
+          description: ''
+  /api/categories/{category_id}/:
+    get:
+      operationId: categories_retrieve
+      description: Retrieve details of a specific category by ID.
+      summary: Retrieve Category
+      parameters:
+      - in: path
+        name: category_id
+        schema:
+          type: integer
+          description: Unique identifier for the category.
+        required: true
+      tags:
+      - categories
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+              examples:
+                CategoryExample:
+                  value:
+                    category_id: 1
+                    name: Literature
+                    description: Books related to literary works, novels, and writings.
+                  summary: Example of a category record
+                  description: Represents a book category or genre.
+          description: ''
+    put:
+      operationId: categories_update
+      description: Fully update an existing category record.
+      summary: Update Category
+      parameters:
+      - in: path
+        name: category_id
+        schema:
+          type: integer
+          description: Unique identifier for the category.
+        required: true
+      tags:
+      - categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+            examples:
+              CategoryExample:
+                value:
+                  category_id: 1
+                  name: Literature
+                  description: Books related to literary works, novels, and writings.
+                summary: Example of a category record
+                description: Represents a book category or genre.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+              examples:
+                CategoryExample:
+                  value:
+                    category_id: 1
+                    name: Literature
+                    description: Books related to literary works, novels, and writings.
+                  summary: Example of a category record
+                  description: Represents a book category or genre.
+          description: ''
+    patch:
+      operationId: categories_partial_update
+      description: Partially update an existing category record.
+      summary: Partial Update Category
+      parameters:
+      - in: path
+        name: category_id
+        schema:
+          type: integer
+          description: Unique identifier for the category.
+        required: true
+      tags:
+      - categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCategory'
+            examples:
+              CategoryExample:
+                value:
+                  category_id: 1
+                  name: Literature
+                  description: Books related to literary works, novels, and writings.
+                summary: Example of a category record
+                description: Represents a book category or genre.
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+              examples:
+                CategoryExample:
+                  value:
+                    category_id: 1
+                    name: Literature
+                    description: Books related to literary works, novels, and writings.
+                  summary: Example of a category record
+                  description: Represents a book category or genre.
+          description: ''
+    delete:
+      operationId: categories_destroy
+      description: Delete a category record by ID.
+      summary: Delete Category
+      parameters:
+      - in: path
+        name: category_id
+        schema:
+          type: integer
+          description: Unique identifier for the category.
+        required: true
+      tags:
+      - categories
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/libraries/:
+    get:
+      operationId: libraries_list
+      description: Retrieve a paginated list of all libraries. Supports search and
+        ordering.
+      summary: List Libraries
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - libraries
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLibraryList'
+              examples:
+                LibraryExample:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - library_id: 1
+                      name: Main Library
+                      campus_location: Central Campus
+                      contact_email: library@university.edu
+                      phone_number: '+123456789'
+                  summary: Example of a library record
+                  description: Represents a physical university library location.
+          description: ''
+    post:
+      operationId: libraries_create
+      description: Create a new library record.
+      summary: Create Library
+      tags:
+      - libraries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Library'
+            examples:
+              LibraryExample:
+                value:
+                  library_id: 1
+                  name: Main Library
+                  campus_location: Central Campus
+                  contact_email: library@university.edu
+                  phone_number: '+123456789'
+                summary: Example of a library record
+                description: Represents a physical university library location.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Library'
+              examples:
+                LibraryExample:
+                  value:
+                    library_id: 1
+                    name: Main Library
+                    campus_location: Central Campus
+                    contact_email: library@university.edu
+                    phone_number: '+123456789'
+                  summary: Example of a library record
+                  description: Represents a physical university library location.
+          description: ''
+  /api/libraries/{library_id}/:
+    get:
+      operationId: libraries_retrieve
+      description: Retrieve details of a specific library by ID.
+      summary: Retrieve Library
+      parameters:
+      - in: path
+        name: library_id
+        schema:
+          type: integer
+          description: Unique identifier for the library.
+        required: true
+      tags:
+      - libraries
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Library'
+              examples:
+                LibraryExample:
+                  value:
+                    library_id: 1
+                    name: Main Library
+                    campus_location: Central Campus
+                    contact_email: library@university.edu
+                    phone_number: '+123456789'
+                  summary: Example of a library record
+                  description: Represents a physical university library location.
+          description: ''
+    put:
+      operationId: libraries_update
+      description: Fully update an existing library record.
+      summary: Update Library
+      parameters:
+      - in: path
+        name: library_id
+        schema:
+          type: integer
+          description: Unique identifier for the library.
+        required: true
+      tags:
+      - libraries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Library'
+            examples:
+              LibraryExample:
+                value:
+                  library_id: 1
+                  name: Main Library
+                  campus_location: Central Campus
+                  contact_email: library@university.edu
+                  phone_number: '+123456789'
+                summary: Example of a library record
+                description: Represents a physical university library location.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Library'
+              examples:
+                LibraryExample:
+                  value:
+                    library_id: 1
+                    name: Main Library
+                    campus_location: Central Campus
+                    contact_email: library@university.edu
+                    phone_number: '+123456789'
+                  summary: Example of a library record
+                  description: Represents a physical university library location.
+          description: ''
+    patch:
+      operationId: libraries_partial_update
+      description: Partially update an existing library record.
+      summary: Partial Update Library
+      parameters:
+      - in: path
+        name: library_id
+        schema:
+          type: integer
+          description: Unique identifier for the library.
+        required: true
+      tags:
+      - libraries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLibrary'
+            examples:
+              LibraryExample:
+                value:
+                  library_id: 1
+                  name: Main Library
+                  campus_location: Central Campus
+                  contact_email: library@university.edu
+                  phone_number: '+123456789'
+                summary: Example of a library record
+                description: Represents a physical university library location.
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Library'
+              examples:
+                LibraryExample:
+                  value:
+                    library_id: 1
+                    name: Main Library
+                    campus_location: Central Campus
+                    contact_email: library@university.edu
+                    phone_number: '+123456789'
+                  summary: Example of a library record
+                  description: Represents a physical university library location.
+          description: ''
+    delete:
+      operationId: libraries_destroy
+      description: Delete a library record by ID.
+      summary: Delete Library
+      parameters:
+      - in: path
+        name: library_id
+        schema:
+          type: integer
+          description: Unique identifier for the library.
+        required: true
+      tags:
+      - libraries
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/members/:
+    get:
+      operationId: members_list
+      description: Retrieve a paginated list of all members. Supports search and ordering.
+      summary: List Members
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - members
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMemberList'
+              examples:
+                MemberExample:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - member_id: 5
+                      first_name: John
+                      last_name: Doe
+                      contact_email: john.doe@email.com
+                      phone_number: '+1234567890'
+                      member_type: student
+                      registration_date: '2026-01-01'
+                  summary: Example of a member record
+                  description: Represents a registered library member.
+          description: ''
+    post:
+      operationId: members_create
+      description: Register a new library member.
+      summary: Create Member
+      tags:
+      - members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Member'
+            examples:
+              MemberExample:
+                value:
+                  member_id: 5
+                  first_name: John
+                  last_name: Doe
+                  contact_email: john.doe@email.com
+                  phone_number: '+1234567890'
+                  member_type: student
+                  registration_date: '2026-01-01'
+                summary: Example of a member record
+                description: Represents a registered library member.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
+              examples:
+                MemberExample:
+                  value:
+                    member_id: 5
+                    first_name: John
+                    last_name: Doe
+                    contact_email: john.doe@email.com
+                    phone_number: '+1234567890'
+                    member_type: student
+                    registration_date: '2026-01-01'
+                  summary: Example of a member record
+                  description: Represents a registered library member.
+          description: ''
+  /api/members/{member_id}/:
+    get:
+      operationId: members_retrieve
+      description: Retrieve details of a specific member by ID.
+      summary: Retrieve Member
+      parameters:
+      - in: path
+        name: member_id
+        schema:
+          type: integer
+          description: Unique identifier for the member.
+        required: true
+      tags:
+      - members
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
+              examples:
+                MemberExample:
+                  value:
+                    member_id: 5
+                    first_name: John
+                    last_name: Doe
+                    contact_email: john.doe@email.com
+                    phone_number: '+1234567890'
+                    member_type: student
+                    registration_date: '2026-01-01'
+                  summary: Example of a member record
+                  description: Represents a registered library member.
+          description: ''
+    put:
+      operationId: members_update
+      description: Fully update an existing member record.
+      summary: Update Member
+      parameters:
+      - in: path
+        name: member_id
+        schema:
+          type: integer
+          description: Unique identifier for the member.
+        required: true
+      tags:
+      - members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Member'
+            examples:
+              MemberExample:
+                value:
+                  member_id: 5
+                  first_name: John
+                  last_name: Doe
+                  contact_email: john.doe@email.com
+                  phone_number: '+1234567890'
+                  member_type: student
+                  registration_date: '2026-01-01'
+                summary: Example of a member record
+                description: Represents a registered library member.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
+              examples:
+                MemberExample:
+                  value:
+                    member_id: 5
+                    first_name: John
+                    last_name: Doe
+                    contact_email: john.doe@email.com
+                    phone_number: '+1234567890'
+                    member_type: student
+                    registration_date: '2026-01-01'
+                  summary: Example of a member record
+                  description: Represents a registered library member.
+          description: ''
+    patch:
+      operationId: members_partial_update
+      description: Partially update an existing member record.
+      summary: Partial Update Member
+      parameters:
+      - in: path
+        name: member_id
+        schema:
+          type: integer
+          description: Unique identifier for the member.
+        required: true
+      tags:
+      - members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMember'
+            examples:
+              MemberExample:
+                value:
+                  member_id: 5
+                  first_name: John
+                  last_name: Doe
+                  contact_email: john.doe@email.com
+                  phone_number: '+1234567890'
+                  member_type: student
+                  registration_date: '2026-01-01'
+                summary: Example of a member record
+                description: Represents a registered library member.
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Member'
+              examples:
+                MemberExample:
+                  value:
+                    member_id: 5
+                    first_name: John
+                    last_name: Doe
+                    contact_email: john.doe@email.com
+                    phone_number: '+1234567890'
+                    member_type: student
+                    registration_date: '2026-01-01'
+                  summary: Example of a member record
+                  description: Represents a registered library member.
+          description: ''
+    delete:
+      operationId: members_destroy
+      description: Delete a member record by ID.
+      summary: Delete Member
+      parameters:
+      - in: path
+        name: member_id
+        schema:
+          type: integer
+          description: Unique identifier for the member.
+        required: true
+      tags:
+      - members
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/members/{member_id}/borrowings/:
+    get:
+      operationId: members_borrowings_list
+      description: Retrieve the full borrowing history of a specific member.
+      summary: Member Borrowing History
+      parameters:
+      - in: path
+        name: member_id
+        schema:
+          type: integer
+          description: Unique identifier for the member.
+        required: true
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - members
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBorrowingList'
+              examples:
+                BorrowingExample:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - borrowing_id: 10
+                      member_name: John Doe
+                      member:
+                        member_id: 5
+                        first_name: John
+                        last_name: Doe
+                      book:
+                        book_id: 1
+                        title: Harry Potter and the Philosopher's Stone
+                        isbn: '9780747532699'
+                      borrow_date: '2026-03-10'
+                      due_date: '2026-03-24'
+                      return_date: null
+                      late_fee: null
+                  summary: Example of a borrowing transaction
+                  description: Represents a book borrowing transaction.
+          description: ''
+        '404':
+          description: Member not found
+  /api/reviews/:
+    get:
+      operationId: reviews_list
+      description: Retrieve a paginated list of all book reviews.
+      summary: List Reviews
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - reviews
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReviewList'
+              examples:
+                ReviewExample:
+                  value:
+                    count: 123
+                    next: http://api.example.org/accounts/?page=4
+                    previous: http://api.example.org/accounts/?page=2
+                    results:
+                    - review_id: 2
+                      rating: 5
+                      comment: Excellent book!
+                      review_date: '2026-03-11'
+                      member_id: http://localhost:8000/api/members/1/
+                      book_id: http://localhost:8000/api/books/1/
+                  summary: Example of a book review
+                  description: Represents a member review for a book.
+          description: ''
+    post:
+      operationId: reviews_create
+      description: Submit a new book review.
+      summary: Create Review
+      tags:
+      - reviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+            examples:
+              ReviewExample:
+                value:
+                  review_id: 2
+                  rating: 5
+                  comment: Excellent book!
+                  review_date: '2026-03-11'
+                  member_id: http://localhost:8000/api/members/1/
+                  book_id: http://localhost:8000/api/books/1/
+                summary: Example of a book review
+                description: Represents a member review for a book.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+              examples:
+                ReviewExample:
+                  value:
+                    review_id: 2
+                    rating: 5
+                    comment: Excellent book!
+                    review_date: '2026-03-11'
+                    member_id: http://localhost:8000/api/members/1/
+                    book_id: http://localhost:8000/api/books/1/
+                  summary: Example of a book review
+                  description: Represents a member review for a book.
+          description: ''
+  /api/reviews/{review_id}/:
+    get:
+      operationId: reviews_retrieve
+      description: Retrieve details of a specific review by ID.
+      summary: Retrieve Review
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: integer
+          description: Unique identifier for the review.
+        required: true
+      tags:
+      - reviews
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+              examples:
+                ReviewExample:
+                  value:
+                    review_id: 2
+                    rating: 5
+                    comment: Excellent book!
+                    review_date: '2026-03-11'
+                    member_id: http://localhost:8000/api/members/1/
+                    book_id: http://localhost:8000/api/books/1/
+                  summary: Example of a book review
+                  description: Represents a member review for a book.
+          description: ''
+    put:
+      operationId: reviews_update
+      description: Fully update an existing review.
+      summary: Update Review
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: integer
+          description: Unique identifier for the review.
+        required: true
+      tags:
+      - reviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+            examples:
+              ReviewExample:
+                value:
+                  review_id: 2
+                  rating: 5
+                  comment: Excellent book!
+                  review_date: '2026-03-11'
+                  member_id: http://localhost:8000/api/members/1/
+                  book_id: http://localhost:8000/api/books/1/
+                summary: Example of a book review
+                description: Represents a member review for a book.
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+              examples:
+                ReviewExample:
+                  value:
+                    review_id: 2
+                    rating: 5
+                    comment: Excellent book!
+                    review_date: '2026-03-11'
+                    member_id: http://localhost:8000/api/members/1/
+                    book_id: http://localhost:8000/api/books/1/
+                  summary: Example of a book review
+                  description: Represents a member review for a book.
+          description: ''
+    patch:
+      operationId: reviews_partial_update
+      description: Partially update an existing review.
+      summary: Partial Update Review
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: integer
+          description: Unique identifier for the review.
+        required: true
+      tags:
+      - reviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedReview'
+            examples:
+              ReviewExample:
+                value:
+                  review_id: 2
+                  rating: 5
+                  comment: Excellent book!
+                  review_date: '2026-03-11'
+                  member_id: http://localhost:8000/api/members/1/
+                  book_id: http://localhost:8000/api/books/1/
+                summary: Example of a book review
+                description: Represents a member review for a book.
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+              examples:
+                ReviewExample:
+                  value:
+                    review_id: 2
+                    rating: 5
+                    comment: Excellent book!
+                    review_date: '2026-03-11'
+                    member_id: http://localhost:8000/api/members/1/
+                    book_id: http://localhost:8000/api/books/1/
+                  summary: Example of a book review
+                  description: Represents a member review for a book.
+          description: ''
+    delete:
+      operationId: reviews_destroy
+      description: Delete a review by ID.
+      summary: Delete Review
+      parameters:
+      - in: path
+        name: review_id
+        schema:
+          type: integer
+          description: Unique identifier for the review.
+        required: true
+      tags:
+      - reviews
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/statistics/:
+    get:
+      operationId: statistics_retrieve
+      description: Retrieve aggregated statistics for the library system including
+        total books, members, borrowings, currently borrowed books, average book rating,
+        and total late fees collected.
+      summary: System Statistics
+      tags:
+      - statistics
+      security:
+      - cookieAuth: []
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statistics'
+              examples:
+                StatisticsExample:
+                  value:
+                    total_books: 150
+                    total_members: 320
+                    total_borrowings: 540
+                    books_currently_borrowed: 45
+                    average_book_rating: 4.2
+                    total_late_fees_collected: 125.5
+                  summary: Library statistics example
+                  description: Aggregated statistics for the entire library system.
+          description: ''
+        '500':
+          description: Internal server error
+  /api/token/:
+    post:
+      operationId: token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        first_name:
+          type: string
+          description: Author's first name.
+          maxLength: 20
+        last_name:
+          type: string
+          description: Author's last name.
+          maxLength: 20
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+          description: Author's date of birth.
+        nationality:
+          type: string
+          nullable: true
+          description: Author's nationality.
+          maxLength: 20
+        biography:
+          type: string
+          nullable: true
+          description: Short biography of the author.
+      required:
+      - created_at
+      - first_name
+      - last_name
+      - updated_at
+      - url
+    Book:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        library:
+          allOf:
+          - $ref: '#/components/schemas/NestedLibrary'
+          readOnly: true
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedAuthor'
+          readOnly: true
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedCategory'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        title:
+          type: string
+          description: Title of the book.
+          maxLength: 50
+        isbn:
+          type: string
+          description: International Standard Book Number.
+          maxLength: 15
+        publication_date:
+          type: string
+          format: date
+          description: Date the book was originally published.
+        total_copies:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Total number of copies owned by the library.
+        available_copies:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Number of copies currently available for borrowing.
+        library_id:
+          type: string
+          format: uri
+          description: Library where this book is located.
+      required:
+      - authors
+      - available_copies
+      - categories
+      - created_at
+      - isbn
+      - library
+      - library_id
+      - publication_date
+      - title
+      - total_copies
+      - updated_at
+      - url
+    BookSearch:
+      type: object
+      properties:
+        library_id:
+          type: integer
+          nullable: true
+          description: Filter books by library ID.
+        category_id:
+          type: integer
+          nullable: true
+          description: Filter books by category ID.
+        author_name:
+          type: string
+          description: Full author name (first and last).
+    BorrowBook:
+      type: object
+      properties:
+        book_id:
+          type: integer
+          description: ID of the book to be borrowed.
+        member_id:
+          type: integer
+          description: ID of the member borrowing the book.
+      required:
+      - book_id
+      - member_id
+    Borrowing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        book:
+          allOf:
+          - $ref: '#/components/schemas/Book'
+          readOnly: true
+        member:
+          allOf:
+          - $ref: '#/components/schemas/NestedMember'
+          readOnly: true
+        member_name:
+          type: string
+          readOnly: true
+          description: Full name of the member who borrowed the book.
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        borrow_date:
+          type: string
+          format: date
+          description: Date when the book was borrowed.
+        due_date:
+          type: string
+          format: date
+          description: Date by which the book must be returned.
+        return_date:
+          type: string
+          format: date
+          nullable: true
+          description: Actual return date of the book.
+        late_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          nullable: true
+          description: Late fee charged if returned after due date.
+        member_id:
+          type: string
+          format: uri
+          description: Member who borrowed the book.
+        book_id:
+          type: string
+          format: uri
+          description: Book that was borrowed.
+      required:
+      - book
+      - book_id
+      - created_at
+      - due_date
+      - member
+      - member_id
+      - member_name
+      - updated_at
+      - url
+    Category:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        name:
+          type: string
+          description: Category or genre name.
+          maxLength: 30
+        description:
+          type: string
+          nullable: true
+          description: Optional description of the category.
+      required:
+      - created_at
+      - name
+      - updated_at
+      - url
+    Library:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        name:
+          type: string
+          description: Name of the library.
+          maxLength: 30
+        campus_location:
+          type: string
+          description: Campus location where the library is situated.
+          maxLength: 30
+        contact_email:
+          type: string
+          format: email
+          description: Official contact email for the library.
+          maxLength: 254
+        phone_number:
+          type: string
+          description: Contact phone number for the library.
+          maxLength: 15
+      required:
+      - campus_location
+      - contact_email
+      - created_at
+      - name
+      - phone_number
+      - updated_at
+      - url
+    Member:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        first_name:
+          type: string
+          description: Member's first name.
+          maxLength: 20
+        last_name:
+          type: string
+          description: Member's last name.
+          maxLength: 20
+        contact_email:
+          type: string
+          format: email
+          description: Member email address.
+          maxLength: 254
+        phone_number:
+          type: string
+          description: Member contact phone number.
+          maxLength: 15
+        member_type:
+          allOf:
+          - $ref: '#/components/schemas/MemberTypeEnum'
+          description: |-
+            Type of member (Student or Faculty).
+
+            * `student` - Student
+            * `faculty` - Faculty
+        registration_date:
+          type: string
+          format: date
+          description: Date the member registered with the library.
+      required:
+      - contact_email
+      - created_at
+      - first_name
+      - last_name
+      - member_type
+      - phone_number
+      - updated_at
+      - url
+    MemberTypeEnum:
+      enum:
+      - student
+      - faculty
+      type: string
+      description: |-
+        * `student` - Student
+        * `faculty` - Faculty
+    NestedAuthor:
+      type: object
+      properties:
+        author_id:
+          type: integer
+          readOnly: true
+          description: Unique identifier for the author.
+        first_name:
+          type: string
+          description: Author's first name.
+          maxLength: 20
+        last_name:
+          type: string
+          description: Author's last name.
+          maxLength: 20
+      required:
+      - author_id
+      - first_name
+      - last_name
+    NestedCategory:
+      type: object
+      properties:
+        category_id:
+          type: integer
+          readOnly: true
+          description: Unique identifier for the category.
+        name:
+          type: string
+          description: Category or genre name.
+          maxLength: 30
+      required:
+      - category_id
+      - name
+    NestedLibrary:
+      type: object
+      properties:
+        library_id:
+          type: integer
+          readOnly: true
+          description: Unique identifier for the library.
+        name:
+          type: string
+          description: Name of the library.
+          maxLength: 30
+        campus_location:
+          type: string
+          description: Campus location where the library is situated.
+          maxLength: 30
+      required:
+      - campus_location
+      - library_id
+      - name
+    NestedMember:
+      type: object
+      properties:
+        member_id:
+          type: integer
+          readOnly: true
+          description: Unique identifier for the member.
+        first_name:
+          type: string
+          description: Member's first name.
+          maxLength: 20
+        last_name:
+          type: string
+          description: Member's last name.
+          maxLength: 20
+      required:
+      - first_name
+      - last_name
+      - member_id
+    PaginatedAuthorList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Author'
+    PaginatedBookList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
+    PaginatedBorrowingList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Borrowing'
+    PaginatedCategoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    PaginatedLibraryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Library'
+    PaginatedMemberList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Member'
+    PaginatedReviewList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+    PatchedAuthor:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        first_name:
+          type: string
+          description: Author's first name.
+          maxLength: 20
+        last_name:
+          type: string
+          description: Author's last name.
+          maxLength: 20
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+          description: Author's date of birth.
+        nationality:
+          type: string
+          nullable: true
+          description: Author's nationality.
+          maxLength: 20
+        biography:
+          type: string
+          nullable: true
+          description: Short biography of the author.
+    PatchedBook:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        library:
+          allOf:
+          - $ref: '#/components/schemas/NestedLibrary'
+          readOnly: true
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedAuthor'
+          readOnly: true
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedCategory'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        title:
+          type: string
+          description: Title of the book.
+          maxLength: 50
+        isbn:
+          type: string
+          description: International Standard Book Number.
+          maxLength: 15
+        publication_date:
+          type: string
+          format: date
+          description: Date the book was originally published.
+        total_copies:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Total number of copies owned by the library.
+        available_copies:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Number of copies currently available for borrowing.
+        library_id:
+          type: string
+          format: uri
+          description: Library where this book is located.
+    PatchedBorrowing:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        book:
+          allOf:
+          - $ref: '#/components/schemas/Book'
+          readOnly: true
+        member:
+          allOf:
+          - $ref: '#/components/schemas/NestedMember'
+          readOnly: true
+        member_name:
+          type: string
+          readOnly: true
+          description: Full name of the member who borrowed the book.
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        borrow_date:
+          type: string
+          format: date
+          description: Date when the book was borrowed.
+        due_date:
+          type: string
+          format: date
+          description: Date by which the book must be returned.
+        return_date:
+          type: string
+          format: date
+          nullable: true
+          description: Actual return date of the book.
+        late_fee:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          nullable: true
+          description: Late fee charged if returned after due date.
+        member_id:
+          type: string
+          format: uri
+          description: Member who borrowed the book.
+        book_id:
+          type: string
+          format: uri
+          description: Book that was borrowed.
+    PatchedCategory:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        name:
+          type: string
+          description: Category or genre name.
+          maxLength: 30
+        description:
+          type: string
+          nullable: true
+          description: Optional description of the category.
+    PatchedLibrary:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        name:
+          type: string
+          description: Name of the library.
+          maxLength: 30
+        campus_location:
+          type: string
+          description: Campus location where the library is situated.
+          maxLength: 30
+        contact_email:
+          type: string
+          format: email
+          description: Official contact email for the library.
+          maxLength: 254
+        phone_number:
+          type: string
+          description: Contact phone number for the library.
+          maxLength: 15
+    PatchedMember:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        first_name:
+          type: string
+          description: Member's first name.
+          maxLength: 20
+        last_name:
+          type: string
+          description: Member's last name.
+          maxLength: 20
+        contact_email:
+          type: string
+          format: email
+          description: Member email address.
+          maxLength: 254
+        phone_number:
+          type: string
+          description: Member contact phone number.
+          maxLength: 15
+        member_type:
+          allOf:
+          - $ref: '#/components/schemas/MemberTypeEnum'
+          description: |-
+            Type of member (Student or Faculty).
+
+            * `student` - Student
+            * `faculty` - Faculty
+        registration_date:
+          type: string
+          format: date
+          description: Date the member registered with the library.
+    PatchedReview:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        rating:
+          type: integer
+          maximum: 5
+          minimum: 1
+          description: Rating between 1 (lowest) and 5 (highest).
+        comment:
+          type: string
+          nullable: true
+          description: Optional written review.
+        review_date:
+          type: string
+          format: date
+          description: Date the review was submitted.
+        member_id:
+          type: string
+          format: uri
+          description: Member who wrote the review.
+        book_id:
+          type: string
+          format: uri
+          description: Book being reviewed.
+    ReturnBook:
+      type: object
+      properties:
+        borrowing_id:
+          type: integer
+          description: Borrowing transaction ID.
+      required:
+      - borrowing_id
+    Review:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was created.
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp when the record was last updated.
+        rating:
+          type: integer
+          maximum: 5
+          minimum: 1
+          description: Rating between 1 (lowest) and 5 (highest).
+        comment:
+          type: string
+          nullable: true
+          description: Optional written review.
+        review_date:
+          type: string
+          format: date
+          description: Date the review was submitted.
+        member_id:
+          type: string
+          format: uri
+          description: Member who wrote the review.
+        book_id:
+          type: string
+          format: uri
+          description: Book being reviewed.
+      required:
+      - book_id
+      - created_at
+      - member_id
+      - rating
+      - updated_at
+      - url
+    Statistics:
+      type: object
+      properties:
+        total_books:
+          type: integer
+          description: Total number of books in the library system.
+        total_members:
+          type: integer
+          description: Total number of registered members.
+        total_borrowings:
+          type: integer
+          description: Total number of borrowing transactions.
+        books_currently_borrowed:
+          type: integer
+          description: Number of books currently borrowed and not yet returned.
+        average_book_rating:
+          type: number
+          format: double
+          nullable: true
+          description: Average rating across all book reviews.
+        total_late_fees_collected:
+          type: number
+          format: double
+          nullable: true
+          description: Total late fees collected from overdue borrowings.
+      required:
+      - average_book_rating
+      - books_currently_borrowed
+      - total_books
+      - total_borrowings
+      - total_late_fees_collected
+      - total_members
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+tags:
+- name: Libraries
+  description: Library branch management
+- name: Books
+  description: Book catalog and availability
+- name: Authors
+  description: Author records
+- name: Categories
+  description: Book classification system
+- name: Members
+  description: Library member management
+- name: Borrowing
+  description: Borrow and return operations
+- name: Reviews
+  description: Book reviews and ratings
+- name: Analytics
+  description: Library statistics and insights

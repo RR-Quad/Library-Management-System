@@ -8,7 +8,6 @@ from django.db.models.functions import Concat
 
 from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
@@ -40,11 +39,30 @@ from .serializers import (
 # =========================================================
 
 @extend_schema_view(
-    list=extend_schema(summary="List Libraries"),
-    retrieve=extend_schema(summary="Retrieve Library"),
-    create=extend_schema(summary="Create Library"),
-    update=extend_schema(summary="Update Library"),
-    destroy=extend_schema(summary="Delete Library"),
+    list=extend_schema(
+        summary="List Libraries",
+        description="Retrieve a paginated list of all libraries. Supports search and ordering.",
+    ),
+    retrieve=extend_schema(
+        summary="Retrieve Library",
+        description="Retrieve details of a specific library by ID.",
+    ),
+    create=extend_schema(
+        summary="Create Library",
+        description="Create a new library record.",
+    ),
+    update=extend_schema(
+        summary="Update Library",
+        description="Fully update an existing library record.",
+    ),
+    partial_update=extend_schema(
+        summary="Partial Update Library",
+        description="Partially update an existing library record.",
+    ),
+    destroy=extend_schema(
+        summary="Delete Library",
+        description="Delete a library record by ID.",
+    ),
 )
 class LibraryViewSet(viewsets.ModelViewSet):
     """
@@ -66,8 +84,30 @@ class LibraryViewSet(viewsets.ModelViewSet):
 # =========================================================
 
 @extend_schema_view(
-    list=extend_schema(summary="List Authors"),
-    retrieve=extend_schema(summary="Retrieve Author"),
+    list=extend_schema(
+        summary="List Authors",
+        description="Retrieve a paginated list of all authors. Supports search and ordering.",
+    ),
+    retrieve=extend_schema(
+        summary="Retrieve Author",
+        description="Retrieve details of a specific author by ID.",
+    ),
+    create=extend_schema(
+        summary="Create Author",
+        description="Create a new author record.",
+    ),
+    update=extend_schema(
+        summary="Update Author",
+        description="Fully update an existing author record.",
+    ),
+    partial_update=extend_schema(
+        summary="Partial Update Author",
+        description="Partially update an existing author record.",
+    ),
+    destroy=extend_schema(
+        summary="Delete Author",
+        description="Delete an author record by ID.",
+    ),
 )
 class AuthorViewSet(viewsets.ModelViewSet):
     """
@@ -88,8 +128,30 @@ class AuthorViewSet(viewsets.ModelViewSet):
 # =========================================================
 
 @extend_schema_view(
-    list=extend_schema(summary="List Categories"),
-    retrieve=extend_schema(summary="Retrieve Category"),
+    list=extend_schema(
+        summary="List Categories",
+        description="Retrieve a paginated list of all categories. Supports search and ordering.",
+    ),
+    retrieve=extend_schema(
+        summary="Retrieve Category",
+        description="Retrieve details of a specific category by ID.",
+    ),
+    create=extend_schema(
+        summary="Create Category",
+        description="Create a new category record.",
+    ),
+    update=extend_schema(
+        summary="Update Category",
+        description="Fully update an existing category record.",
+    ),
+    partial_update=extend_schema(
+        summary="Partial Update Category",
+        description="Partially update an existing category record.",
+    ),
+    destroy=extend_schema(
+        summary="Delete Category",
+        description="Delete a category record by ID.",
+    ),
 )
 class CategoryViewSet(viewsets.ModelViewSet):
     """
@@ -110,6 +172,32 @@ class CategoryViewSet(viewsets.ModelViewSet):
 # Book
 # =========================================================
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="List Books",
+        description="Retrieve a paginated list of all books. Supports search and ordering.",
+    ),
+    retrieve=extend_schema(
+        summary="Retrieve Book",
+        description="Retrieve details of a specific book by ID.",
+    ),
+    create=extend_schema(
+        summary="Create Book",
+        description="Create a new book record.",
+    ),
+    update=extend_schema(
+        summary="Update Book",
+        description="Fully update an existing book record.",
+    ),
+    partial_update=extend_schema(
+        summary="Partial Update Book",
+        description="Partially update an existing book record.",
+    ),
+    destroy=extend_schema(
+        summary="Delete Book",
+        description="Delete a book record by ID.",
+    ),
+)
 class BookViewSet(viewsets.ModelViewSet):
     """
     API endpoints for managing books.
@@ -191,10 +279,11 @@ class BookViewSet(viewsets.ModelViewSet):
 
     @extend_schema(
         summary="Return a Book",
-        description="Allows a member to return a borrowed book.",
+        description="Allows a member to return a borrowed book. Calculates late fee if overdue.",
         request=ReturnBookSerializer,
         responses={
             200: BorrowingSerializer,
+            400: OpenApiResponse(description="Book already returned or invalid request"),
         },
     )
     @action(
@@ -244,9 +333,12 @@ class BookViewSet(viewsets.ModelViewSet):
 
     @extend_schema(
         summary="Search Books",
-        description="Search books by library, category or author.",
+        description="Search books by library, category or author name.",
         request=BookSearchSerializer,
-        responses={200: BookSerializer(many=True)},
+        responses={
+            200: BookSerializer(many=True),
+            400: OpenApiResponse(description="Invalid search parameters"),
+        },
     )
     @action(
         detail=False,
@@ -272,7 +364,6 @@ class BookViewSet(viewsets.ModelViewSet):
             books = books.filter(categories__category_id=category_id)
 
         if author_name:
-
             books = books.annotate(
                 full_author_name=Concat(
                     "authors__first_name",
@@ -291,7 +382,11 @@ class BookViewSet(viewsets.ModelViewSet):
 
     @extend_schema(
         summary="Check Book Availability",
-        responses={200: OpenApiResponse(description="Availability status")},
+        description="Check the availability status of a specific book by ID.",
+        responses={
+            200: OpenApiResponse(description="Availability status"),
+            404: OpenApiResponse(description="Book not found"),
+        },
     )
     @action(detail=True, methods=["get"], url_path="availability")
     def availability(self, request, pk=None):
@@ -317,7 +412,10 @@ class BookViewSet(viewsets.ModelViewSet):
 
     @extend_schema(
         summary="Book Recommendations",
-        description="Returns most borrowed and highest rated books.",
+        description="Returns top 5 most borrowed books and top 5 highest rated books.",
+        responses={
+            200: OpenApiResponse(description="Most borrowed and top rated books"),
+        },
     )
     @action(detail=False, methods=["get"], url_path="recommendations")
     def recommendations(self, request):
@@ -355,6 +453,32 @@ class BookViewSet(viewsets.ModelViewSet):
 # Member
 # =========================================================
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="List Members",
+        description="Retrieve a paginated list of all members. Supports search and ordering.",
+    ),
+    retrieve=extend_schema(
+        summary="Retrieve Member",
+        description="Retrieve details of a specific member by ID.",
+    ),
+    create=extend_schema(
+        summary="Create Member",
+        description="Register a new library member.",
+    ),
+    update=extend_schema(
+        summary="Update Member",
+        description="Fully update an existing member record.",
+    ),
+    partial_update=extend_schema(
+        summary="Partial Update Member",
+        description="Partially update an existing member record.",
+    ),
+    destroy=extend_schema(
+        summary="Delete Member",
+        description="Delete a member record by ID.",
+    ),
+)
 class MemberViewSet(viewsets.ModelViewSet):
 
     queryset = Member.objects.all()
@@ -366,7 +490,14 @@ class MemberViewSet(viewsets.ModelViewSet):
     ordering_fields = ["member_id", "first_name", "last_name"]
     ordering = ["member_id"]
 
-    @extend_schema(summary="Member Borrowing History")
+    @extend_schema(
+        summary="Member Borrowing History",
+        description="Retrieve the full borrowing history of a specific member.",
+        responses={
+            200: BorrowingSerializer(many=True),
+            404: OpenApiResponse(description="Member not found"),
+        },
+    )
     @action(detail=True, methods=["get"], url_path="borrowings")
     def borrowing_history(self, request, pk=None):
 
@@ -389,6 +520,32 @@ class MemberViewSet(viewsets.ModelViewSet):
 # Borrowing
 # =========================================================
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="List Borrowings",
+        description="Retrieve a paginated list of all borrowing transactions.",
+    ),
+    retrieve=extend_schema(
+        summary="Retrieve Borrowing",
+        description="Retrieve details of a specific borrowing transaction by ID.",
+    ),
+    create=extend_schema(
+        summary="Create Borrowing",
+        description="Create a new borrowing transaction directly.",
+    ),
+    update=extend_schema(
+        summary="Update Borrowing",
+        description="Fully update an existing borrowing transaction.",
+    ),
+    partial_update=extend_schema(
+        summary="Partial Update Borrowing",
+        description="Partially update an existing borrowing transaction.",
+    ),
+    destroy=extend_schema(
+        summary="Delete Borrowing",
+        description="Delete a borrowing transaction by ID.",
+    ),
+)
 class BorrowingViewSet(viewsets.ModelViewSet):
 
     queryset = Borrowing.objects.select_related("book_id", "member_id")
@@ -404,6 +561,32 @@ class BorrowingViewSet(viewsets.ModelViewSet):
 # Review
 # =========================================================
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="List Reviews",
+        description="Retrieve a paginated list of all book reviews.",
+    ),
+    retrieve=extend_schema(
+        summary="Retrieve Review",
+        description="Retrieve details of a specific review by ID.",
+    ),
+    create=extend_schema(
+        summary="Create Review",
+        description="Submit a new book review.",
+    ),
+    update=extend_schema(
+        summary="Update Review",
+        description="Fully update an existing review.",
+    ),
+    partial_update=extend_schema(
+        summary="Partial Update Review",
+        description="Partially update an existing review.",
+    ),
+    destroy=extend_schema(
+        summary="Delete Review",
+        description="Delete a review by ID.",
+    ),
+)
 class ReviewViewSet(viewsets.ModelViewSet):
 
     queryset = Review.objects.select_related("book_id", "member_id")
@@ -419,9 +602,14 @@ class ReviewViewSet(viewsets.ModelViewSet):
 # =========================================================
 # Statistics
 # =========================================================
+
 @extend_schema(
     summary="System Statistics",
-    responses={200: StatisticsSerializer},
+    description="Retrieve aggregated statistics for the library system including total books, members, borrowings, currently borrowed books, average book rating, and total late fees collected.",
+    responses={
+        200: StatisticsSerializer,
+        500: OpenApiResponse(description="Internal server error"),
+    },
 )
 class StatisticsAPIView(APIView):
 
